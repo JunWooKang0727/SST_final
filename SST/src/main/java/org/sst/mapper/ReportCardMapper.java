@@ -7,19 +7,20 @@ import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
 
-public interface ReportCardMapper {
-	int insertReportCard(ReportCardVO rc);
-	List<ReportCardVO> listReportCard(String m_id);
-	ReportCardVO selectReportCard(String st_num);
-	int deleteReportCard(String rc_num);
+public interface ReportCardMapper {	
+	public List<ReportCardVO> listReportCard(String m_id);
+	public int createReportCard(ReportCardVO vo);
+	public int updateReportCard(ReportCardVO vo);
+	public int deleteReportCard(String rc_num);
+	public ReportCardVO readReportCard(String rc_num);
 	
-	int insertSchoolTest(SchoolTestVO st);
+	int createSchoolTest(SchoolTestVO st);
 	List<SchoolTestVO> listSchoolTest(String rc_num);
 	int deleteSchoolTest(String st_num);
-	SchoolTestVO selectSchoolTest(String st_num);
+	SchoolTestVO readSchoolTest(String st_num);
 	int updateSchoolTest(SchoolTestVO st);
 	
-	int firstInsertSchoolScore(SchoolScoreVO ss);
+	int createSchoolScore(SchoolScoreVO ss);
 	List<SchoolScoreVO> listSchoolScore(String st_num);
 	int deleteSchoolTestScore(String st_num);
 	int deleteSchoolScore(String ss_num);
