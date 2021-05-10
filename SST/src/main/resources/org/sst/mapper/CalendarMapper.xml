@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="org.sst.mapper.CalendarMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
+	<cache />
+	
+	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
+	<insert id="insertTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+		insert into todolist(
+			t_num, t_category, t_title, t_contents, t_startdate, t_enddate,t_todocheck
+		)
+		values(
+			't'||to_char(todo_seq.nextval), #{t_category}, #{t_title}, #{t_contents}, #{t_startdate}, #{t_enddate},0
+		)
+		
+	</insert>
+	
+	<select id = "listTodo" resultType="CalendarTodoVO">
+	select * from todolist
+	</select>
+	
+	<select id = "findC_numDo" resultType="string" parameterType="string">
+	select c_num from member m , calendar c where m.m_id = c.m_id and m.m_id = ${m_id}
+	</select>
+	
+	<update id="updateCheckTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+		UPDATE todolist SET t_todocheck = 1 WHERE t_num = #{t_num}
+	</update>
+	<update id="updateNonCheckTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+		UPDATE todolist SET t_todocheck = 0 WHERE t_num = #{t_num}
+	</update>
+	<delete id="deleteTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+		delete from todolist WHERE t_num = #{t_num}
+	</delete>
+</mapper>
