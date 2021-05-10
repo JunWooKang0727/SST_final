@@ -36,7 +36,7 @@ public class HomeController {
 		
 		
 		System.out.println("길경윤");
-		
+		System.out.println("main");
 		return "home";
 	}
 	
