@@ -8,11 +8,11 @@ import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
 
 public interface ReportCardMapper {	
-	public List<ReportCardVO> listReportCard(String m_id);
-	public int createReportCard(ReportCardVO vo);
-	public int updateReportCard(ReportCardVO vo);
-	public int deleteReportCard(String rc_num);
-	public ReportCardVO readReportCard(String rc_num);
+	List<ReportCardVO> listReportCard(String m_id);
+	int createReportCard(ReportCardVO vo);
+	int updateReportCard(ReportCardVO vo);
+	int deleteReportCard(String rc_num);
+	ReportCardVO readReportCard(String rc_num);
 	
 	int createSchoolTest(SchoolTestVO st);
 	List<SchoolTestVO> listSchoolTest(String rc_num);

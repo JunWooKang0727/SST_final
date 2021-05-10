@@ -2,6 +2,9 @@ package org.sst.domain;
 
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class SchoolTestVO {
 	private String st_num;
 	private String st_date;
