@@ -1,0 +1,137 @@
+@charset "UTF-8";
+.sn_insertform{
+   margin : 20px;
+}
+
+.sn_updateform{
+   margin : 20px;
+}
+.sn_contents {
+  
+    position: absolute;
+    top: 16px;
+    right: 13px;
+    font-size: 15px;
+    color: #8e8e8e;
+}
+
+.noteView{
+   width: 800px;
+   
+   height: 600px;
+}
+
+
+.noteHeader{
+   margin-bottom: 30px;
+   border-bottom: 1px solid black;
+}
+
+.noteContents{
+   
+   height: 350px;
+   
+}
+
+.noteFooter{
+   padding: 10px;
+}
+
+.noteFooterBtn{
+   margin-left: 10px;
+   
+   
+}
+
+.noteListArea{
+   width: 800px;
+   
+}
+
+.noteTable{
+   border: none;
+}
+
+.sn_num{
+   width: 100px;
+}
+
+.sn_title{
+   width: 300px;
+}
+
+.sn_writer{
+   width: 100px;
+}
+
+.sn_row{
+   border-bottom: 1px solid #DCDCDC;
+}
+
+.sn_num{
+   width: 100px;
+   height: 45px;
+}
+
+.sn_title{
+   width: 300px;
+}
+
+.sn_writer{
+   width: 100px;
+}
+
+.headerLine{
+   width: 800px;
+   border-bottom: 1px solid black;
+   margin-bottom: 30px;
+}
+
+.rightBtn{
+   margin-left: 140px;
+}
+
+.thead{
+   font-weight: bold;
+   color: black;
+   font-size: 20px;
+}
+
+.noHyper{
+   text-decoration: none;
+   color: #858796;
+}
+
+.noteListFooterArea{
+   margin-top: 30px;
+}
+
+.notePagingArea{
+   margin-top:20px;
+   width:600px;
+   text-align: center;
+}
+
+.pageBtn{
+   text-decoration: none;
+   color: black;
+}
+
+.pageBeforeBtn{
+   text-decoration: none;
+   color: black;
+}
+
+.pageAfterBtn{
+   text-decoration: none;
+   color: black;
+}
+
+.curBtn{
+   background: #858796;
+
+}
+
+.input_contents{
+   min-height: 100%;
+}
