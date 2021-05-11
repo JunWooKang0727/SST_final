@@ -16,8 +16,8 @@
 <meta name="author" content="">
 <title>SST</title>
 <!-- Custom fonts for this template-->
-<link href="../../../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
+<link href="../../../resources/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
@@ -64,7 +64,12 @@
 										<td class="sn_writer thead">작성자</td>
 										<td class="sn_date thead">작성일자</td>
 									</tr>
-									<tr><td></td><td></td><td></td><td></td></tr>
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
 									<c:forEach var="studynote" items="${list}">
 										<tr class="sn_row">
 											<td class="sn_num">${studynote.sn_num }</td>
@@ -78,36 +83,39 @@
 									</c:forEach>
 								</table>
 							</div>
-							
+
 							<div class="notePagingArea">
 								<!-- 페이징 영역 -->
 								<!-- 이전 영역 -->
 								<c:if test="${pageMaker.startPage > 5 }">
-									<a class="pageBeforeBtn btn btn-light btn-icon-split" href="StudyNote_ListAction.do?pageNum=${pageMaker.startPage -1 }">이전</a>
+									<a class="pageBeforeBtn btn btn-light btn-icon-split"
+										href="StudyNote_ListAction.do?pageNum=${pageMaker.startPage -1 }">이전</a>
 								</c:if>
-								
+
 								<!-- 페이지목록 -->
-								<c:forEach var="pageNo" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+								<c:forEach var="pageNo" begin="${pageMaker.startPage }"
+									end="${pageMaker.endPage }">
 									<%-- <c:if test="${pageMaker.requestPage == pageNo }">
 									<div class="curBtn btn btn-icon-split">
 									</c:if> --%>
-										<a class="pageBtn btn btn-light btn-icon-split" 
-										href="StudyNote_ListAction.do?pageNum=${pageNo }">
-									
-                                        <span class="text">${pageNo }</span>
-										
-										
-										</a>
-								<%-- 	<c:if test="${pageMaker.requestPage == pageNo }"></div></c:if> --%>
+									<a class="pageBtn btn btn-light btn-icon-split"
+										href="${pageNo }"> <span
+										class="text">${pageNo }</span>
+
+
+									</a>
+									<%-- 	<c:if test="${pageMaker.requestPage == pageNo }"></div></c:if> --%>
 								</c:forEach>
-								
-						
-								
+
+
+
 								<!-- 이후 영역 -->
-								<c:if test="${StudyNoteListVO.endPage < StudyNoteListVO.totalPageCount}">
-									<a class="pageAfterBtn btn btn-light btn-icon-split" href="StudyNote_ListAction.do?pageNum=${StudyNoteListVO.endPage +1 }">이후</a>
+								<c:if
+									test="${StudyNoteListVO.endPage < StudyNoteListVO.totalPageCount}">
+									<a class="pageAfterBtn btn btn-light btn-icon-split"
+										href="StudyNote_ListAction.do?pageNum=${StudyNoteListVO.endPage +1 }">이후</a>
 								</c:if>
-							
+
 							</div>
 						</div>
 
@@ -124,24 +132,34 @@
 					<div class="row">
 						<div class="noteListFooterArea">
 
-							<form
-								action="StudyNote_ListAction.do" method="post">
-								<input type="checkbox" name="area" value="sn_title">제목 
-								<input type="checkbox" name="area" value="sn_contents">내용
-								<input type="text" class="" name="searchKey" placeholder="검색어를 입력해주세요" size="20"> 
-								<input type="submit" class="btn-primary" value="검색">
-
-
-								<a class="btn btn-secondary btn-icon-split rightBtn"
-									href="StudyNote_InsertFormAction.do"> 
-								<span class="icon text-white-50"> 
-									<i class="fas fa-pen"></i>
+							<form action="StudyNote_ListAction.do" method="post">
+								<input type="checkbox" name="area" value="sn_title">제목 <input
+									type="checkbox" name="area" value="sn_contents">내용 <input
+									type="text" class="" name="searchKey" placeholder="검색어를 입력해주세요"
+									size="20"> <input type="submit" class="btn-primary"
+									value="검색"> <a
+									class="btn btn-secondary btn-icon-split rightBtn"
+									href="StudyNote_InsertFormAction.do"> <span
+									class="icon text-white-50"> <i class="fas fa-pen"></i>
 								</span> <span class="text">글쓰기</span>
 								</a>
 							</form>
-							
+
+
 						</div>
 
+						<form id='actionForm' action="/studynote/list" method='get'>
+							<input type='hidden' name='pageNum'
+								value='${pageMaker.cri.pageNum}'> 
+							<input type='hidden'
+								name='amount' value='${pageMaker.cri.amount}'> 
+							<input
+								type='hidden' name='type'
+								value='<c:out value="${ pageMaker.cri.type }"/>'> 
+							<input
+								type='hidden' name='keyword'
+								value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+						</form>
 
 					</div>
 					<!-- end of row -->
@@ -168,12 +186,106 @@
 
 	<!-- Bootstrap core JavaScript-->
 	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
-	<script src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
-	<script src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script
+		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
+	
+	<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
 
+						var result = '<c:out value="${result}"/>';
+
+						checkModal(result);
+
+						history.replaceState({}, null, null);
+
+						function checkModal(result) {
+
+							if (result === '' || history.state) {
+								return;
+							}
+
+							if (parseInt(result) > 0) {
+								$(".modal-body").html(
+										"게시글 " + parseInt(result)
+												+ " 번이 등록되었습니다.");
+							}
+
+							$("#myModal").modal("show");
+						}
+
+						$("#regBtn").on("click", function() {
+
+							self.location = "/studynote/create";
+
+						});
+
+						var actionForm = $("#actionForm");
+
+						$(".notePagingArea a").on(
+								"click",
+								function(e) {
+
+									e.preventDefault();
+
+									console.log('click');
+
+									actionForm.find("input[name='pageNum']")
+											.val($(this).attr("href"));
+									actionForm.submit();
+								});
+
+						$(".move")
+								.on(
+										"click",
+										function(e) {
+
+											e.preventDefault();
+											actionForm
+													.append("<input type='hidden' name='bno' value='"
+															+ $(this).attr(
+																	"href")
+															+ "'>");
+											actionForm.attr("action",
+													"/studynote/read");
+											actionForm.submit();
+
+										});
+
+						var searchForm = $("#searchForm");
+
+						$("#searchForm button").on(
+								"click",
+								function(e) {
+
+									if (!searchForm.find("option:selected")
+											.val()) {
+										alert("검색종류를 선택하세요");
+										return false;
+									}
+
+									if (!searchForm.find(
+											"input[name='keyword']").val()) {
+										alert("키워드를 입력하세요");
+										return false;
+									}
+
+									searchForm.find("input[name='pageNum']")
+											.val("1");
+									e.preventDefault();
+
+									searchForm.submit();
+
+								});
+
+					});
+</script>
 
 </body>
 </html>
