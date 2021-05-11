@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+
+.input_title{
+	padding: 11px 12px 10px;
+	font-size: 15px;
+	height:40px;
+	width: 100%;
+	resize: none;
+	border: 1px solid #ebecef;
+	outline: none;
+	overflow: hidden;
+}
+
+.input_contents{
+	outline: none;
+	resize: none;
+	width: 100%;
+	min-height:300px;
+	border: 1px solid #ebecef;
+	background: white;
+}
+
+.studyNoteFormWrap{
+	width: 100%;
+}
+
+.input_tools_wrap{
+	margin: 20px 0px;
+}
+
+.formBtnWrap{
+	margin-top: 20px;
+}
