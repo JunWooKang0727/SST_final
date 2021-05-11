@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/fullcalendar-5.6.0/Calendar/*")
+@RequestMapping("/calendar/*")
 @AllArgsConstructor
 public class CalendarController {
 	
@@ -31,7 +31,7 @@ public class CalendarController {
 		
 		service.register(vo);
 		
-		return "redirect:/fullcalendar-5.6.0/Calendar/list";
+		return "redirect:/calendar/list";
 	}
 	
 	
@@ -53,7 +53,7 @@ public class CalendarController {
 		}
 
 
-		return "redirect:/fullcalendar-5.6.0/Calendar/list";
+		return "redirect:/calendar/list";
 	}
 	@PostMapping("/noncheck")
 	public String noncheck(CalendarTodoVO vo, RedirectAttributes rttr) {
@@ -64,7 +64,7 @@ public class CalendarController {
 		}
 
 
-		return "redirect:/fullcalendar-5.6.0/Calendar/list";
+		return "redirect:/calendar/list";
 	}
 	
 	@DeleteMapping("/delete")
@@ -74,7 +74,7 @@ public class CalendarController {
 		
 		service.delete(vo);
 
-		return "redirect:/fullcalendar-5.6.0/Calendar/list";
+		return "redirect:/calendar/list";
 		
 	}
 
