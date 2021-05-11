@@ -12,13 +12,13 @@
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'T'.toString()">
-							title like '%'||#{keyword}||'%'
+							sn_title like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'C'.toString()">
-							content like '%'||#{keyword}||'%'
+							sn_contents like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'W'.toString()">
-							writer like '%'||#{keyword}||'%'
+							sn_writer like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
@@ -46,7 +46,7 @@
 	<!-- parameterType="StudyNoteSearchVO" -->
 
 	<select id="listStudyNote" resultType="org.sst.domain.StudyNoteVO">
-		SELECT * FROM studynote
+		SELECT /*+INDEX_DESC(studynote sn_num_idx) */ * FROM studynote
 		<if test="area != null">
 			<where>
 				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
@@ -56,7 +56,7 @@
 				</foreach>
 			</where>
 		</if>
-		order by sn_num desc
+		
 
 	</select>
 

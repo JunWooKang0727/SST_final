@@ -51,7 +51,7 @@
 	function sendRegData(){
 		$.ajax({
 			type: "POST",
-			url: "/SST/StudyNote/StudyNote_UpdateAction.do",
+			url: "/studynote/update",
 			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_num:$("#sn_num").val()},
 			async:"true",
 			success: function(){
@@ -88,7 +88,7 @@
 					<div class="row">
 
 						<div class="studyNoteFormWrap">
-							<form action="StudyNote_UpdateAction.do" method="post">
+							<form action="/studynote/update" method="post">
 							<input id="sn_num" type="hidden" name="sn_num" value="${studynote.sn_num }">
 							<!-- 작성자 : <input type="text" name="gm_num"> --><br> 
 							<!-- <input class="input_title" type="text" placeholder="제목을 입력하세요" name="sn_title"> -->
@@ -184,7 +184,7 @@
 							</div>
 							
 							<div class="formBtnWrap">
-								<a id="submit" href="/SST/StudyNote/StudyNote_ListAction.do" 
+								<a id="submit" href="/studynote/list" 
 									class="btn btn-primary btn-icon-split btn-sm">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>

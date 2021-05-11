@@ -58,7 +58,7 @@
 							<div class="noteHeader">
 								<h2>${studynote.sn_title}</h2>
 								<hr>
-								작성일임 :${studynote.sn_date}
+								작성일 :${studynote.sn_date}
 							</div>
 							<%-- 글번호 :${studynote.sn_num }<br>  --%>
 							
@@ -67,23 +67,20 @@
 							</div>
 							
 							<div class="noteFooter">
-								<a class="btn btn-light btn-icon-split noteFooterBtn" href="StudyNote_ListAction.do">
+								<a class="btn btn-light btn-icon-split noteFooterBtn" href="list">
 								<span class="icon text-gray-600"><i class="fas fa-arrow-right"></i></span><span class="text">글 목록</span>
 								</a>
 								
 								<a class="btn btn-primary btn-icon-split noteFooterBtn" 
-								href="StudyNote_UpdateFormAction.do?sn_num=${studynote.sn_num}">
+								href="/studynote/update?sn_num=${studynote.sn_num}">
 									<span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">글 수정하기</span>
 								</a> 
 								
-								<a class="btn btn-danger btn-icon-split noteFooterBtn" 
-								href="StudyNote_DeleteAction.do?sn_num=${studynote.sn_num }">
+								<a id="delete" class="btn btn-danger btn-icon-split noteFooterBtn" 
+								href="/studynote/list">
 									<span class="icon text-white-50"><i class="fas fa-trash"></i></span><span class="text">글 삭제</span>
 								</a>
 							</div>
-					
-			
-							
 						</div>
 					</div>
 					<!-- end of row -->
@@ -91,12 +88,6 @@
 
 					<div class="row">
 
-						<form action="StudyNote_ListAction.do" method="post">
-							<input type="checkbox" name="area" value="title">제목 <input
-								type="checkbox" name="area" value="writer">ID <input
-								type="text" name="searchKey" size="10"> <input
-								type="submit" value="검색">
-						</form>
 
 					</div>
 					<!-- end of row -->
@@ -129,7 +120,28 @@
 	<!-- Custom scripts for all pages-->
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
 
+	<script type="text/javascript">
+	
+		$(function(){
+			
+			$('#delete').on('click',function(e){
+				var snnum = '<c:out value="${studynote.sn_num}"/>'
+				e.preventDefault();
+				
+			    $.ajax({
+			      url: '/studynote/delete',
+			  	  data: {"sn_num":snnum},
+			  	  type: 'post',
+			          success: function(){
+			            console.log(success);
+			        }
+			      });//end of ajax
 
+			});//end of delete onclick	
+		});
+	
+	
+	</script>
 </body>
 </html>
 

@@ -44,8 +44,8 @@
 	function sendRegData(){
 		$.ajax({
 			type: "POST",
-			url: "/SST/StudyNote/StudyNote_InsertAction.do",
-			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val()},
+			url: "/studynote/create",
+			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_writer:"kang"},
 			async:"true",
 			success: function(){
 				console.log("asdfawef");
@@ -54,7 +54,6 @@
 	}
 
 </script>
-
 
 </head>
 
@@ -187,7 +186,7 @@
 							
 							<div class="formBtnWrap">
 							
-								<a id="submit" href="/SST/StudyNote/StudyNote_ListAction.do" 
+								<a id="submit" href="/studynote/list" 
 									class="btn btn-primary btn-icon-split btn-sm">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>
