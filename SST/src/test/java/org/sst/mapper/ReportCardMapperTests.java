@@ -104,6 +104,10 @@ public class ReportCardMapperTests {
 //	public void testDelete(){
 //		log.info("결과!:                 "+mapper.deleteSchoolScore("ss61"));
 //	}
+//	@Test
+//	public void testDeleteSchoolTestScore(){
+//		log.info("결과!:                 "+mapper.deleteSchoolTestScore("st42"));
+//	}
 	
 	
 }

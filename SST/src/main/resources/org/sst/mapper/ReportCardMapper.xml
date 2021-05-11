@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sst.mapper.ReportCardMapper">
-	<cache />
 
 	<insert id="createReportCard" parameterType="org.sst.domain.ReportCardVO">
 		insert into
@@ -54,7 +53,7 @@
 		 <![CDATA[   
 		select /*+INDEX_DESC(schooltest pk_schooltest) */ 
 		st.st_num,TO_CHAR(st_date,'YYYY-MM-DD') as
-		st_date,st_year,st_semester,st_test,rc_num,ss_num
+		st_date,st_year,st_semester,st_test,rc_num,ss_num,ss_name,ss_score
 		from SchoolTest st 
 		LEFT OUTER JOIN schoolscore ss on st.st_num = ss.st_num
 		where rc_num=#{rc_num}
@@ -64,7 +63,7 @@
 		resultMap="schooltestMap">
 		select
 		st.st_num,TO_CHAR(st_date,'YYYY-MM-DD') as
-		st_date,st_year,st_semester,st_test,rc_num,ss_num
+		st_date,st_year,st_semester,st_test,rc_num,ss_num,ss_name,ss_score
 		from SchoolTest st 
 		LEFT OUTER JOIN schoolscore ss on st.st_num = ss.st_num
 		where st.st_num=#{st_num}

@@ -22,77 +22,76 @@ public class ReportCardServiceImpl implements ReportCardService {
 	public List<ReportCardVO> listReportCard(String m_id) {
 		return mapper.listReportCard(m_id);
 	}
+
 	@Override
 	public boolean createReportCard(ReportCardVO vo) {
-		return mapper.createReportCard(vo)==1;
+		return mapper.createReportCard(vo) == 1;
 	}
+
 	@Override
 	public boolean updateReportCard(ReportCardVO vo) {
-		return mapper.updateReportCard(vo)==1;
+		return mapper.updateReportCard(vo) == 1;
 	}
+
 	@Override
 	public boolean deleteReportCard(String rc_num) {
-		return mapper.deleteReportCard(rc_num)==1;
+		return mapper.deleteReportCard(rc_num) == 1;
 	}
+
 	@Override
 	public ReportCardVO readReportCard(String rc_num) {
 		return mapper.readReportCard(rc_num);
 	}
-	
-	//SchoolTest
+
+	// SchoolTest
 	@Override
 	public String createSchoolTest(SchoolTestVO st) {
 		mapper.createSchoolTest(st);
 		return st.getSt_num();
 	}
+
 	@Override
 	public List<SchoolTestVO> listSchoolTest(String rc_num) {
 		return mapper.listSchoolTest(rc_num);
 	}
+
 	@Override
 	public boolean deleteSchoolTest(String st_num) {
-		return mapper.deleteSchoolTest(st_num) ==1;
+		return mapper.deleteSchoolTest(st_num) == 1;
 	}
+
 	@Override
 	public SchoolTestVO readSchoolTest(String st_num) {
 		return mapper.readSchoolTest(st_num);
 	}
+
 	@Override
 	public boolean updateSchoolTest(SchoolTestVO st) {
-		return mapper.updateSchoolTest(st) ==1;
+		return mapper.updateSchoolTest(st) == 1;
 	}
-	
-	
-	//SchoolScore
+
+	// SchoolScore
 	@Override
 	public boolean createSchoolScore(SchoolScoreVO ss) {
 		int result = mapper.createSchoolScore(ss);
 		log.info(ss.getSs_num());
-		return result==1;
+		return result == 1;
 	}
 	@Override
 	public List<SchoolScoreVO> listSchoolScore(String st_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return mapper.listSchoolScore(st_num);
 	}
 	@Override
 	public boolean deleteSchoolTestScore(String st_num) {
-		// TODO Auto-generated method stub
-		return false;
+		return mapper.deleteSchoolTestScore(st_num) == 1;
 	}
 	@Override
 	public boolean deleteSchoolScore(String ss_num) {
-		// TODO Auto-generated method stub
-		return false;
+		return mapper.deleteSchoolScore(ss_num) == 1;
 	}
 	@Override
 	public boolean updateSchoolScore(SchoolScoreVO ss) {
-		// TODO Auto-generated method stub
-		return false;
+		return mapper.updateSchoolScore(ss) == 1;
 	}
-	
-
-	
-	
 
 }
