@@ -30,7 +30,7 @@ public class StudyNoteController {
 
 	@GetMapping("/create")
 	public void create() {
-		//뷰 이동...
+		//뷰 이동...--
 	}
 
 	@PostMapping("/create")
@@ -61,7 +61,7 @@ public class StudyNoteController {
     public void get(@RequestParam("sn_num") String sn_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
         log.info("/get or modify");
-        model.addAttribute("board", service.read(sn_num));
+        model.addAttribute("studynote", service.read(sn_num));
     }
 	
 	@PostMapping("/update")
@@ -80,7 +80,7 @@ public class StudyNoteController {
 		return "redirect:/board/list";
 	}
 	
-	@DeleteMapping("/delete")
+	@PostMapping("/delete")
 	public String remove(@RequestParam("sn_num") String sn_num, Criteria cri, RedirectAttributes rttr) {
 
 		log.info("remove..." + sn_num);

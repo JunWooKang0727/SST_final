@@ -73,9 +73,9 @@
 									<c:forEach var="studynote" items="${list}">
 										<tr class="sn_row">
 											<td class="sn_num">${studynote.sn_num }</td>
-											<td class="sn_title"><a class="noHyper"
-												href="StudyNote_DetailAction.do?sn_num=${studynote.sn_num }">${studynote.sn_title }</a></td>
-											<td class="sn_writer">${studynote.gm_num }</td>
+											<td class="sn_title"><a class="noHyper move"
+												href="${studynote.sn_num }">${studynote.sn_title }</a></td>
+											<td class="sn_writer">${studynote.sn_writer }</td>
 											<td class="sn_date"><fmt:parseDate var="dt"
 													value="${studynote.sn_date}" pattern="yyyy-MM-dd HH:mm:ss" />
 												<fmt:formatDate value="${dt}" pattern="yyyy/MM/dd" /></td>
@@ -87,9 +87,9 @@
 							<div class="notePagingArea">
 								<!-- 페이징 영역 -->
 								<!-- 이전 영역 -->
-								<c:if test="${pageMaker.startPage > 5 }">
+								<c:if test="${pageMaker.prev}">
 									<a class="pageBeforeBtn btn btn-light btn-icon-split"
-										href="StudyNote_ListAction.do?pageNum=${pageMaker.startPage -1 }">이전</a>
+										href="${pageMaker.startPage -1}">이전</a>
 								</c:if>
 
 								<!-- 페이지목록 -->
@@ -107,24 +107,15 @@
 									<%-- 	<c:if test="${pageMaker.requestPage == pageNo }"></div></c:if> --%>
 								</c:forEach>
 
-
-
 								<!-- 이후 영역 -->
 								<c:if
-									test="${StudyNoteListVO.endPage < StudyNoteListVO.totalPageCount}">
+									test="${pageMaker.next}">
 									<a class="pageAfterBtn btn btn-light btn-icon-split"
-										href="StudyNote_ListAction.do?pageNum=${StudyNoteListVO.endPage +1 }">이후</a>
+										href="${pageMaker.endPage +1 }">이후</a>
 								</c:if>
 
 							</div>
 						</div>
-
-
-
-
-
-
-
 					</div>
 					<!-- end of row -->
 
@@ -132,19 +123,41 @@
 					<div class="row">
 						<div class="noteListFooterArea">
 
-							<form action="StudyNote_ListAction.do" method="post">
-								<input type="checkbox" name="area" value="sn_title">제목 <input
-									type="checkbox" name="area" value="sn_contents">내용 <input
-									type="text" class="" name="searchKey" placeholder="검색어를 입력해주세요"
-									size="20"> <input type="submit" class="btn-primary"
-									value="검색"> <a
+												
+							<form id='searchForm' action="/studynote/list" method='get'>
+							<select name='type'>
+								<option value=""
+									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+								<option value="T"
+									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+								<option value="C"
+									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+								<option value="W"
+									<c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+								<option value="TC"
+									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
+									or 내용</option>
+								<option value="TW"
+									<c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>제목
+									or 작성자</option>
+								<option value="TWC"
+									<c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>제목
+									or 내용 or 작성자</option>
+							</select> <input type='text' name='keyword'
+								value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
+								type='hidden' name='pageNum'
+								value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
+								type='hidden' name='amount'
+								value='<c:out value="${pageMaker.cri.amount}"/>' />
+							<button class='btn btn-default'>Search</button>
+							
+							<a id='regBtn'
 									class="btn btn-secondary btn-icon-split rightBtn"
-									href="StudyNote_InsertFormAction.do"> <span
+									href=""> <span
 									class="icon text-white-50"> <i class="fas fa-pen"></i>
 								</span> <span class="text">글쓰기</span>
 								</a>
-							</form>
-
+						</form>
 
 						</div>
 
@@ -220,8 +233,9 @@
 							$("#myModal").modal("show");
 						}
 
-						$("#regBtn").on("click", function() {
-
+						$("#regBtn").on("click", function(e) {
+							
+							e.preventDefault();
 							self.location = "/studynote/create";
 
 						});
@@ -248,7 +262,7 @@
 
 											e.preventDefault();
 											actionForm
-													.append("<input type='hidden' name='bno' value='"
+													.append("<input type='hidden' name='sn_num' value='"
 															+ $(this).attr(
 																	"href")
 															+ "'>");
@@ -263,7 +277,7 @@
 						$("#searchForm button").on(
 								"click",
 								function(e) {
-
+				
 									if (!searchForm.find("option:selected")
 											.val()) {
 										alert("검색종류를 선택하세요");
