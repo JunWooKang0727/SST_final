@@ -82,15 +82,15 @@
 							<div class="notePagingArea">
 								<!-- 페이징 영역 -->
 								<!-- 이전 영역 -->
-								<c:if test="${StudyNoteListVO.startPage > 5 }">
-									<a class="pageBeforeBtn btn btn-light btn-icon-split" href="StudyNote_ListAction.do?pageNum=${StudyNoteListVO.startPage -1 }">이전</a>
+								<c:if test="${pageMaker.startPage > 5 }">
+									<a class="pageBeforeBtn btn btn-light btn-icon-split" href="StudyNote_ListAction.do?pageNum=${pageMaker.startPage -1 }">이전</a>
 								</c:if>
 								
 								<!-- 페이지목록 -->
-								<c:forEach var="pageNo" begin="${StudyNoteListVO.startPage }" end="${StudyNoteListVO.endPage }">
-									<c:if test="${StudyNoteListVO.requestPage == pageNo }">
+								<c:forEach var="pageNo" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+									<%-- <c:if test="${pageMaker.requestPage == pageNo }">
 									<div class="curBtn btn btn-icon-split">
-									</c:if>
+									</c:if> --%>
 										<a class="pageBtn btn btn-light btn-icon-split" 
 										href="StudyNote_ListAction.do?pageNum=${pageNo }">
 									
@@ -98,7 +98,7 @@
 										
 										
 										</a>
-									<c:if test="${StudyNoteListVO.requestPage == pageNo }"></div></c:if>
+								<%-- 	<c:if test="${pageMaker.requestPage == pageNo }"></div></c:if> --%>
 								</c:forEach>
 								
 						
