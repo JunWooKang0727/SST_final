@@ -8,31 +8,27 @@
 	<cache />
 	
 	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
-	<insert id="insertTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+	<insert id="insertTodo"><!-- id와 동일한 메서드를 만들어야한다 -->
 		insert into todolist(
 			t_num, t_category, t_title, t_contents, t_startdate, t_enddate,t_todocheck
 		)
 		values(
-			't'||to_char(todo_seq.nextval), #{t_category}, #{t_title}, #{t_contents}, #{t_startdate}, #{t_enddate},0
+			't'||to_char(todo_seq.nextval), #{t_category}, #{t_title}, #{t_contents}, #{t_startdate},#{t_enddate},0
 		)
 		
 	</insert>
 	
-	<select id = "listTodo" resultType="CalendarTodoVO">
+	<select id = "listTodo" resultType="org.sst.domain.CalendarTodoVO">
 	select * from todolist
 	</select>
 	
-	<select id = "findC_numDo" resultType="string" parameterType="string">
-	select c_num from member m , calendar c where m.m_id = c.m_id and m.m_id = ${m_id}
-	</select>
-	
-	<update id="updateCheckTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+	 <update id="updateCheckTodo" parameterType="org.sst.domain.CalendarTodoVO">
 		UPDATE todolist SET t_todocheck = 1 WHERE t_num = #{t_num}
 	</update>
-	<update id="updateNonCheckTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+	<update id="updateNonCheckTodo" parameterType="org.sst.domain.CalendarTodoVO">
 		UPDATE todolist SET t_todocheck = 0 WHERE t_num = #{t_num}
 	</update>
-	<delete id="deleteTodo" parameterType="CalendarTodoVO"><!-- id와 동일한 메서드를 만들어야한다 -->
+	<delete id="deleteTodo" parameterType="org.sst.domain.CalendarTodoVO">
 		delete from todolist WHERE t_num = #{t_num}
 	</delete>
 </mapper>
