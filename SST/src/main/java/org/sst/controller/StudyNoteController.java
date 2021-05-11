@@ -30,7 +30,7 @@ public class StudyNoteController {
 
 	@GetMapping("/create")
 	public void create() {
-		//뷰 이동
+		//뷰 이동...
 	}
 
 	@PostMapping("/create")
