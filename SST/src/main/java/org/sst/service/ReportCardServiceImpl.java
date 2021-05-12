@@ -81,7 +81,7 @@ public class ReportCardServiceImpl implements ReportCardService {
 	}
 	@Override
 	public boolean deleteSchoolTestScore(String st_num) {
-		return mapper.deleteSchoolTestScore(st_num) == 1;
+		return mapper.deleteSchoolTestScore(st_num) >= 1;
 	}
 	@Override
 	public boolean deleteSchoolScore(String ss_num) {
@@ -136,7 +136,7 @@ public class ReportCardServiceImpl implements ReportCardService {
 
 	@Override
 	public boolean deleteLicenseTestScore(String lt_num) {
-		return mapper.deleteLicenseTestScore(lt_num) == 1;
+		return mapper.deleteLicenseTestScore(lt_num) >= 1;
 	}
 
 	@Override

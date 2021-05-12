@@ -1,5 +1,6 @@
 package org.sst.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -27,8 +30,8 @@ public class ReportCardController {
 	private ReportCardService service;
 
 	// ReportCard
-	@GetMapping("/list/{m_id}")
-	public void list(@PathVariable("m_id") String m_id, Model model) {
+	@GetMapping("/list")
+	public void list(@RequestParam("m_id") String m_id, Model model) {
 		model.addAttribute("reportcardList", service.listReportCard(m_id));
 	}
 
@@ -38,6 +41,8 @@ public class ReportCardController {
 		model.addAttribute("reportcard", vo);
 		if (vo.getRc_subtype().equals("학교성적")) {
 			model.addAttribute("SchoolTest", service.listSchoolTest(rc_num));
+		}else{
+			model.addAttribute("LicenseTest", service.listLicenseTest(rc_num));
 		}
 	}
 
@@ -52,9 +57,14 @@ public class ReportCardController {
 	public String delete(@PathVariable("rc_num") String rc_num,@PathVariable("rc_subtype") String rc_subtype,
 			@PathVariable("m_id") String m_id,RedirectAttributes rttr){
 		if (rc_subtype.equals("학교성적")) {
-			service.listSchoolTest(rc_num).forEach(test ->{
-			service.deleteSchoolTestScore(test.getSt_num());
-			service.deleteSchoolTest(test.getSt_num());	
+			service.listSchoolTest(rc_num).forEach(test -> {
+				service.deleteSchoolTestScore(test.getSt_num());
+				service.deleteSchoolTest(test.getSt_num());
+			});
+		} else {
+			service.listLicenseTest(rc_num).forEach(test -> {
+				service.deleteLicenseTestScore(test.getLt_num());
+				service.deleteLicenseTest(test.getLt_num());
 			});
 		}
 		service.deleteReportCard(rc_num);
@@ -115,5 +125,60 @@ public class ReportCardController {
 		}
 		return "redirect:/list/" + st_num;
 	}
+	
+	
+	// LicenseTest
+		@PostMapping("/Licensetest/create")
+		public String createLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
+			String lt_num = service.createLicenseTest(vo);
+			vo.getScorelist().forEach(score -> {
+				score.setLt_num(lt_num);
+				service.createLicenseScore(score);
+			});
+			rttr.addFlashAttribute("result", "success");
+			return "redirect:/read/" + vo.getRc_num();
+		}
+
+		@GetMapping("/Licensetest/read/{lt_num}")
+		public void readLicenseTest(@PathVariable("lt_num") String lt_num, Model model) {
+			model.addAttribute("Licensetest", service.readLicenseTest(lt_num));
+		}
+
+		@DeleteMapping("/Licensetest/delete/{rc_num}/{lt_num}")
+		public String deleteLicenseTest(@PathVariable("rc_num") String rc_num, @PathVariable("lt_num") String lt_num,
+				RedirectAttributes rttr) {
+			service.deleteLicenseTestScore(lt_num);
+			service.deleteLicenseTest(lt_num);
+			rttr.addFlashAttribute("result", "success");
+			return "redirect:/read/" + rc_num;
+		}
+
+		@PostMapping("/Licensetest/update")
+		public String updateLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
+			service.updateLicenseTest(vo);
+			vo.getScorelist().forEach(score -> {
+				service.updateLicenseScore(score);
+			});
+			rttr.addFlashAttribute("result", "success");
+			return "redirect:/Licensetest/read/" + vo.getLt_num();
+		}
+
+		// LicenseScore
+		@PostMapping("/Licensescore/create")
+		public String createLicenseScore(LicenseScoreVO vo, RedirectAttributes rttr) {
+			if(service.createLicenseScore(vo)){
+				rttr.addFlashAttribute("result", "success");
+			}
+			return "redirect:/Licensetest/read/" + vo.getLt_num();
+		}
+
+		@DeleteMapping("/Licensescore/delete/{ls_num}/{lt_num}")
+		public String deleteLicenseScore(@PathVariable("ls_num") String ls_num, @PathVariable("lt_num") String lt_num,
+				RedirectAttributes rttr) {
+			if(service.deleteLicenseScore(ls_num)){
+				rttr.addFlashAttribute("result", "success");
+			}
+			return "redirect:/list/" + lt_num;
+		}
 
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -122,30 +124,61 @@ public class ReportCardServiceTests {
 //	public void testRead() {
 //		log.info(service.readLicenseTest("lt21"));
 //	}
-	@Test
-	public void testCreate(){
-		SchoolTestVO vo = new SchoolTestVO();
-		vo.setRc_num("rc4");
-		vo.setSt_date("2019-08-07");
-		vo.setSt_year(3);
-		vo.setSt_semester(4);
-		vo.setSt_test("Service Test");
-		
-		log.info("결과!:      "+service.createSchoolTest(vo));
-	}
+//	@Test
+//	public void testCreate(){
+//		LicenseTestVO vo = new LicenseTestVO();
+//		vo.setRc_num("rc5");
+//		vo.setLt_date("2019-08-07");
+//		vo.setLt_round(3);
+//		vo.setLt_test("Service Test");
+//		
+//		log.info("결과!:      "+service.createLicenseTest(vo));
+//	}
 //	@Test
 //	public void testDelete(){
-//		log.info("결과!!!!:     "+service.deleteSchoolTest("st43"));
+//		log.info("결과!!!!!!!!!!!!!!!!!!!!!!!!!!!: "+service.deleteLicenseTest("lt61"));
 //	}
 //	@Test
 //	public void testUpdate(){
-//		SchoolTestVO vo = new SchoolTestVO();
-//		vo.setRc_num("rc4");
-//		vo.setSt_date("2019-08-07");
-//		vo.setSt_year(3);
-//		vo.setSt_semester(4);
-//		vo.setSt_test("Service Update2");
-//		vo.setSt_num("st44");
-//		log.info("결과!!!!:     "+service.updateSchoolTest(vo));
+//		LicenseTestVO vo = new LicenseTestVO();
+//		vo.setLt_num("lt42");
+//		vo.setRc_num("rc5");
+//		vo.setLt_date("2019-08-07");
+//		vo.setLt_round(3);
+//		vo.setLt_test("service Test update");
+//		log.info("결과!!!!:     "+service.updateLicenseTest(vo));
+//	}
+	
+//	@Test
+//	public void testList(){
+//		log.info(service.listLicenseScore("lt1"));
+//	}
+	
+//	@Test
+//	public void testCreate(){
+//		LicenseScoreVO vo = new LicenseScoreVO();
+//		vo.setLt_num("lt42");
+//		vo.setLs_name("ServiceTest");
+//		vo.setLs_score(66);
+//		vo.setLs_goal(66);
+//		log.info("결과!:          "+service.createLicenseScore(vo));
+//	}
+//	@Test
+//	public void testUpdate(){
+//		LicenseScoreVO vo = new LicenseScoreVO();
+//		vo.setLs_num("ls62");
+//		vo.setLt_num("lt1");
+//		vo.setLs_name("serviceTestUpdate");
+//		vo.setLs_score(66);
+//		vo.setLs_goal(66);
+//		log.info("결과!:          "+service.updateLicenseScore(vo));
+//	}
+//	@Test
+//	public void testDelete(){
+//		log.info("결과!:                 "+service.deleteLicenseScore("ls61"));
+//	}
+//	@Test
+//	public void testDeleteLicenseTestScore(){
+//		log.info("결과!:                 "+service.deleteLicenseTestScore("lt42"));
 //	}
 }
