@@ -1,5 +1,7 @@
 package org.sst.controller;
 
+import java.util.List;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,32 +32,56 @@ public class ReportCardController {
 	private ReportCardService service;
 
 	// ReportCard
-	@GetMapping("/list")
+	@GetMapping(value="/list")
 	public void list(@RequestParam("m_id") String m_id, Model model) {
 		model.addAttribute("reportcardList", service.listReportCard(m_id));
 	}
 
-	@GetMapping("/read/{rc_num}")
-	public void read(@PathVariable("rc_num") String rc_num, Model model) {
+	@GetMapping("/read")
+	public String read(@RequestParam("rc_num") String rc_num, Model model) {
 		ReportCardVO vo = service.readReportCard(rc_num);
 		model.addAttribute("reportcard", vo);
 		if (vo.getRc_subtype().equals("학교성적")) {
-			model.addAttribute("SchoolTest", service.listSchoolTest(rc_num));
+			List<SchoolTestVO> list = service.listSchoolTest(rc_num);
+			if(list.size()<1){
+				return "/reportcard/createSchoolTest";
+			}else{
+				model.addAttribute("schoolTestList", list);
+				return "/reportcard/readSchoolReportCard";
+			}
 		}else{
-			model.addAttribute("LicenseTest", service.listLicenseTest(rc_num));
+			List<LicenseTestVO> list = service.listLicenseTest(rc_num);
+			if(list.size()<1){
+				return "/reportcard/createLicenseTest";
+			}else{
+				model.addAttribute("licenseTestList", list);
+				log.info(service.listLicenseTest(rc_num));
+				return "/reportcard/readLicenseReportCard";
+			}
 		}
+	}
+	@GetMapping("/create")
+	public void create() {
 	}
 
 	@PostMapping("/create")
 	public String create(ReportCardVO vo, RedirectAttributes rttr) {
+		if(vo.getRc_type().endsWith("성적")){
+			vo.setRc_subtype("학교성적");
+		}
 		service.createReportCard(vo);
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/list/" + vo.getM_id();
+		return "redirect:/reportcard/list?m_id=" + vo.getM_id();
 	}
 
-	@DeleteMapping("/delete/{rc_num}/{rc_subtype}/{m_id}")
-	public String delete(@PathVariable("rc_num") String rc_num,@PathVariable("rc_subtype") String rc_subtype,
-			@PathVariable("m_id") String m_id,RedirectAttributes rttr){
+	@GetMapping("/update")
+	public void update(@RequestParam("rc_num") String rc_num, Model model) {
+		ReportCardVO vo = service.readReportCard(rc_num);
+		model.addAttribute("reportcard", vo);
+	}
+	@PostMapping("/delete")
+	public String delete(@RequestParam("rc_num") String rc_num,@RequestParam("rc_subtype") String rc_subtype,
+			RedirectAttributes rttr){
 		if (rc_subtype.equals("학교성적")) {
 			service.listSchoolTest(rc_num).forEach(test -> {
 				service.deleteSchoolTestScore(test.getSt_num());
@@ -69,10 +95,17 @@ public class ReportCardController {
 		}
 		service.deleteReportCard(rc_num);
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/list/"+m_id;
+		return "redirect:/reportcard/list?m_id=ggy";
 	}
+	
+	
+	
 
 	// SchoolTest
+	@GetMapping("/schooltest/create")
+	public String createSchoolTest() {
+		return "/reportcard/createSchoolTest";
+	}
 	@PostMapping("/schooltest/create")
 	public String createSchoolTest(SchoolTestVO vo, RedirectAttributes rttr) {
 		String st_num = service.createSchoolTest(vo);
@@ -89,7 +122,7 @@ public class ReportCardController {
 		model.addAttribute("schooltest", service.readSchoolTest(st_num));
 	}
 
-	@DeleteMapping("/schooltest/delete/{rc_num}/{st_num}")
+	@PostMapping("/schooltest/delete/{rc_num}/{st_num}")
 	public String deleteSchoolTest(@PathVariable("rc_num") String rc_num, @PathVariable("st_num") String st_num,
 			RedirectAttributes rttr) {
 		service.deleteSchoolTestScore(st_num);
@@ -117,7 +150,7 @@ public class ReportCardController {
 		return "redirect:/schooltest/read/" + vo.getSt_num();
 	}
 
-	@DeleteMapping("/schoolscore/delete/{ss_num}/{st_num}")
+	@PostMapping("/schoolscore/delete/{ss_num}/{st_num}")
 	public String deleteSchoolScore(@PathVariable("ss_num") String ss_num, @PathVariable("st_num") String st_num,
 			RedirectAttributes rttr) {
 		if(service.deleteSchoolScore(ss_num)){
@@ -172,7 +205,7 @@ public class ReportCardController {
 			return "redirect:/Licensetest/read/" + vo.getLt_num();
 		}
 
-		@DeleteMapping("/Licensescore/delete/{ls_num}/{lt_num}")
+		@PostMapping("/Licensescore/delete/{ls_num}/{lt_num}")
 		public String deleteLicenseScore(@PathVariable("ls_num") String ls_num, @PathVariable("lt_num") String lt_num,
 				RedirectAttributes rttr) {
 			if(service.deleteLicenseScore(ls_num)){

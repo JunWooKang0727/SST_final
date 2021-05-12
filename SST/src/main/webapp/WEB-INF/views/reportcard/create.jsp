@@ -12,15 +12,9 @@
 <meta name="author" content="">
 
 <title>SST</title>
-<!-- Custom fonts for this template-->
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
 <!-- Custom styles for this template-->
-<link href="../css/personalstudy.css" rel="stylesheet">
-<link href="../css/sb-admin-2.min.css" rel="stylesheet">
+<link href="/resources/css/personalstudy.css" rel="stylesheet">
+
 </head>
 <body id="page-top">
 
@@ -50,8 +44,9 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">성적란 생성하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/SST/ReportCard/insertReportCardAction.do" method="post"
+									<form action="/reportcard/create" method="post"
 										class="centerform">
+										<input type="hidden" name="m_id" value="ggy">
 										타이틀: <input type="text" name="rc_title" placeholder="입력해주세요." class="form-control" required><br> 
 											성적 유형: 
 											<select class="form-control " name="rc_type" id="rc_type" required>
@@ -86,13 +81,8 @@
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
-	<!-- Bootstrap core JavaScript-->
-	<script src="../vendor/jquery/jquery.min.js"></script>
-	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
 	<!-- Custom scripts for all pages-->
-	<script src="../js/personalstudy.js"></script>
-	<script src="../js/sb-admin-2.min.js"></script>
+	<script src="/resources/js/personalstudy.js"></script>
 </body>
 </html>

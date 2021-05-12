@@ -13,15 +13,6 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <title>SST</title>
-<!-- Custom fonts for this template-->
-<link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- Custom styles for this template-->
-<link href="../css/sb-admin-2.min.css" rel="stylesheet">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 
 
@@ -107,7 +98,7 @@
 								<!-- Card Content - Collapse -->
 								<div class="collapse show" id="collapseCardExample">
 									<div class="card-body">
-									<c:forEach items="${ltlist}" var="test">
+									<c:forEach items="${licenseTestList}" var="test">
 									<strong>${test.lt_test}  ${test.lt_round}회  (${test.lt_date })</strong>
 									<a href="/SST/ReportCard/deleteLicenseTestAction.do?lt_num=${test.lt_num}&rc_num=${rc_num}" class="float-right text-danger">삭제</a>
 									<a href="/SST/ReportCard/updateLicenseTestForm.do?lt_num=${test.lt_num}" class="float-right">수정</a>
@@ -167,17 +158,9 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="../vendor/jquery/jquery.min.js"></script>
-	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Page level plugins -->
-    <script src="../vendor/chart.js/Chart.min.js"></script>
-    <script src="../js/license_chart.js?ver=4"></script>
-	<!-- Core plugin JavaScript-->
-	<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/resources/vendor/chart.js/Chart.min.js"></script>
+    <script src="/resources/js/license_chart.js?ver=4"></script>
 
-	<!-- Custom scripts for all pages-->
-	<script src="../js/sb-admin-2.min.js"></script>
 <c:set var="current" value="${ltlist[fn:length(ltlist)-1]}"></c:set>
 	<script type="text/javascript">
 		var data = {
