@@ -15,7 +15,7 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"/>
-		<property name="username" value="kosta211"/>
+		<property name="username" value="project4"/>
 		<property name="password" value="1234"/>
 	</bean>
 	<!-- p86 맨위 그림 hikariconfig가 datasource에 전달되었다. -->

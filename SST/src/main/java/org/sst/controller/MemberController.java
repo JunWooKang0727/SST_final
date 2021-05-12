@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.MemberVO;
@@ -45,13 +44,14 @@ public class MemberController {
 	// 아이디 중복 체크
 	@ResponseBody
 	@PostMapping("/checkId")
-	public String CheckId(@RequestParam String id){
-		log.info("[Member Id Check Post]" + " : " + id);
-		int result = service.memberIdCount(id);
-		if(result == 0){
-			return "canuse";
+	public String CheckId(@RequestBody String id){
+		log.info(id);
+		log.info("[Member Id Check Post]" + " : " + id.replace("=", ""));
+		int id_result = service.memberIdCount(id.replace("=", ""));
+		if(id_result == 0){
+			return "success";
 		} else {
-			return "cantuse";
+			return "fail";
 		}
 	}
 }
