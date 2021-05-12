@@ -44,21 +44,20 @@ public class CalendarController {
 	}
 	
 	
-	@PostMapping("/check")
+	@GetMapping("/check")
 	public String check(CalendarTodoVO vo, RedirectAttributes rttr) {
 		log.info("check:" + vo);
-
+		service.updateCheck(vo);
 		if (service.updateCheck(vo)>0) {
 			rttr.addFlashAttribute("result", "success");
 		}
-
-
 		return "redirect:/calendar/list";
 	}
-	@PostMapping("/noncheck")
+	@GetMapping("/noncheck")
 	public String noncheck(CalendarTodoVO vo, RedirectAttributes rttr) {
 		log.info("noncheck:" + vo);
-
+		
+		service.updateNonCheck(vo);
 		if (service.updateNonCheck(vo)>0) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -67,7 +66,7 @@ public class CalendarController {
 		return "redirect:/calendar/list";
 	}
 	
-	@DeleteMapping("/delete")
+	@GetMapping("/delete")
 	public String remove(CalendarTodoVO vo, RedirectAttributes rttr) {
 
 		log.info("remove..." + vo.getT_num());

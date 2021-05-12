@@ -185,12 +185,10 @@
 <script type="text/javascript">
 $(function(){
 	$(".toDos").click(function(e){
-	e.preventDefault();  
 	$(this).parent().parent().prev().find("li").addClass('doneto');
 	  alert($(this).parent().parent().prev().find("li").html())
 		});
 	$(".nontoDos").click(function(e){
-		e.preventDefault();  
 		$(this).parent().parent().prev().find("li").removeClass('doneto');
 		  alert($(this).parent().parent().prev().find("li").html())
 			});
@@ -266,7 +264,7 @@ $(function(){
 						<div class="col-md-3">
 							<div class="row">
 								<button class="buttonBasic">
-									<a href="/SST/fullcalendar-5.6.0/Calendar2/insertTodoForm.do">Todo작성</a>
+									<a href="/calendar/create">Todo작성</a>
 								</button>
 							</div>
 
@@ -274,24 +272,24 @@ $(function(){
 								<h5 class="toDoListHeader">Todo List</h5>
 							</div>
 							<div class="row">
-								<c:forEach var="CalendarTodoVO" items="${list}">
+								<c:forEach var="Todo" items="${list}">
 									<div class="col-md-4">
 										<ul class="toDoList">
-											<li class="${CalendarTodoVO.t_todocheck}">${CalendarTodoVO.t_title}</li>
+											<li class="${Todo.t_todocheck}">${Todo.t_title}</li>
 										</ul>
 									</div>
 									<div class="col-md-8">
 										<button class="buttonBasic">
 											<a class="toDos"
-												href="/SST/fullcalendar-5.6.0/Calendar2/CheckTodo.do?t_num=${CalendarTodoVO.t_num }">완료</a>
+												href="/calendar/check?t_num=${Todo.t_num }">완료</a>
 										</button>
 										<button class="buttonBasic">
 											<a class="nontoDos"
-												href="/SST/fullcalendar-5.6.0/Calendar2/NonCheckTodo.do?t_num=${CalendarTodoVO.t_num }">미완료</a>
+												href="/calendar/noncheck?t_num=${Todo.t_num }">미완료</a>
 										</button>
 										<button class="buttonBasic">
 											<a
-												href="/SST/fullcalendar-5.6.0/Calendar2/DeleteTodo.do?t_num=${CalendarTodoVO.t_num }">삭제</a>
+												href="/calendar/delete?t_num=${Todo.t_num }">삭제</a>
 										</button>
 									</div>
 								</c:forEach>
