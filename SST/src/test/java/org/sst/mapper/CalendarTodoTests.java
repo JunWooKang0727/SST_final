@@ -20,14 +20,20 @@ public class CalendarTodoTests {
 	@Setter(onMethod_ = @Autowired)
 	private CalendarMapper mapper;
 
-	/*
-	 * @Test public void testInsert(){ CalendarTodoVO vo = new CalendarTodoVO();
-	 * vo.setT_category("1"); vo.setT_contents("1"); vo.setT_enddate(new
-	 * Date(2020, 9, 10)); vo.setT_startdate(new Date(2020, 9, 10));
-	 * vo.setT_num("t32"); vo.setT_title("1"); vo.setT_todocheck(0);
-	 * 
-	 * mapper.insertTodo(vo); }
-	 */
+	/*@Test
+	public void testInsert() {
+		CalendarTodoVO vo = new CalendarTodoVO();
+		vo.setT_category("1");
+		vo.setT_contents("1");
+		vo.setT_enddate(new Date(2020, 9, 10));
+		vo.setT_startdate(new Date(2020, 9, 10));
+		vo.setT_num("t32");
+		vo.setT_title("1");
+		vo.setT_todocheck(0);
+
+		mapper.insertTodo(vo);
+	}*/
+
 	/*
 	 * @Test public void testList(){
 	 * 
@@ -37,30 +43,30 @@ public class CalendarTodoTests {
 	 * 
 	 * }
 	 */
-	/*@Test
-	public void testUpdate() {
-
-		CalendarTodoVO vo = new CalendarTodoVO();
-
-		vo.setT_num("t33");
-		
-		log.info(mapper.updateCheckTodo(vo));
-	}*/
-	/*@Test
-	public void testUpdate2() {
-
-		CalendarTodoVO vo = new CalendarTodoVO();
-
-		vo.setT_num("t33");
-
-		log.info(mapper.updateNonCheckTodo(vo));
-	}*/
+	/*
+	 * @Test public void testUpdate() {
+	 * 
+	 * CalendarTodoVO vo = new CalendarTodoVO();
+	 * 
+	 * vo.setT_num("t33");
+	 * 
+	 * log.info(mapper.updateCheckTodo(vo)); }
+	 */
+	/*
+	 * @Test public void testUpdate2() {
+	 * 
+	 * CalendarTodoVO vo = new CalendarTodoVO();
+	 * 
+	 * vo.setT_num("t33");
+	 * 
+	 * log.info(mapper.updateNonCheckTodo(vo)); }
+	 */
 	@Test
-	public void testDelete(){
+	public void testDelete() {
 		CalendarTodoVO vo = new CalendarTodoVO();
 
 		vo.setT_num("t33");
-		
+
 		log.info(mapper.deleteTodo(vo));
 	}
 }
