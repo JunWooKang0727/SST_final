@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -110,4 +112,68 @@ public class ReportCardMapperTests {
 //	}
 	
 	
+//	@Test
+//	public void testList(){
+//		log.info(mapper.listLicenseTest("rc5"));
+//	}
+//	@Test
+//	public void testRead() {
+//		log.info(mapper.readLicenseTest("lt1"));
+//	}
+//	@Test
+//	public void testCreate(){
+//		LicenseTestVO vo = new LicenseTestVO();
+//		vo.setRc_num("rc5");
+//		vo.setLt_date("2019-08-07");
+//		vo.setLt_round(3);
+//		vo.setLt_test("mapper Test");
+//		log.info("결과!:          "+mapper.createLicenseTest(vo));
+//	}
+//	@Test
+//	public void testUpdate(){
+//		LicenseTestVO vo = new LicenseTestVO();
+//		vo.setLt_num("lt42");
+//		vo.setRc_num("rc5");
+//		vo.setLt_date("2019-08-07");
+//		vo.setLt_round(3);
+//		vo.setLt_test("mapper Test update");
+//		log.info("결과!:          "+mapper.updateLicenseTest(vo));
+//	}
+//	@Test
+//	public void testDelete(){
+//		log.info("결과!:                 "+mapper.deleteLicenseTest("lt41"));
+//	}
+	
+	
+//	@Test
+//	public void testList(){
+//		log.info(mapper.listLicenseScore("lt1"));
+//	}
+//	@Test
+//	public void testCreate(){
+//		LicenseScoreVO vo = new LicenseScoreVO();
+//		vo.setLt_num("lt42");
+//		vo.setLs_name("MapperTest");
+//		vo.setLs_score(66);
+//		vo.setLs_goal(66);
+//		log.info("결과!:          "+mapper.createLicenseScore(vo));
+//	}
+//	@Test
+//	public void testUpdate(){
+//		LicenseScoreVO vo = new LicenseScoreVO();
+//		vo.setLs_num("ls41");
+//		vo.setLt_num("lt1");
+//		vo.setLs_name("MapperTestUpdate");
+//		vo.setLs_score(66);
+//		vo.setLs_goal(66);
+//		log.info("결과!:          "+mapper.updateLicenseScore(vo));
+//	}
+//	@Test
+//	public void testDelete(){
+//		log.info("결과!:                 "+mapper.deleteLicenseScore("ls41"));
+//	}
+//	@Test
+//	public void testDeleteLicenseTestScore(){
+//		log.info("결과!:                 "+mapper.deleteLicenseTestScore("lt42"));
+//	}
 }

@@ -113,4 +113,39 @@ public class ReportCardServiceTests {
 //		log.info("결과!!!!:     "+service.updateSchoolScore(vo));
 //	}
 	
+//	
+//	@Test
+//	public void testList(){
+//		log.info(service.listLicenseTest("rc22"));
+//	}
+//	@Test
+//	public void testRead() {
+//		log.info(service.readLicenseTest("lt21"));
+//	}
+	@Test
+	public void testCreate(){
+		SchoolTestVO vo = new SchoolTestVO();
+		vo.setRc_num("rc4");
+		vo.setSt_date("2019-08-07");
+		vo.setSt_year(3);
+		vo.setSt_semester(4);
+		vo.setSt_test("Service Test");
+		
+		log.info("결과!:      "+service.createSchoolTest(vo));
+	}
+//	@Test
+//	public void testDelete(){
+//		log.info("결과!!!!:     "+service.deleteSchoolTest("st43"));
+//	}
+//	@Test
+//	public void testUpdate(){
+//		SchoolTestVO vo = new SchoolTestVO();
+//		vo.setRc_num("rc4");
+//		vo.setSt_date("2019-08-07");
+//		vo.setSt_year(3);
+//		vo.setSt_semester(4);
+//		vo.setSt_test("Service Update2");
+//		vo.setSt_num("st44");
+//		log.info("결과!!!!:     "+service.updateSchoolTest(vo));
+//	}
 }

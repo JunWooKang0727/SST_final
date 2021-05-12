@@ -3,6 +3,8 @@ package org.sst.mapper;
 import java.util.HashMap;
 import java.util.List;
 
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -26,17 +28,19 @@ public interface ReportCardMapper {
 	int deleteSchoolScore(String ss_num);
 	int updateSchoolScore(SchoolScoreVO ss);
 	
-/*	int insertLicenseTest(LicenseTestVO lt);
-	List<LicenseTestVO> listLicenseTest(String rc_num);
-	LicenseTestVO selectLicenseTest(String lt_num);
-	int deleteLicenseTest(String lt_num);
-	int updateLicenseTest(LicenseTestVO lt);
 	
-	int insertLicenseScore(LicenseScoreVO ls);
+	int createLicenseTest(LicenseTestVO lt);
+	List<LicenseTestVO> listLicenseTest(String lt_num);
+	LicenseTestVO readLicenseTest(String lt_num);
+	int updateLicenseTest(LicenseTestVO lt);
+	int deleteLicenseTest(String lt_num);
+	
+	
+	int createLicenseScore(LicenseScoreVO ls);
 	List<LicenseScoreVO> listLicenseScore(String lt_num);
 	int deleteLicenseTestScore(String lt_num);
 	int deleteLicenseScore(String ls_num);
-	int updateLicenseScore(LicenseScoreVO ls);*/
+	int updateLicenseScore(LicenseScoreVO ls);
 	
 	
 	List<SchoolTestVO> averageSchoolTest(String rc_num);

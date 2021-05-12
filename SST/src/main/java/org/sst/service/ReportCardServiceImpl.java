@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -22,27 +24,23 @@ public class ReportCardServiceImpl implements ReportCardService {
 	public List<ReportCardVO> listReportCard(String m_id) {
 		return mapper.listReportCard(m_id);
 	}
-
 	@Override
 	public boolean createReportCard(ReportCardVO vo) {
 		return mapper.createReportCard(vo) == 1;
 	}
-
 	@Override
 	public boolean updateReportCard(ReportCardVO vo) {
 		return mapper.updateReportCard(vo) == 1;
 	}
-
 	@Override
 	public boolean deleteReportCard(String rc_num) {
 		return mapper.deleteReportCard(rc_num) == 1;
 	}
-
 	@Override
 	public ReportCardVO readReportCard(String rc_num) {
 		return mapper.readReportCard(rc_num);
 	}
-
+	
 	// SchoolTest
 	@Override
 	public String createSchoolTest(SchoolTestVO st) {
@@ -92,6 +90,63 @@ public class ReportCardServiceImpl implements ReportCardService {
 	@Override
 	public boolean updateSchoolScore(SchoolScoreVO ss) {
 		return mapper.updateSchoolScore(ss) == 1;
+	}
+	
+	
+	
+	// LicenseTest
+	@Override
+	public String createLicenseTest(LicenseTestVO lt) {
+		mapper.createLicenseTest(lt);
+		return lt.getLt_num();
+	}
+
+	@Override
+	public List<LicenseTestVO> listLicenseTest(String rc_num) {
+		return mapper.listLicenseTest(rc_num);
+	}
+
+	@Override
+	public boolean deleteLicenseTest(String lt_num) {
+		return mapper.deleteLicenseTest(lt_num) == 1;
+	}
+
+	@Override
+	public LicenseTestVO readLicenseTest(String lt_num) {
+		return mapper.readLicenseTest(lt_num);
+	}
+
+	@Override
+	public boolean updateLicenseTest(LicenseTestVO lt) {
+		return mapper.updateLicenseTest(lt) == 1;
+	}
+
+	// LicenseScore
+	@Override
+	public boolean createLicenseScore(LicenseScoreVO ls) {
+		int result = mapper.createLicenseScore(ls);
+		log.info(ls.getLs_num());
+		return result == 1;
+	}
+
+	@Override
+	public List<LicenseScoreVO> listLicenseScore(String lt_num) {
+		return mapper.listLicenseScore(lt_num);
+	}
+
+	@Override
+	public boolean deleteLicenseTestScore(String lt_num) {
+		return mapper.deleteLicenseTestScore(lt_num) == 1;
+	}
+
+	@Override
+	public boolean deleteLicenseScore(String ls_num) {
+		return mapper.deleteLicenseScore(ls_num) == 1;
+	}
+
+	@Override
+	public boolean updateLicenseScore(LicenseScoreVO ls) {
+		return mapper.updateLicenseScore(ls) == 1;
 	}
 
 }

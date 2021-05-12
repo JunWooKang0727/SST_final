@@ -24,12 +24,6 @@
 	</delete>
 
 
-	<insert id="createSchoolTest" parameterType="org.sst.domain.SchoolTestVO"
-		useGeneratedKeys="true" keyColumn="st_num" keyProperty="st_num"> insert into
-		SchoolTest (ST_NUM,ST_DATE,ST_YEAR,ST_SEMESTER,ST_TEST,RC_NUM)
-		values('st'||to_char(schooltest_seq.nextval),#{st_date},#{st_year},#{st_semester},#{st_test},#{rc_num})
-	</insert>
-	
 	<resultMap type="org.sst.domain.SchoolTestVO" id="schooltestMap">
 		<id property="st_num" column="st_num" />
 		<result property="st_date" column="st_date" />
@@ -40,7 +34,6 @@
 		<collection property="scorelist" resultMap="scoreMap">
 		</collection>
 	</resultMap>
-
 	<resultMap type="org.sst.domain.SchoolScoreVO" id="scoreMap">
 		<result property="ss_num" column="ss_num" />
 		<result property="ss_name" column="ss_name" />
@@ -48,8 +41,12 @@
 		<result property="st_num" column="st_num" />
 	</resultMap>
 	
-	<select id="listSchoolTest" parameterType="String"
-		resultMap="schooltestMap">
+	<insert id="createSchoolTest" parameterType="org.sst.domain.SchoolTestVO"
+		useGeneratedKeys="true" keyColumn="st_num" keyProperty="st_num"> insert into
+		SchoolTest (ST_NUM,ST_DATE,ST_YEAR,ST_SEMESTER,ST_TEST,RC_NUM)
+		values('st'||to_char(schooltest_seq.nextval),#{st_date},#{st_year},#{st_semester},#{st_test},#{rc_num})
+	</insert>
+	<select id="listSchoolTest" parameterType="String" resultMap="schooltestMap">
 		 <![CDATA[   
 		select /*+INDEX_DESC(schooltest pk_schooltest) */ 
 		st.st_num,TO_CHAR(st_date,'YYYY-MM-DD') as
@@ -59,14 +56,14 @@
 		where rc_num=#{rc_num}
 			]]>
 	</select>
-	<select id="readSchoolTest" parameterType="String"
-		resultMap="schooltestMap">
+	<select id="readSchoolTest" parameterType="String" resultMap="schooltestMap">
 		select
 		st.st_num,TO_CHAR(st_date,'YYYY-MM-DD') as
 		st_date,st_year,st_semester,st_test,rc_num,ss_num,ss_name,ss_score
-		from SchoolTest st 
+		from SchoolTest st
 		LEFT OUTER JOIN schoolscore ss on st.st_num = ss.st_num
-		where st.st_num=#{st_num}
+		where
+		st.st_num=#{st_num}
 	</select>
 	<delete id="deleteSchoolTest" parameterType="String"> DELETE FROM
 		schooltest WHERE st_num=#{st_num}
@@ -76,15 +73,20 @@
 		st_semester=#{st_semester},st_test=#{st_test}
 		WHERE st_num=#{st_num}
 	</update>
+	
+	
+	
 	<insert id="createSchoolScore" parameterType="org.sst.domain.SchoolScoreVO">
 		insert into
 		SchoolScore(ss_num,ss_name,ss_score,st_num)
 		values('ss'||to_char(schoolscore_seq.nextval),#{ss_name},#{ss_score},
 		#{st_num})
 	</insert>
-	<select id="listSchoolScore" parameterType="String" resultType="org.sst.domain.SchoolScoreVO">
+	<select id="listSchoolScore" parameterType="String"
+		resultType="org.sst.domain.SchoolScoreVO">
 		select * from SchoolScore where st_num=#{st_num}
-		order by ss_name
+		order by
+		ss_name
 	</select>
 	<delete id="deleteSchoolTestScore" parameterType="String">
 		DELETE FROM
@@ -97,55 +99,149 @@
 		SET ss_name=#{ss_name} ,ss_score=#{ss_score} WHERE ss_num=#{ss_num}
 	</update>
 
-	<!-- <insert id="insertLicenseTest" parameterType="LicenseTestVO" useGeneratedKeys="true" 
-		keyColumn="lt_num" keyProperty="lt_num"> INSERT INTO licensetest (lt_num, 
-		lt_date, lt_test, lt_round, rc_num) values('lt'||to_char(licensetest_seq.nextval),#{lt_date},#{lt_test},#{lt_round},#{rc_num}) 
-		</insert> <select id="listLicenseTest" parameterType="String" resultType="LicenseTestVO"> 
-		select lt_num,TO_CHAR(lt_date,'YYYY-MM-DD') as lt_date,lt_test,lt_round,rc_num 
-		from LicenseTest where rc_num=#{rc_num} order by lt_date </select> <select 
-		id="selectLicenseTest" parameterType="String" resultType="LicenseTestVO"> 
-		select lt_num,TO_CHAR(lt_date,'YYYY-MM-DD') as lt_date,lt_test,lt_round,rc_num 
-		from LicenseTest where lt_num=#{lt_num} </select> <delete id="deleteLicenseTest" 
-		parameterType="String"> delete from licensetest where lt_num=#{lt_num} </delete> 
-		<update id="updateLicenseTest" parameterType="LicenseTestVO"> UPDATE licensetest 
-		SET lt_date=#{lt_date}, lt_test=#{lt_test} ,lt_round=#{lt_round} WHERE lt_num=#{lt_num} 
-		</update> <insert id="insertLicenseScore" parameterType="LicenseScoreVO"> 
-		insert into LicenseScore(ls_num,ls_name,ls_score,ls_goal,lt_num) values('ls'||to_char(licensescore_seq.nextval),#{ls_name},#{ls_score},#{ls_goal},#{lt_num}) 
-		</insert> <select id="listLicenseScore" parameterType="String" resultType="LicenseScoreVO"> 
-		select * from licensescore where lt_num=#{lt_num} order by ls_name </select> 
-		<delete id="deleteLicenseTestScore" parameterType="String"> delete from licensescore 
-		where lt_num=#{lt_num} </delete> <delete id="deleteLicenseScore" parameterType="String"> 
-		delete from licensescore where ls_num=#{ls_num} </delete> <update id="updateLicenseScore" 
-		parameterType="LicenseScoreVO"> UPDATE licensescore SET ls_name=#{ls_name} 
-		,ls_score=#{ls_score} ,ls_goal=#{ls_goal} WHERE ls_num=#{ls_num} </update> 
-		<select id="selectReportCardSubject" parameterType="String" resultType="String"> 
-		select distinct ss_name from schooltest,schoolscore,reportcard where schooltest.st_num 
-		= schoolscore.st_num and reportcard.rc_num = schooltest.rc_num and reportcard.rc_num=#{rc_num} 
-		</select> <select id="averageSchoolTest" parameterType="String" resultType="SchoolTestVO"> 
-		select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as st_test , avg(ss_score) 
-		as avg from schooltest,schoolscore,reportcard where schooltest.st_num = schoolscore.st_num 
-		and schooltest.rc_num=reportcard.rc_num and reportcard.rc_num=#{rc_num} group 
-		by st_year,st_semester,st_test,st_date </select> <select id="allSubjectAverage" 
-		resultType="java.util.LinkedHashMap" parameterType="java.util.HashMap"> Search 
-		search select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as info, 
-		WHERE (title LIKE %aa% OR writer LIKE %aa%) <foreach collection="list" item="item" 
-		separator=","> round(avg(${item})) as ${item} </foreach> FROM( select st_year,st_semester,st_test,st_date, 
-		<foreach collection="list" item="item" separator=","> CASE WHEN ss_name=#{item} 
-		THEN ss_score ELSE null END ${item} </foreach> FROM SCHOOLSCORE,SCHOOLTEST,reportcard 
-		WHERE schoolscore.st_num = schooltest.st_num and reportcard.rc_num = schooltest.rc_num 
-		and reportcard.rc_num=#{rc_num}) group by st_year,st_semester,st_test,st_date 
-		order by st_date </select> <select id="allLicenseSubjectAverage" resultType="java.util.LinkedHashMap" 
-		parameterType="java.util.HashMap"> select (lt_test ||' '|| lt_round ||'회차 
-		') as info, <foreach collection="list" item="item" separator=","> round(avg(${item})) 
-		as ${item} </foreach> FROM( select lt_test,lt_round,lt_date, <foreach collection="list" 
-		item="item" separator=","> CASE WHEN ls_name=#{item} THEN ls_score ELSE null 
-		END ${item} </foreach> FROM licensescore,licensetest,reportcard WHERE licensescore.lt_num 
-		= licensetest.lt_num and reportcard.rc_num = licensetest.rc_num and reportcard.rc_num=#{rc_num}) 
-		group by lt_test,lt_round,lt_date order by lt_date </select> <select id="selectRCLicenseTestSubject" 
-		parameterType="String" resultType="String"> select distinct ls_name FROM 
-		licensescore,licensetest,reportcard where licensescore.lt_num = licensetest.lt_num 
-		and reportcard.rc_num = licensetest.rc_num and reportcard.rc_num=#{rc_num} 
-		</select> -->
+
+	<resultMap type="org.sst.domain.LicenseTestVO" id="licensetestMap">
+		<id property="lt_num" column="lt_num" />
+		<result property="lt_date" column="lt_date" />
+		<result property="lt_round" column="lt_round" />
+		<result property="lt_test" column="lt_test" />
+		<result property="rc_num" column="rc_num" />
+		<collection property="scorelist" resultMap="lscoreMap">
+		</collection>
+	</resultMap>
+	<resultMap type="org.sst.domain.LicenseScoreVO" id="lscoreMap">
+		<result property="ls_num" column="ls_num" />
+		<result property="ls_name" column="ls_name" />
+		<result property="ls_score" column="ls_score" />
+		<result property="ls_goal" column="ls_goal" />
+		<result property="lt_num" column="lt_num" />
+	</resultMap>
+	<insert id="createLicenseTest" parameterType="org.sst.domain.LicenseTestVO"
+		useGeneratedKeys="true" keyColumn="lt_num" keyProperty="lt_num"> INSERT INTO
+		licensetest (lt_num,
+		lt_date, lt_test, lt_round, rc_num)
+		values('lt'||to_char(licensetest_seq.nextval),#{lt_date},#{lt_test},#{lt_round},#{rc_num})
+	</insert>
+	
+	<select id="listLicenseTest" parameterType="String" resultMap="licensetestMap">
+	 <![CDATA[ 
+		select /*+INDEX_DESC(licensetest pk_licensetest) */  
+		lt.lt_num,TO_CHAR(lt_date,'YYYY-MM-DD') as
+		lt_date,lt_test,lt_round,rc_num,ls_num,ls_name,ls_score,ls_goal
+		from LicenseTest lt
+		LEFT OUTER JOIN licensescore ls on lt.lt_num = ls.lt_num
+		 where rc_num=#{rc_num}
+		]]>
+	</select>
+
+	<select id="readLicenseTest" parameterType="String"
+		resultMap="licensetestMap">
+		select 
+		lt.lt_num,TO_CHAR(lt_date,'YYYY-MM-DD') as
+		lt_date,lt_test,lt_round,rc_num,ls_num,ls_name,ls_score,ls_goal
+		from LicenseTest lt
+		LEFT OUTER JOIN licensescore ls on lt.lt_num = ls.lt_num
+		where lt.lt_num=#{lt_num}
+	</select>
+	<delete id="deleteLicenseTest" parameterType="String"> 
+	delete from licensetest where lt_num=#{lt_num} 
+		</delete>
+	<update id="updateLicenseTest" parameterType="org.sst.domain.LicenseTestVO"> 
+	UPDATE licensetest
+		SET lt_date=#{lt_date}, lt_test=#{lt_test} ,lt_round=#{lt_round} WHERE
+		lt_num=#{lt_num}
+	</update>
+
+
+	<insert id="createLicenseScore" parameterType="org.sst.domain.LicenseScoreVO">
+		insert into
+		LicenseScore(ls_num,ls_name,ls_score,ls_goal,lt_num)
+		values('ls'||to_char(licensescore_seq.nextval),#{ls_name},#{ls_score},#{ls_goal},#{lt_num})
+	</insert>
+	<select id="listLicenseScore" parameterType="String"
+		resultType="org.sst.domain.LicenseScoreVO">
+		select * from licensescore where lt_num=#{lt_num} order by
+		ls_name
+	</select>
+	<delete id="deleteLicenseTestScore" parameterType="String">
+		delete from
+		licensescore
+		where lt_num=#{lt_num}
+	</delete>
+	<delete id="deleteLicenseScore" parameterType="String">
+		delete from
+		licensescore where ls_num=#{ls_num}
+	</delete>
+	<update id="updateLicenseScore" parameterType="org.sst.domain.LicenseScoreVO">
+		UPDATE
+		licensescore SET ls_name=#{ls_name}
+		,ls_score=#{ls_score}
+		,ls_goal=#{ls_goal} WHERE ls_num=#{ls_num}
+	</update>
+	
+	
+	<!--
+	<select id="selectReportCardSubject" parameterType="String"
+		resultType="String">
+		select distinct ss_name from schooltest,schoolscore,reportcard where
+		schooltest.st_num
+		= schoolscore.st_num and reportcard.rc_num = schooltest.rc_num and
+		reportcard.rc_num=#{rc_num}
+	</select>
+	 <select id="averageSchoolTest" parameterType="String"
+		resultType="SchoolTestVO">
+		select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as st_test ,
+		avg(ss_score)
+		as avg from schooltest,schoolscore,reportcard where schooltest.st_num =
+		schoolscore.st_num
+		and schooltest.rc_num=reportcard.rc_num and reportcard.rc_num=#{rc_num}
+		group
+		by st_year,st_semester,st_test,st_date
+	</select>
+	<select id="allSubjectAverage" resultType="java.util.LinkedHashMap"
+		parameterType="java.util.HashMap">
+		Search
+		search select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as info,
+		WHERE (title LIKE %aa% OR writer LIKE %aa%)
+		<foreach collection="list" item="item" separator=",">
+			round(avg(${item})) as ${item} </foreach>
+		FROM( select st_year,st_semester,st_test,st_date,
+		<foreach collection="list" item="item" separator=","> CASE WHEN
+			ss_name=#{item}
+			THEN ss_score ELSE null END ${item}
+		</foreach>
+		FROM SCHOOLSCORE,SCHOOLTEST,reportcard
+		WHERE schoolscore.st_num = schooltest.st_num and reportcard.rc_num =
+		schooltest.rc_num
+		and reportcard.rc_num=#{rc_num}) group by
+		st_year,st_semester,st_test,st_date
+		order by st_date
+	</select>
+	<select id="allLicenseSubjectAverage" resultType="java.util.LinkedHashMap"
+		parameterType="java.util.HashMap">
+		select (lt_test ||' '|| lt_round ||'회차
+		') as info,
+		<foreach collection="list" item="item" separator=",">
+			round(avg(${item}))
+			as ${item}
+		</foreach>
+		FROM( select lt_test,lt_round,lt_date,
+		<foreach collection="list" item="item" separator=","> CASE WHEN
+			ls_name=#{item} THEN ls_score ELSE null
+			END ${item}
+		</foreach>
+		FROM licensescore,licensetest,reportcard WHERE licensescore.lt_num
+		= licensetest.lt_num and reportcard.rc_num = licensetest.rc_num and
+		reportcard.rc_num=#{rc_num})
+		group by lt_test,lt_round,lt_date order by lt_date
+	</select>
+	<select id="selectRCLicenseTestSubject" parameterType="String"
+		resultType="String"> select distinct ls_name FROM
+		licensescore,licensetest,reportcard where licensescore.lt_num =
+		licensetest.lt_num
+		and reportcard.rc_num = licensetest.rc_num and
+		reportcard.rc_num=#{rc_num}
+	</select> -->
 
 </mapper>
 

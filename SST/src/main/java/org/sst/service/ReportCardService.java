@@ -2,6 +2,8 @@ package org.sst.service;
 
 import java.util.List;
 
+import org.sst.domain.LicenseScoreVO;
+import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
@@ -24,6 +26,19 @@ public interface ReportCardService {
 	public boolean deleteSchoolTestScore(String st_num);
 	public boolean deleteSchoolScore(String ss_num);
 	public boolean updateSchoolScore(SchoolScoreVO ss);
+	
+	
+	public String createLicenseTest(LicenseTestVO st);
+	public List<LicenseTestVO> listLicenseTest(String rc_num);
+	public boolean deleteLicenseTest(String st_num);
+	public LicenseTestVO readLicenseTest(String st_num);
+	public boolean updateLicenseTest(LicenseTestVO st);
+	
+	public boolean createLicenseScore(LicenseScoreVO ss);
+	public List<LicenseScoreVO> listLicenseScore(String st_num);
+	public boolean deleteLicenseTestScore(String st_num);
+	public boolean deleteLicenseScore(String ss_num);
+	public boolean updateLicenseScore(LicenseScoreVO ss);
 	
 	
 	
