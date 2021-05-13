@@ -1,11 +1,12 @@
 package org.sst.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class MemberVO {
 	private String m_id;
@@ -14,4 +15,5 @@ public class MemberVO {
 	private String m_phone;
 	private String m_birth;
 	private String m_email;
+	private List<MemberAuthVO> authList;
 }
