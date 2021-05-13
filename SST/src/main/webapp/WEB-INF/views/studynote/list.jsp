@@ -72,7 +72,10 @@
 									</tr>
 									<c:forEach var="studynote" items="${list}">
 										<tr class="sn_row">
-											<td class="sn_num">${studynote.sn_num }</td>
+											<td class="sn_num">
+											<c:set var ="num" value="${studynote.sn_num }"/>
+											${fn:substring(num,3,1000)}
+											</td>
 											<td class="sn_title"><a class="noHyper move"
 												href="${studynote.sn_num }">${studynote.sn_title }</a></td>
 											<td class="sn_writer">${studynote.sn_writer }</td>
