@@ -1,5 +1,7 @@
 package org.sst.controller;
 
+import java.util.HashMap;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.sst.service.ReportCardService;
-
+import org.sst.service.ScoreAnalysisService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -18,13 +20,12 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @AllArgsConstructor
 public class ScoreAnalysisController {
-	private ReportCardService service;
+	private ScoreAnalysisService service;
 	
-//	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_XML_VALUE,
-//			MediaType.APPLICATION_JSON_UTF8_VALUE })
-//	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
-//		
-//		return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
-//	}
+	@GetMapping(value = "/schoolallscore/{rc_num}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<HashMap> getSchoolAllScore(@PathVariable("rc_num") String rc_num) {
+		
+		return new ResponseEntity<>(service.allSubjectScoreSchoolTest(rc_num), HttpStatus.OK);
+	}
 
 }

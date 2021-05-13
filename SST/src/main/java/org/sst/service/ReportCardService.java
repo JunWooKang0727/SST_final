@@ -1,5 +1,6 @@
 package org.sst.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.sst.domain.LicenseScoreVO;
@@ -14,6 +15,7 @@ public interface ReportCardService {
 	public boolean updateReportCard(ReportCardVO vo);
 	public boolean deleteReportCard(String rc_num);
 	public ReportCardVO readReportCard(String rc_num);
+	
 	
 	public String createSchoolTest(SchoolTestVO st);
 	public List<SchoolTestVO> listSchoolTest(String rc_num);
@@ -39,7 +41,5 @@ public interface ReportCardService {
 	public boolean deleteLicenseTestScore(String st_num);
 	public boolean deleteLicenseScore(String ss_num);
 	public boolean updateLicenseScore(LicenseScoreVO ss);
-	
-	
 	
 }

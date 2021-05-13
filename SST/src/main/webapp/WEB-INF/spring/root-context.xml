@@ -11,7 +11,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
-</beans>
 
 <!-- Root Context: defines shared resources visible to all other web components -->
 	<context:annotation-config></context:annotation-config>
@@ -20,7 +19,7 @@
 
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="project4"></property>
+		<property name="username" value="sst"></property>
 		<property name="password" value="1234"></property>
 
 	</bean>
