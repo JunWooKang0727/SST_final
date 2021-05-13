@@ -25,11 +25,6 @@
 <!-- Custom styles for this template-->
 <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
 <link href="../../../resources/css/studynote.css" rel="stylesheet">
-
-
-<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-<link href="../../../resources/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -55,16 +50,7 @@
 					<!-- Content Row -->
 					<div class="row headerLine"></div>
 					<!-- end of row -->
-					
-					<div class="row">
-						
-					 <form action="/studynote/list"> 
-						<input type="text" id="datepicker" name="startDate">
-						<input type="text" id="datepicker2" name="endDate">
-						<input type="submit" value="날짜 선택">
-					 </form>
-					</div>
-					
+
 					<div class="row">
 
 						<div class="noteListArea">
@@ -216,7 +202,6 @@
 
 	<!-- Bootstrap core JavaScript-->
 	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
-
 	<script
 		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
@@ -224,9 +209,6 @@
 		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
-	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  -->
-
-	<script src="../../../resources/vendor/jquery-ui/jquery-ui.min.js"></script>
 	
 	<script type="text/javascript">
 	$(document)
@@ -318,30 +300,10 @@
 									searchForm.submit();
 
 								});
-						
-						
-						
-							
-							$("#datepicker").datepicker({
-								
-							
-								
-							});
-							
-							$("#datepicker2").datepicker({
-								
-							
-								
-							});
-						
-						
+
 					});
 </script>
-<script type="text/javascript">
 
-
-
-</script>
 </body>
 </html>
 
