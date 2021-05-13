@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.sst.mapper.StudyNoteMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
+	<cache />
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							sn_title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							sn_contents like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							sn_writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+
+
+	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
+	<insert id="insertStudyNote"><!-- id와 동일한 메서드를 만들어야한다 -->
+
+		INSERT INTO studynote(
+		sn_num, sn_title,sn_writer, sn_contents, sn_date, g_num,
+		gm_num
+		)
+		VALUES(
+		('sn_'||sn_seq.NEXTVAL), #{sn_title},#{sn_writer},
+		#{sn_contents,jdbcType=CLOB},
+		SYSDATE, 1, 1
+		)
+
+	</insert>
+
+	<!-- parameterType="StudyNoteSearchVO" -->
+
+	<select id="listStudyNote" resultType="org.sst.domain.StudyNoteVO">
+		SELECT /*+INDEX_DESC(studynote sn_num_idx) */ * FROM studynote
+		<if test="area != null">
+			<where>
+				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
+				<foreach collection="area" item="item" separator="OR" open="("
+					close=")">
+					${item} LIKE #{searchKey}
+				</foreach>
+			</where>
+		</if>
+		
+
+	</select>
+
+
+	<select id="detailStudyNote" resultType="org.sst.domain.StudyNoteVO">
+		select * from studynote
+		where sn_num = #{sn_num}
+	</select>
+
+
+	<update id="updateStudyNote">
+		update studynote set sn_title=#{sn_title},
+		sn_contents=#{sn_contents}
+		where sn_num = #{sn_num}
+	</update>
+
+
+	<delete id="deleteStudyNote" parameterType="String">
+
+		DELETE FROM studynote
+		WHERE sn_num = #{sn_num}
+	</delete>
+
+
+	<select id="countStudyNote" resultType="int">
+		select count(*) from studynote
+		<if test="area != null">
+			<where>
+				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
+				<foreach collection="area" item="item" separator="OR" open="("
+					close=")">
+					${item} LIKE #{searchKey}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+
+	<select id="getStudyNoteList" resultType="org.sst.domain.StudyNoteVO">
+	<![CDATA[
+	  select 
+	    sn_num, sn_title, sn_contents, sn_writer, sn_date
+	  from 
+	      (
+	      select /*+INDEX_DESC(tbl_board pk_studynote) */
+	        rownum rn, sn_num, sn_title, sn_contents, sn_writer, sn_date
+	      from 
+	        studynote
+	      where 
+	  ]]>
+
+      <include refid="criteria"></include>
+      
+	  <![CDATA[    
+	      rownum <= #{pageNum} * #{amount}
+	      )
+	  where rn > (#{pageNum} -1) * #{amount}   
+	  ]]>
+	</select>
+	
+	
+	  <select id="getTotalCount" resultType="int">
+  select count(*) from studynote where 
+  
+    <include refid="criteria"></include> 
+    
+  sn_num LIKE 'sn%'
+  
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

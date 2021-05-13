@@ -22,13 +22,13 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sidemenu -->
-		<%@include file="../../template/sidemenu.jsp"%>
+		<%@include file="../template/sidemenu.jsp"%>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<!-- Main Content -->
 			<div id="content">
 				<!-- topbar -->
-				<%@include file="../../template/topbar.jsp"%>
+				<%@include file="../template/topbar.jsp"%>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 					<!-- Page Heading -->
@@ -83,7 +83,8 @@
 			</div>
 			<!-- End of Main Content -->
 			<!-- Footer -->
-			<%@include file="../../template/footer.jsp"%>
+			<%@include file="../template/footer.jsp"%>
+>>>>>>> refs/remotes/origin/main
 			<!-- End of Footer -->
 		</div>
 		<!-- End of Content Wrapper -->

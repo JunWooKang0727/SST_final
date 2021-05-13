@@ -1,6 +1,7 @@
 {
   "ecmaVersion": 5,
   "plugins": {
+<<<<<<< HEAD
     "guess-types": {
       
     },
@@ -11,6 +12,12 @@
       
     },
     "jquery-extension": {
+=======
+    "outline": {
+      
+    },
+    "bootstrap": {
+>>>>>>> refs/remotes/origin/main
       
     }
   },
