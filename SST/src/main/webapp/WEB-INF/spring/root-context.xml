@@ -11,7 +11,9 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
+
 
 
 	<context:annotation-config></context:annotation-config>
@@ -50,6 +52,10 @@
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 	<task:annotation-driven />
+
+
+	<mybatis-spring:scan base-package="org.sst.mapper" />
+	<context:component-scan base-package="org.sst.service" />
 
 
 
