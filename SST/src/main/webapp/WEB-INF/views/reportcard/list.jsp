@@ -72,7 +72,7 @@
 
 			<!-- Footer -->
 			<%@include file="../template/footer.jsp"%>
->>>>>>> refs/remotes/origin/main
+
 			<!-- End of Footer -->
 		</div>
 		<!-- End of Content Wrapper -->
