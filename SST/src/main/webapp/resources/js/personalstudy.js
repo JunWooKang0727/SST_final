@@ -11,13 +11,13 @@ $(function() {
 		}
 	})
 	
-	var test=2;
+	var test=1;
 
 	$('#plus_score').click(function() { //자바스크립트 이벤트 발생
 		
 		if($('#plus_score_input').children().length<9){
-			var html='<div><hr>과목'+test+': <input type="text" name="ss_name'+test+'" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
-			html+='점수: <input type="number" name="ss_score'+test+'" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br></div>';
+			var html='<div><hr>과목'+(test+1)+': <input type="text" name="scorelist['+test+'].ss_name" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
+			html+='점수: <input type="number" name="scorelist['+test+'].ss_score" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br></div>';
 			$('#plus_score_input').append(html);
 		}
 		else{
@@ -26,14 +26,14 @@ $(function() {
 		test++;
 	})
 	
-	var test2=2;
+	var test2=1;
 	
 	$('#plus_licensescore').click(function() { //자바스크립트 이벤트 발생
 		
 		if($('#plus_score_input').children().length<9){
-			var html='<div><hr>과목'+test2+': <input type="text" name="ls_name'+test2+'" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
-			html+='획득 점수: <input type="number" name="ls_score'+test2+'" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br>';
-			html+='목표 점수 : <input type="number" name="ls_goal'+test2+'" placeholder="목표점수를 입력해주세요." class="form-control "  min="1" max="500" required><br></div>';
+			var html='<div><hr>과목'+(test2+1)+': <input type="text" name="scorelist['+test2+'].ls_name" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
+			html+='획득 점수: <input type="number" name="scorelist['+test2+'].ls_score" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br>';
+			html+='목표 점수 : <input type="number" name="scorelist['+test2+'].ls_goal" placeholder="목표점수를 입력해주세요." class="form-control "  min="1" max="500" required><br></div>';
 			$('#plus_score_input').append(html);
 		}
 		

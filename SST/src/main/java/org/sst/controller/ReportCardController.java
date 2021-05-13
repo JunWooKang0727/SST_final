@@ -32,7 +32,7 @@ public class ReportCardController {
 	private ReportCardService service;
 
 	// ReportCard
-	@GetMapping(value="/list")
+	@GetMapping(value = "/list")
 	public void list(@RequestParam("m_id") String m_id, Model model) {
 		model.addAttribute("reportcardList", service.listReportCard(m_id));
 	}
@@ -40,33 +40,35 @@ public class ReportCardController {
 	@GetMapping("/read")
 	public String read(@RequestParam("rc_num") String rc_num, Model model) {
 		ReportCardVO vo = service.readReportCard(rc_num);
+		model.addAttribute("rc_num", rc_num);
 		model.addAttribute("reportcard", vo);
 		if (vo.getRc_subtype().equals("학교성적")) {
 			List<SchoolTestVO> list = service.listSchoolTest(rc_num);
-			if(list.size()<1){
+			if (list.size() < 1) {
 				return "/reportcard/createSchoolTest";
-			}else{
+			} else {
 				model.addAttribute("schoolTestList", list);
 				return "/reportcard/readSchoolReportCard";
 			}
-		}else{
+		} else {
 			List<LicenseTestVO> list = service.listLicenseTest(rc_num);
-			if(list.size()<1){
+			if (list.size() < 1) {
 				return "/reportcard/createLicenseTest";
-			}else{
+			} else {
 				model.addAttribute("licenseTestList", list);
 				log.info(service.listLicenseTest(rc_num));
 				return "/reportcard/readLicenseReportCard";
 			}
 		}
 	}
+
 	@GetMapping("/create")
 	public void create() {
 	}
 
 	@PostMapping("/create")
 	public String create(ReportCardVO vo, RedirectAttributes rttr) {
-		if(vo.getRc_type().endsWith("성적")){
+		if (vo.getRc_type().endsWith("성적")) {
 			vo.setRc_subtype("학교성적");
 		}
 		service.createReportCard(vo);
@@ -79,9 +81,10 @@ public class ReportCardController {
 		ReportCardVO vo = service.readReportCard(rc_num);
 		model.addAttribute("reportcard", vo);
 	}
+
 	@PostMapping("/delete")
-	public String delete(@RequestParam("rc_num") String rc_num,@RequestParam("rc_subtype") String rc_subtype,
-			RedirectAttributes rttr){
+	public String delete(@RequestParam("rc_num") String rc_num, @RequestParam("rc_subtype") String rc_subtype,
+			RedirectAttributes rttr) {
 		if (rc_subtype.equals("학교성적")) {
 			service.listSchoolTest(rc_num).forEach(test -> {
 				service.deleteSchoolTestScore(test.getSt_num());
@@ -97,15 +100,17 @@ public class ReportCardController {
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/reportcard/list?m_id=ggy";
 	}
-	
-	
-	
 
+	
+	
+	
 	// SchoolTest
 	@GetMapping("/schooltest/create")
-	public String createSchoolTest() {
+	public String createSchoolTest(@RequestParam("rc_num") String rc_num, Model model) {
+		model.addAttribute("rc_num", rc_num);
 		return "/reportcard/createSchoolTest";
 	}
+
 	@PostMapping("/schooltest/create")
 	public String createSchoolTest(SchoolTestVO vo, RedirectAttributes rttr) {
 		String st_num = service.createSchoolTest(vo);
@@ -114,21 +119,22 @@ public class ReportCardController {
 			service.createSchoolScore(score);
 		});
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/read/" + vo.getRc_num();
+		return "redirect:/reportcard/read?rc_num=" + vo.getRc_num();
 	}
 
-	@GetMapping("/schooltest/read/{st_num}")
-	public void readSchoolTest(@PathVariable("st_num") String st_num, Model model) {
-		model.addAttribute("schooltest", service.readSchoolTest(st_num));
-	}
-
-	@PostMapping("/schooltest/delete/{rc_num}/{st_num}")
-	public String deleteSchoolTest(@PathVariable("rc_num") String rc_num, @PathVariable("st_num") String st_num,
+	@GetMapping("/schooltest/delete")
+	public String deleteSchoolTest(@RequestParam("rc_num") String rc_num, @RequestParam("st_num") String st_num,
 			RedirectAttributes rttr) {
 		service.deleteSchoolTestScore(st_num);
 		service.deleteSchoolTest(st_num);
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/read/" + rc_num;
+		return "redirect:/reportcard/read?rc_num=" + rc_num;
+	}
+
+	@GetMapping("/schooltest/update")
+	public String updateSchoolTest(@RequestParam("st_num") String st_num, Model model) {
+		model.addAttribute("st", service.readSchoolTest(st_num));
+		return "/reportcard/updateSchoolTest";
 	}
 
 	@PostMapping("/schooltest/update")
@@ -138,80 +144,89 @@ public class ReportCardController {
 			service.updateSchoolScore(score);
 		});
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/schooltest/read/" + vo.getSt_num();
+		return "redirect:/reportcard/read?rc_num=" + vo.getRc_num();
 	}
 
 	// SchoolScore
 	@PostMapping("/schoolscore/create")
 	public String createSchoolScore(SchoolScoreVO vo, RedirectAttributes rttr) {
-		if(service.createSchoolScore(vo)){
+		if (service.createSchoolScore(vo)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/schooltest/read/" + vo.getSt_num();
+		return "redirect:/reportcard/schooltest/update?st_num=" + vo.getSt_num();
 	}
 
-	@PostMapping("/schoolscore/delete/{ss_num}/{st_num}")
-	public String deleteSchoolScore(@PathVariable("ss_num") String ss_num, @PathVariable("st_num") String st_num,
+	@GetMapping("/schoolscore/delete")
+	public String deleteSchoolScore(@RequestParam("ss_num") String ss_num, @RequestParam("st_num") String st_num,
 			RedirectAttributes rttr) {
-		if(service.deleteSchoolScore(ss_num)){
+		if (service.deleteSchoolScore(ss_num)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/list/" + st_num;
+		return "redirect:/reportcard/schooltest/update?st_num=" + st_num;
 	}
+
+	
+	
 	
 	
 	// LicenseTest
-		@PostMapping("/Licensetest/create")
-		public String createLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
-			String lt_num = service.createLicenseTest(vo);
-			vo.getScorelist().forEach(score -> {
-				score.setLt_num(lt_num);
-				service.createLicenseScore(score);
-			});
+	@GetMapping("/licensetest/create")
+	public String createLicenseTest(@RequestParam("rc_num") String rc_num, Model model) {
+		model.addAttribute("rc_num", rc_num);
+		return "/reportcard/createLicenseTest";
+	}
+
+	@PostMapping("/licensetest/create")
+	public String createLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
+		String lt_num = service.createLicenseTest(vo);
+		vo.getScorelist().forEach(score -> {
+			score.setLt_num(lt_num);
+			service.createLicenseScore(score);
+		});
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/reportcard/read?rc_num=" + vo.getRc_num();
+	}
+
+	@GetMapping("/licensetest/delete")
+	public String deleteLicenseTest(@RequestParam("rc_num") String rc_num, @RequestParam("test_num") String lt_num,
+			RedirectAttributes rttr) {
+		service.deleteLicenseTestScore(lt_num);
+		service.deleteLicenseTest(lt_num);
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/reportcard/read?rc_num=" + rc_num;
+	}
+
+	@GetMapping("/licensetest/update")
+	public String updateLicenseTest(@RequestParam("lt_num") String lt_num, Model model) {
+		model.addAttribute("test", service.readLicenseTest(lt_num));
+		return "/reportcard/updateLicenseTest";
+	}
+
+	@PostMapping("/licensetest/update")
+	public String updateLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
+		service.updateLicenseTest(vo);
+		vo.getScorelist().forEach(score -> {
+			service.updateLicenseScore(score);
+		});
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/reportcard/read?rc_num=" + vo.getRc_num();
+	}
+
+	// LicenseScore
+	@PostMapping("/licensescore/create")
+	public String createLicenseScore(LicenseScoreVO vo, RedirectAttributes rttr) {
+		if (service.createLicenseScore(vo)) {
 			rttr.addFlashAttribute("result", "success");
-			return "redirect:/read/" + vo.getRc_num();
 		}
+		return "redirect:/reportcard/licensetest/update?lt_num=" + vo.getLt_num();
+	}
 
-		@GetMapping("/Licensetest/read/{lt_num}")
-		public void readLicenseTest(@PathVariable("lt_num") String lt_num, Model model) {
-			model.addAttribute("Licensetest", service.readLicenseTest(lt_num));
-		}
-
-		@DeleteMapping("/Licensetest/delete/{rc_num}/{lt_num}")
-		public String deleteLicenseTest(@PathVariable("rc_num") String rc_num, @PathVariable("lt_num") String lt_num,
-				RedirectAttributes rttr) {
-			service.deleteLicenseTestScore(lt_num);
-			service.deleteLicenseTest(lt_num);
+	@GetMapping("/licensescore/delete")
+	public String deleteLicenseScore(@RequestParam("ls_num") String ls_num, @RequestParam("lt_num") String lt_num,
+			RedirectAttributes rttr) {
+		if (service.deleteLicenseScore(ls_num)) {
 			rttr.addFlashAttribute("result", "success");
-			return "redirect:/read/" + rc_num;
 		}
-
-		@PostMapping("/Licensetest/update")
-		public String updateLicenseTest(LicenseTestVO vo, RedirectAttributes rttr) {
-			service.updateLicenseTest(vo);
-			vo.getScorelist().forEach(score -> {
-				service.updateLicenseScore(score);
-			});
-			rttr.addFlashAttribute("result", "success");
-			return "redirect:/Licensetest/read/" + vo.getLt_num();
-		}
-
-		// LicenseScore
-		@PostMapping("/Licensescore/create")
-		public String createLicenseScore(LicenseScoreVO vo, RedirectAttributes rttr) {
-			if(service.createLicenseScore(vo)){
-				rttr.addFlashAttribute("result", "success");
-			}
-			return "redirect:/Licensetest/read/" + vo.getLt_num();
-		}
-
-		@PostMapping("/Licensescore/delete/{ls_num}/{lt_num}")
-		public String deleteLicenseScore(@PathVariable("ls_num") String ls_num, @PathVariable("lt_num") String lt_num,
-				RedirectAttributes rttr) {
-			if(service.deleteLicenseScore(ls_num)){
-				rttr.addFlashAttribute("result", "success");
-			}
-			return "redirect:/list/" + lt_num;
-		}
-
+		return "redirect:/reportcard/licensetest/update?lt_num=" + lt_num;
+	}
 }
