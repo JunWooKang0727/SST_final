@@ -13,6 +13,7 @@
 		<org.aspectj-version>1.9.0</org.aspectj-version>
 		<org.slf4j-version>1.7.25</org.slf4j-version>
 	</properties>
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -229,8 +230,10 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.0.6.RELEASE</version>
 		</dependency>
-
-
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency> <groupId>org.apache.pdfbox</groupId> 
+		<artifactId>pdfbox</artifactId> 
+		<version>2.0.19</version> </dependency>
 
 	</dependencies>
 
