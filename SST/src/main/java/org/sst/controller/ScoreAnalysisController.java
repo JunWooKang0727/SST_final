@@ -24,8 +24,18 @@ public class ScoreAnalysisController {
 	
 	@GetMapping(value = "/schoolallscore/{rc_num}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<HashMap> getSchoolAllScore(@PathVariable("rc_num") String rc_num) {
-		
 		return new ResponseEntity<>(service.allSubjectScoreSchoolTest(rc_num), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/schoolaverage/{rc_num}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<HashMap> getSchoolAverage(@PathVariable("rc_num") String rc_num) {
+		
+		return new ResponseEntity<>(service.averageSchoolTest(rc_num), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/licenseallscore/{rc_num}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<HashMap> getLicenseAllScore(@PathVariable("rc_num") String rc_num) {
+		return new ResponseEntity<>(service.allSubjectScoreLicenseTest(rc_num), HttpStatus.OK);
 	}
 
 }

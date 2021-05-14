@@ -181,7 +181,7 @@
 	
 	
 	
-	<select id="selectReportCardSubject" parameterType="String"
+	<select id="schoolTestSubjects" parameterType="String"
 		resultType="String">
 		select distinct ss_name from schooltest,schoolscore,reportcard where
 		schooltest.st_num = schoolscore.st_num and reportcard.rc_num = schooltest.rc_num and
@@ -216,7 +216,7 @@
 		order by st_date
 	</select>
 	
-	<!-- <select id="allLicenseSubjectAverage" resultType="java.util.LinkedHashMap"
+	<select id="allSubjectScoreLicenseTest" resultType="java.util.LinkedHashMap"
 		parameterType="java.util.HashMap">
 		select (lt_test ||' '|| lt_round ||'회차
 		') as info,
@@ -234,13 +234,14 @@
 		reportcard.rc_num=#{rc_num})
 		group by lt_test,lt_round,lt_date order by lt_date
 	</select>
-	<select id="selectRCLicenseTestSubject" parameterType="String"
+	
+	<select id="licenseTestSubjects" parameterType="String"
 		resultType="String"> select distinct ls_name FROM
 		licensescore,licensetest,reportcard where licensescore.lt_num =
 		licensetest.lt_num
 		and reportcard.rc_num = licensetest.rc_num and
 		reportcard.rc_num=#{rc_num}
-	</select>  -->
+	</select>  
 
 </mapper>
 

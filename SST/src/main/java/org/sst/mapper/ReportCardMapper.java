@@ -45,8 +45,8 @@ public interface ReportCardMapper {
 	
 	List<HashMap> averageSchoolTest(String rc_num);
 	List<HashMap> allSubjectScoreSchoolTest(HashMap map);
-	List<String> selectReportCardSubject(String rc_num);
+	List<String> schoolTestSubjects(String rc_num);
 	
-	List<HashMap> allLicenseSubjectAverage(HashMap map);
-	List<String> selectRCLicenseTestSubject(String rc_num);
+	List<HashMap> allSubjectScoreLicenseTest(HashMap map);
+	List<String> licenseTestSubjects(String rc_num);
 }

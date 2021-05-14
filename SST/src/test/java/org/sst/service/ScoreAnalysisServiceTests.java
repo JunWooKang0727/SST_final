@@ -23,7 +23,7 @@ public class ScoreAnalysisServiceTests {
 	
 	@Test
 	public void testAvg(){
-		log.info(service.allSubjectAverage("rc4"));
+		log.info(service.averageSchoolTest("rc4"));
 	}
 
 }
