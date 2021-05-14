@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- spring security tag-lib 사용을 위해 use-expression="true" 설정을 해야한다 -->
+	<security:http use-expressions="true">
+		<!-- 메인 페이지 모두허용 / 로그인 후 페이지 MEMBER_ROLE 만 허용 -->
+		<security:intercept-url pattern="/member/main" access="permitAll"/> 
+		<security:intercept-url pattern="/member/home" access="hasRole('MEMBER_ROLE')"/>
+		<!-- Custom 로그인 페이지 -->
+		<security:form-login login-page="/member/login"/>
+	</security:http>
+	<security:authentication-manager>
+		
+	</security:authentication-manager>
+</beans>

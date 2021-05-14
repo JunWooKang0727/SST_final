@@ -56,10 +56,10 @@ public class MemberController {
 	
 	// 아이디 중복 체크
 	@ResponseBody
-	@PostMapping("/checkId")
-	public String CheckId(@RequestBody String id){
+	@GetMapping("/checkId")
+	public String CheckId(@RequestParam(value="id") String id){
 		log.info(id);
-		log.info("[Member Id Check Post]" + " : " + id.replace("=", ""));
+		log.info("[Member Id Check Get]" + " : " + id.replace("=", ""));
 		int id_result = service.memberIdCount(id.replace("=", ""));
 		if(id_result == 0){
 			return "success";

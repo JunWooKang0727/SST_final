@@ -10,7 +10,7 @@
 	<h1>로그인 페이지</h1>
 	<form action="/member/login" method="post">
 		id : <input type="text" name="username">
-		pw : <input type="text" name="password">
+		pw : <input type="password" name="password">
 		<input type="submit" value="로그인">
 		<input type="hidden" name="${_csrf.parameterName }" value="_csrf.token" />
 	</form>

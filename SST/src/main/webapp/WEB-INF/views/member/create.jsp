@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script src="../../resources/js/member_create.js"></script>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -40,8 +39,8 @@
                                     </div>
                                     <div class="col-sm-3">
                                     	<!-- submit 방지를 위해 type="button" 설정 -->
-                                        <button id="duplicate_id" type="button" class="btn btn-success btn-user btn-block">
-                                    		중복체크
+                                    	<button id="duplicate_id" type="button" class="btn btn-success btn-user btn-block">
+                                    	중복체크
                                 		</button>
                                     </div>
                                 </div>
@@ -74,6 +73,8 @@
                                 <a href="index.html" class="btn btn-warning btn-user btn-block">
                                     <i class="fab fa-fw"></i> 카카오톡으로 회원가입
                                 </a> -->
+                                <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+                            	<security></security>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -91,11 +92,10 @@
     </div>
 
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
+    <script src="../../resources/js/member_create.js"></script>
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
-
 </body>
 
 </html>
