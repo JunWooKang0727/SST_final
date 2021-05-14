@@ -1,16 +1,12 @@
 var result = "";
+var rc_num = $('#rc-num').val();
 $.ajax({
-	url : '/SST/ReportCard/averageALLLicenseRCAction.do',
+	url : '/scoreanalysis/licenseallscore/'+rc_num,
 	type : 'GET',
-	dataType : 'text',
-	async : false,
-	data : {
-		"rc_num" : $('#rc-num').val()
-	},
+	dataType : 'json',
 	success : function(data) {
 		result = data;
 	},
-	interpolateNulls : true
 });
 $("#chart-change").change(
 		function() {

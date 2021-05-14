@@ -161,7 +161,7 @@
     <script src="/resources/vendor/chart.js/Chart.min.js"></script>
     <script src="/resources/js/license_chart.js?ver=4"></script>
 
-<c:set var="current" value="${ltlist[fn:length(ltlist)-1]}"></c:set>
+<c:set var="current" value="${licenseTestList[fn:length(licenseTestList)-1]}"></c:set>
 	<script type="text/javascript">
 		var data = {
 			labels : [ 
