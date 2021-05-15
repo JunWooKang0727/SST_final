@@ -15,5 +15,6 @@ public class MemberVO {
 	private String m_phone;
 	private String m_birth;
 	private String m_email;
+	private boolean enabled;
 	private List<MemberAuthVO> authList;
 }

@@ -74,7 +74,6 @@
                                     <i class="fab fa-fw"></i> 카카오톡으로 회원가입
                                 </a> -->
                                 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
-                            	<security></security>
                             </form>
                             <hr>
                             <div class="text-center">

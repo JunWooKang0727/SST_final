@@ -12,7 +12,7 @@
 	
 	<!-- 권한 추가 -->
 	<insert id="memberAuth" parameterType="String">
-		insert into memberauth (USERNAME, AUTH) values(#{id}, "Member_ROLE")
+		insert into memberauth (M_ID, AUTH) values(#{id}, 'ROLE_MEMBER')
 	</insert>
 	
 	<!-- 회원정보 조회 -->
@@ -37,6 +37,25 @@
 	</select>
 	
 	<resultMap type="org.sst.domain.MemberVO" id="memberMap">
-		
+		<id property="m_id" column="m_id"/>
+		<result property="m_id" column="m_id"/>
+		<result property="m_pw" column="m_pw"/>
+		<result property="m_name" column="m_name"/>
+		<result property="m_phone" column="m_phone"/>
+		<result property="m_birth" column="m_birth"/>
+		<result property="m_email" column="m_email"/>
+ 		<!-- <result property="enabled" column="enabled"/> -->
+		<collection property="authList" resultMap="authMap"></collection>
 	</resultMap>
+	
+	<resultMap type="org.sst.domain.MemberAuthVO" id="authMap">
+		<result property="m_id" column="m_id"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="MemberloginRead" resultMap="memberMap">
+		select mem.m_id, m_pw, m_name, m_phone, m_birth, m_email, enabled, auth
+		from member mem LEFT OUTER JOIN memberauth auth on mem.m_id = auth.m_id
+		where mem.m_id = #{id}
+	</select>
  </mapper>
