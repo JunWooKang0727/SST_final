@@ -37,9 +37,6 @@
 		<security:intercept-url pattern="/member/create" access="isAnonymous()"/>
 		<security:intercept-url pattern="/member/main" access="permitAll"/> 
 		<security:intercept-url pattern="/member/home" access="hasRole('ROLE_MEMBER')"/>
-		
-		
-		
 	</security:http>
 	
 	<security:authentication-manager>
