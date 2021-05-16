@@ -32,11 +32,18 @@
 		delete-cookies="true" logout-success-url="/member/main"/>
 		
 		<!-- 메인 페이지 모두허용 / 로그인 후 페이지 MEMBER_ROLE 만 허용 -->
-		<!-- 먼저 설정한 접근 권한이 우선순위를 갖는다 -->
+		<!-- 먼저 설정한 접근 권한이 우선순위를 갖는다 해결필요-->
+		<!-- 허용할 범위 > 금지된 범위 -->
+		<security:intercept-url pattern="/member/main" access="permitAll"/>
+		<security:intercept-url pattern="/member/joinFin" access="permitAll"/>
 		<security:intercept-url pattern="/member/login" access="isAnonymous()"/>
 		<security:intercept-url pattern="/member/create" access="isAnonymous()"/>
-		<security:intercept-url pattern="/member/main" access="permitAll"/> 
+		<security:intercept-url pattern="/member/checkId" access="isAnonymous()"/>
 		<security:intercept-url pattern="/member/home" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/member/read" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/member/delete" access="hasRole('ROLE_MEMBER')"/>
+		<!-- /group 하위에 있는 모든 페이지에 ROLE_MEMBER을 갖고있는 사람만 접근 가능 -->
+		<security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
 	</security:http>
 	
 	<security:authentication-manager>

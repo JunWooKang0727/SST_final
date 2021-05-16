@@ -17,7 +17,7 @@
         rel="stylesheet">
 
     <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
-	<link href="../../resources/css/member.css" rel="stylesheet">
+	<link href="/../../resources/css/member.css" rel="stylesheet">
 </head>
 
 <body class="main-bg memback">
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input name="m_name" type="text" class="form-control form-control-user"
-                                        placeholder="이름을 입력하세요 ex) study@study.com">
+                                        placeholder="이름을 입력하세요 ex) name">
                                 </div>
                                 <div class="form-group">
                                     <input name="m_email" type="email" class="form-control form-control-user"
@@ -91,10 +91,10 @@
     </div>
 
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
-    <script src="../../resources/js/member_create.js"></script>
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
+    <script src="../../resources/js/member/member_create.js"></script>
 </body>
 
 </html>

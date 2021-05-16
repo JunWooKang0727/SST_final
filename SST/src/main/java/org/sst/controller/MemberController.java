@@ -1,7 +1,14 @@
 package org.sst.controller;
 
+import java.security.Principal;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,15 +81,43 @@ public class MemberController {
 		}
 	}
 	
+	@GetMapping("/read")
+	public void memberRead(Principal principal, Model model){
+		String id = principal.getName();
+		log.info("member get.......");
+		model.addAttribute("member", service.memberGet(id));
+	}
+	
+	@PostMapping("/update")
+	public String memberUpdate(MemberVO member){
+		service.memberModify(member);
+		log.info("member update.......");
+		return "redirect:/member/read";
+	}
+	
+	@GetMapping("/delete")
+	public void memberDelete(){
+		log.info("member delete page............");
+	}
+	
+	@PostMapping("/delete")
+	public String memberDelete(Principal principal, @RequestParam("password") String password){
+		MemberVO member = service.memberGet(principal.getName());
+		boolean result = pwEncoder.matches(password, member.getM_pw());
+		
+		if(result == true){
+			service.memberRemove(principal.getName());
+			SecurityContextHolder.clearContext();
+			log.info("회원탈퇴 성공");
+			return "redirect:/member/main";
+		}
+		return "redirect:/member/delete";
+	}
+	
 	// 로그인 페이지
 	@GetMapping("/login")
 	public void MemberLogin(){
 		log.info("[Member login Get]");
 	}
 	
-	// 로그아웃 처리
-	/*@GetMapping("/logout")
-	public void MemberLogout(){
-		
-	}*/
 }

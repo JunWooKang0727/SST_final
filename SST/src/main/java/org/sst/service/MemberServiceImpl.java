@@ -34,9 +34,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean memberRemove(MemberVO member) {
-		log.info("[member Remove]" + member);
-		return mapper.memberDelete(member) == 1;
+	public boolean memberRemove(String id) {
+		log.info("[member Remove]" + id);
+		return mapper.memberDelete(id) == 1;
 	}
 
 	@Override

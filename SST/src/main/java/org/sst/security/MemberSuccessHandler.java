@@ -35,7 +35,7 @@ public class MemberSuccessHandler implements AuthenticationSuccessHandler {
 		roleNames.forEach(s -> log.info(s));
 		if(roleNames.contains("ROLE_MEMBER")){
 			log.info("hello");
-			response.sendRedirect("/member/home");
+			response.sendRedirect("/group/main");
 			return;
 		}
 		// 권한 없으면 /member/main으로 이동

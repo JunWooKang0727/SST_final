@@ -12,7 +12,7 @@ public interface MemberMapper {
 		// 회원정보 수정
 		public int memberUpdate(MemberVO member);
 		// 회원정보 삭제
-		public int memberDelete(MemberVO member);
+		public int memberDelete(String id);
 		// 아이디 중복 체크
 		public int memberIdCheck(String id);
 		// 로그인 정보 읽기

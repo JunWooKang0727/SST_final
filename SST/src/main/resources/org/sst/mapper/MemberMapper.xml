@@ -17,7 +17,7 @@
 	
 	<!-- 회원정보 조회 -->
 	<select id="memberRead" resultType="org.sst.domain.MemberVO">
-		select M_ID, M_NAME, M_PHONE, M_BIRTH, M_EMAIL from member where M_ID = #{id}
+		select M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL from member where M_ID = #{id}
 	</select>
 	
 	<!-- 회원정보 수정 -->
@@ -26,10 +26,10 @@
 		M_EMAIL = #{m_email} where M_ID = #{m_id}
 	</update>
 	
-	<!-- 회원탈퇴 -->
-	<delete id="memberDelete" parameterType="org.sst.domain.MemberVO">
-		delete from member where M_ID = #{m_id} and M_PW = #{m_pw}
-	</delete>
+	<!-- 회원탈퇴 : 삭제가 아닌 비활성화 처리 -->
+ 	<update id="memberDelete" parameterType="String">
+		update member set enabled = '0' where M_ID = #{id}
+	</update>
 	
 	<!-- 아이디 중복 체크 -->
 	<select id="memberIdCheck" resultType="int">
