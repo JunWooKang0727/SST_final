@@ -85,7 +85,7 @@ public class StudyNoteController {
 
 		log.info("remove..." + sn_num);
 
-		//List<BoardAttachVO> attachList = service.getAttachList(bno);
+		//List<BoardAttachVO> attachList = service.getAttachList(bno);f
 		service.delete(sn_num);
 /*		if (service.remove(bno)) {
 
