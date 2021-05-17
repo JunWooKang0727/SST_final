@@ -1,6 +1,14 @@
 package org.sst.controller;
 
+import java.security.Principal;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +29,9 @@ import lombok.extern.log4j.Log4j;
 public class MemberController {
 	
 	private MemberService service;
+	
+	private BCryptPasswordEncoder pwEncoder;
+	
 	
 	// 메인 페이지 : 모두 접근 가능
 	@GetMapping({"/main", "/logout"})
@@ -44,6 +55,7 @@ public class MemberController {
 	@PostMapping("/create")
 	public String signUp(MemberVO member, RedirectAttributes rttr){
 		log.info("[Member SignUp POST]" + member);
+		member.setM_pw(pwEncoder.encode(member.getM_pw()));
 		service.memberSignup(member);
 		return "redirect:/member/joinFin";
 	}
@@ -56,16 +68,50 @@ public class MemberController {
 	
 	// 아이디 중복 체크
 	@ResponseBody
-	@PostMapping("/checkId")
-	public String CheckId(@RequestBody String id){
+	@GetMapping("/checkId")
+	public String CheckId(@RequestParam(value="id") String id){
 		log.info(id);
-		log.info("[Member Id Check Post]" + " : " + id.replace("=", ""));
-		int id_result = service.memberIdCount(id.replace("=", ""));
+		log.info("[Member Id Check Get]" + " : " + id);
+		//int id_result = service.memberIdCount(id.replace("=", ""));
+		int id_result = service.memberIdCount(id);
 		if(id_result == 0){
 			return "success";
 		} else {
 			return "fail";
 		}
+	}
+	
+	@GetMapping("/read")
+	public void memberRead(Principal principal, Model model){
+		String id = principal.getName();
+		log.info("member get.......");
+		model.addAttribute("member", service.memberGet(id));
+	}
+	
+	@PostMapping("/update")
+	public String memberUpdate(MemberVO member){
+		service.memberModify(member);
+		log.info("member update.......");
+		return "redirect:/member/read";
+	}
+	
+	@GetMapping("/delete")
+	public void memberDelete(){
+		log.info("member delete page............");
+	}
+	
+	@PostMapping("/delete")
+	public String memberDelete(Principal principal, @RequestParam("password") String password){
+		MemberVO member = service.memberGet(principal.getName());
+		boolean result = pwEncoder.matches(password, member.getM_pw());
+		
+		if(result == true){
+			service.memberRemove(principal.getName());
+			SecurityContextHolder.clearContext();
+			log.info("회원탈퇴 성공");
+			return "redirect:/member/main";
+		}
+		return "redirect:/member/delete";
 	}
 	
 	// 로그인 페이지
@@ -74,9 +120,4 @@ public class MemberController {
 		log.info("[Member login Get]");
 	}
 	
-	// 로그아웃 처리
-	/*@GetMapping("/logout")
-	public void MemberLogout(){
-		
-	}*/
 }

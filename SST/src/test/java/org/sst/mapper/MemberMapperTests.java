@@ -18,7 +18,7 @@ public class MemberMapperTests {
 	private MemberMapper mapper;
 	
 	// 회원가입
-	@Test
+	/*@Test
 	public void testMemberInsert(){
 		MemberVO mem = new MemberVO();
 		mem.setM_id("test0620");
@@ -29,38 +29,44 @@ public class MemberMapperTests {
 		mem.setM_name("test0620");
 		mapper.memberInsert(mem);
 		log.info(mem);
-	}
+	}*/
 	
 	// 회원정보 조회
-	@Test
+	/*@Test
 	public void testMemberRead(){
 		MemberVO mem = mapper.memberRead("test0620");
 		log.info(mem);
-	}
+	}*/
 	
 	// 회원정보 수정
-	@Test
+	/*@Test
 	public void testMemberModify(){
 		MemberVO mem = mapper.memberRead("test0620");
 		mem.setM_phone("11111");
 		mapper.memberUpdate(mem);
-	}
+	}*/
 
 	// 회원탈퇴
-	@Test
+	/*@Test
 	public void testMemberDelete(){
 		MemberVO mem = new MemberVO();
 		mem.setM_id("test0620");
 		mem.setM_pw("test0510");
 		mapper.memberDelete(mem);
-	}
+	}*/
 	
 	// 아이디 중복 확인
-	
-	@Test
+	/*@Test
 	public void testMemberIdCheck(){
 		int count = mapper.memberIdCheck("member01");
 		log.info(count);
+	}*/
+	
+	@Test
+	public void testMemberLoginRead(){
+		MemberVO member = mapper.MemberloginRead("zs");
+		log.info(member);
+		member.getAuthList().forEach(authVO -> log.info(authVO));
 	}
 	
 }
