@@ -19,6 +19,9 @@
 	min-height:300px;
 	border: 1px solid #ebecef;
 	background: white;
+<<<<<<< HEAD
+	padding: 20px;
+	color: black;
 }
 
 .studyNoteFormWrap{
@@ -31,4 +34,22 @@
 
 .formBtnWrap{
 	margin-top: 20px;
+}
+
+.input_contents_wrap{
+	
+=======
+}
+
+.studyNoteFormWrap{
+	width: 100%;
+}
+
+.input_tools_wrap{
+	margin: 20px 0px;
+}
+
+.formBtnWrap{
+	margin-top: 20px;
+>>>>>>> refs/remotes/origin/main
 }

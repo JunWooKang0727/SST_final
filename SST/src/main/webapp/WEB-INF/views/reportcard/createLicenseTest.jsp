@@ -15,13 +15,14 @@
 
 <title>SST</title>
 
-<link href="/resources/css/personalstudy.css" rel="stylesheet">
+<link href="/sst/resources/css/personalstudy.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sidemenu -->
+
 		<%@include file="../template/sidemenu.jsp"%>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -45,7 +46,7 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">시험 정보 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/reportcard/licensetest/create" method="post"
+									<form action="/sst/reportcard/licensetest/create" method="post"
 										class="centerform">
 										<input type="hidden" name="rc_num" value="${rc_num}">
 										시험명: <input type="text" name="lt_test" placeholder="시험명을 입력해주세요." class="form-control" required><br>
@@ -74,6 +75,7 @@
 			<!-- End of Main Content -->
 			<!-- Footer -->
 			<%@include file="../template/footer.jsp"%>
+
 			<!-- End of Footer -->
 		</div>
 		<!-- End of Content Wrapper -->
@@ -84,7 +86,7 @@
 		class="fas fa-angle-up"></i>
 	</a>
 	<!-- Custom scripts for all pages-->
-	<script src="/resources/js/personalstudy.js"></script>
+	<script src="/sst/resources/js/personalstudy.js"></script>
 
 </body>
 </html>

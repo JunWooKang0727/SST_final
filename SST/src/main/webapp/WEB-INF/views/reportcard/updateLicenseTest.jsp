@@ -15,7 +15,7 @@
 
 <title>SST</title>
 <!-- Custom styles for this template-->
-<link href="/resources/css/personalstudy.css" rel="stylesheet">
+<link href="/sst/resources/css/personalstudy.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -45,7 +45,7 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">시험 정보 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/reportcard/licensetest/update" method="post"
+									<form action="/sst/reportcard/licensetest/update" method="post"
 										class="centerform">
 										<input type="hidden" name="rc_num" value="${test.rc_num}">
 										<input type="hidden" name="lt_num" value="${test.lt_num}">
@@ -60,7 +60,7 @@
 										취득 점수 : <input type="number" name="scorelist[${status.count-1 }].ls_score" value="${score.ls_score}" class="form-control "  min="1" max="500" required><br>
 										목표 점수 : <input type="number" name="scorelist[${status.count-1 }].ls_goal" value="${score.ls_goal}" class="form-control "  min="1" max="500" required>
 										<br>
-										<a class="float-right text-danger" href="/reportcard/licensescore/delete?lt_num=${test.lt_num}&ls_num=${score.ls_num}">삭제</a>
+										<a class="float-right text-danger" href="/sst/reportcard/licensescore/delete?lt_num=${test.lt_num}&ls_num=${score.ls_num}">삭제</a>
 										<br>
 										</c:forEach>
 										
@@ -72,7 +72,7 @@
 										</a> 과목 점수 추가하기 <br><hr>
 										<input class="btn btn-info" type="submit" value="수정">
 										<button type="button" class="btn btn-danger"
-													onclick="location.href='/reportcard/licensetest/delete?rc_num=${test.rc_num}&test_num=${test.lt_num}'">삭제</button>
+													onclick="location.href='/sst/reportcard/licensetest/delete?rc_num=${test.rc_num}&test_num=${test.lt_num}'">삭제</button>
 									</form>
 								</div>
 							</div>
@@ -104,7 +104,7 @@
 						aria-label="Close">
 					</button>
 				</div>
-				<form action="/reportcard/licensescore/create" method="post">
+				<form action="/sst/reportcard/licensescore/create" method="post">
 				<div class="modal-body">
 						<input type="hidden" name="lt_num" value="${test.lt_num}">
 						과목 : <input type="text" name="ls_name" placeholder="과목명 입력해주세요." class="form-control" required><br> 

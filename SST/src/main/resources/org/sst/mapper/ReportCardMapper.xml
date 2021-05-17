@@ -180,16 +180,15 @@
 	</update>
 	
 	
-	<!--
-	<select id="selectReportCardSubject" parameterType="String"
+	
+	<select id="schoolTestSubjects" parameterType="String"
 		resultType="String">
 		select distinct ss_name from schooltest,schoolscore,reportcard where
-		schooltest.st_num
-		= schoolscore.st_num and reportcard.rc_num = schooltest.rc_num and
+		schooltest.st_num = schoolscore.st_num and reportcard.rc_num = schooltest.rc_num and
 		reportcard.rc_num=#{rc_num}
 	</select>
-	 <select id="averageSchoolTest" parameterType="String"
-		resultType="SchoolTestVO">
+	
+	 <select id="averageSchoolTest" parameterType="String" resultType="java.util.LinkedHashMap">
 		select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as st_test ,
 		avg(ss_score)
 		as avg from schooltest,schoolscore,reportcard where schooltest.st_num =
@@ -198,11 +197,10 @@
 		group
 		by st_year,st_semester,st_test,st_date
 	</select>
-	<select id="allSubjectAverage" resultType="java.util.LinkedHashMap"
+	
+	<select id="allSubjectScoreSchoolTest" resultType="java.util.LinkedHashMap"
 		parameterType="java.util.HashMap">
-		Search
-		search select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as info,
-		WHERE (title LIKE %aa% OR writer LIKE %aa%)
+		select (st_year ||'학년 '|| st_semester ||'학기 '|| st_test) as info,
 		<foreach collection="list" item="item" separator=",">
 			round(avg(${item})) as ${item} </foreach>
 		FROM( select st_year,st_semester,st_test,st_date,
@@ -217,7 +215,8 @@
 		st_year,st_semester,st_test,st_date
 		order by st_date
 	</select>
-	<select id="allLicenseSubjectAverage" resultType="java.util.LinkedHashMap"
+	
+	<select id="allSubjectScoreLicenseTest" resultType="java.util.LinkedHashMap"
 		parameterType="java.util.HashMap">
 		select (lt_test ||' '|| lt_round ||'회차
 		') as info,
@@ -235,13 +234,14 @@
 		reportcard.rc_num=#{rc_num})
 		group by lt_test,lt_round,lt_date order by lt_date
 	</select>
-	<select id="selectRCLicenseTestSubject" parameterType="String"
+	
+	<select id="licenseTestSubjects" parameterType="String"
 		resultType="String"> select distinct ls_name FROM
 		licensescore,licensetest,reportcard where licensescore.lt_num =
 		licensetest.lt_num
 		and reportcard.rc_num = licensetest.rc_num and
 		reportcard.rc_num=#{rc_num}
-	</select> -->
+	</select>  
 
 </mapper>
 
