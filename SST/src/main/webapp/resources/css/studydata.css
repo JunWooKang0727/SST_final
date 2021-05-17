@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+.filebox{
+    outline: 2px dashed #92b0b3 ;
+    outline-offset:-10px;  
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width: 800px;
+    height: 500px;
+    background-color: gray;
+}
+
+
+.fileObj{
+	
+	border: 1px solid blue;
+	
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.sst.mapper.StudyDataMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
+	<cache />
+
+	<insert id="insert">
+	
+		insert into studydata (uuid, uploadPath, filename, filetype, g_num, uploader)
+		values(#{uuid}, #{uploadPath},#{fileName},#{fileType},#{g_num},#{uploader})
+	
+	</insert>
+	
+	
+	<select id="findByG_num">
+	
+		select * from studydata where g_num = #{g_num}
+	
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
