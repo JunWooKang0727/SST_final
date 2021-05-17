@@ -8,11 +8,11 @@ import org.sst.domain.WANoteVO;
 
 public interface WANoteMapper {
 	List<WANoteVO> listWANote(String m_id);
-	
-	List<WANoteVO> listWithPagingWANote(HashMap map);
 	int createWANote(WANoteVO vo);
 	int updateWANote(WANoteVO vo);
 	int deleteWANote(String w_num);
 	WANoteVO readWANote(String w_num);
 	
+	List<WANoteVO> listWithPagingWANote(HashMap map);
+	int getTotalCount(HashMap map);
 }

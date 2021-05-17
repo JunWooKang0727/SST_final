@@ -5,7 +5,7 @@
 
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item='type' collection='cri.typeArr'>
+			<foreach item='type' collection='typeArr'>
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'T'.toString()">
@@ -49,7 +49,7 @@
 
 
 	<select id="getTotalCount" resultType="int">
-		select count(*) from tbl_board where
+		select count(*) from wanote where
 		<include refid="criteria"></include>
 		 m_id=#{m_id}
 	</select>

@@ -4,7 +4,7 @@ var chart = (function(){
 	var result2 ="";
 	
 	$.ajax({
-		url : '/scoreanalysis/schoolallscore/' + rc_num,
+		url : '/sst/scoreanalysis/schoolallscore/' + rc_num,
 		type : 'GET',
 		dataType : 'json',
 		success : function(data) {
@@ -13,7 +13,7 @@ var chart = (function(){
 	});
 	
 	$.ajax({
-		url : '/scoreanalysis/schoolaverage/' + rc_num,
+		url : '/sst/scoreanalysis/schoolaverage/' + rc_num,
 		type : 'GET',
 		dataType : 'json',
 		success : function(data) {

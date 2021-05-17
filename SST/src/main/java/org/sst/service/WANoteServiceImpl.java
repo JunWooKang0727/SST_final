@@ -1,11 +1,11 @@
 package org.sst.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sst.domain.WANoteVO;
-import org.sst.mapper.ReportCardMapper;
 import org.sst.mapper.WANoteMapper;
 
 import lombok.Setter;
@@ -39,6 +39,18 @@ public class WANoteServiceImpl implements WANoteService{
 	@Override
 	public WANoteVO readWANote(String w_num) {
 		return mapper.readWANote(w_num);
+	}
+
+	@Override
+	public List<WANoteVO> listWithPagingWANote(HashMap map) {
+		// TODO Auto-generated method stub
+		return mapper.listWithPagingWANote(map);
+	}
+
+	@Override
+	public int getTotalCount(HashMap map) {
+		// TODO Auto-generated method stub
+		return mapper.getTotalCount(map);
 	}
 
 }

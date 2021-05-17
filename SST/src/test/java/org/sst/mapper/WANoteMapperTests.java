@@ -35,7 +35,7 @@ public class WANoteMapperTests {
 //	}
 	
 //	@Test
-//	public void testList() {
+//	public void testList1() {
 //		log.info(mapper.listWANote("ggy"));
 //	}
 	
@@ -63,13 +63,23 @@ public class WANoteMapperTests {
 //		log.info(mapper.deleteWANote("w2"));
 //	}
 	
-	@Test
-	public void testList() {
-		HashMap map = new HashMap<>();
-		map.put("m_id", "ggy");
-		map.put("cri", new Criteria(1,3));
-		log.info(mapper.listWithPagingWANote(map));
-	}
+//	@Test
+//	public void testList2() {
+//		HashMap map = new HashMap<>();
+//		map.put("m_id", "ggy");
+//		map.put("cri", new Criteria(1,3));
+//		map.put("typeArr", new Criteria(1,3).getTypeArr());
+//		log.info(mapper.listWithPagingWANote(map));
+//	}
+	
+//	@Test
+//	public void testCount() {
+//		HashMap map = new HashMap<>();
+//		map.put("m_id", "ggy");
+//		map.put("cri", new Criteria(1,3));
+//		map.put("typeArr", new Criteria(1,3).getTypeArr());
+//		log.info(mapper.getTotalCount(map));
+//	}
 	
 
 }

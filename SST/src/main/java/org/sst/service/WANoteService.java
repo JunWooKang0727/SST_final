@@ -1,5 +1,6 @@
 package org.sst.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.sst.domain.WANoteVO;
@@ -10,4 +11,7 @@ public interface WANoteService {
 	boolean  updateWANote(WANoteVO vo);
 	boolean  deleteWANote(String w_num);
 	WANoteVO readWANote(String w_num);
+	
+	List<WANoteVO> listWithPagingWANote(HashMap map);
+	int getTotalCount(HashMap map);
 }

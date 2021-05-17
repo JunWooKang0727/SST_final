@@ -1,7 +1,7 @@
 var result = "";
 var rc_num = $('#rc-num').val();
 $.ajax({
-	url : '/scoreanalysis/licenseallscore/'+rc_num,
+	url : '/sst/scoreanalysis/licenseallscore/'+rc_num,
 	type : 'GET',
 	dataType : 'json',
 	success : function(data) {

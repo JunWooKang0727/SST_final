@@ -45,17 +45,25 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/reportcard/licensetest/create" method="post"
+									<form action="/wanote/create" method="post"
 										class="centerform">
-										<input type="hidden" name="rc_num" value="${rc_num}">
-										시험명: <input type="text" name="lt_test" placeholder="시험명을 입력해주세요." class="form-control" required><br>
-										회차: <input type="number" name="lt_round" placeholder="시험 회차를 입력해주세요." class="form-control"  min="1" max="1000" required><br>  
-										시험 날짜:<input type="date" name="lt_date" class="form-control" required> <br>
+										<input type="hidden" name="m_id" value="ggy">
+										제목: <input type="text" name="w_title" placeholder="시험명을 입력해주세요." class="form-control" required><br>
+										문제: <input type="number" name="w_question" placeholder="시험 회차를 입력해주세요." class="form-control"  min="1" max="1000" required><br>  
+										정답과 풀이: <input type="text" name="w_answer" placeholder="정답과 문제 풀이를 입력해 주세요." class="form-control" required><br>
 										<hr>
-										과목1 : <input type="text" name="scorelist[0].ls_name" placeholder="과목명 입력해주세요." class="form-control" required><br>
-										획득 점수 : <input type="number" name="scorelist[0].ls_score" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="500" required><br>
-										목표 점수 : <input type="number" name="scorelist[0].ls_goal" placeholder="목표점수를 입력해주세요." class="form-control "  min="1" max="500" required>
-										<br>
+										틀린 이유: 
+											<select class="form-control " name="w_reason" id="w_reason" required>
+											<option value="초등학교성적">문제 파악 미흡</option>
+											<option value="중학교성적">해당내용에 대한 이해 부족</option>
+											<option value="고등학교성적">예상치 못한 문제</option>
+											<option value="License">계산 실수</option>
+											<option value="Language">단순 실수</option>
+										</select><br> 
+										과목: <input type="text" name="w_subject" placeholder="시험명을 입력해주세요." class="form-control" required><br>
+										해시태그: <input type="text" name="tag" placeholder="시험명을 입력해주세요." class="form-control" required><br>
+										<hr>
+										
 										<div id="plus_score_input">
 										</div>
 										 <a class="btn btn-success btn-circle" id="plus_licensescore">
@@ -85,7 +93,6 @@
 		class="fas fa-angle-up"></i>
 	</a>
 	<!-- Custom scripts for all pages-->
-	<script src="/resources/js/personalstudy.js"></script>
 
 </body>
 </html>
