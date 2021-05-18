@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +40,7 @@ public class StudyDataController {
 	
 	
 	@PostMapping("/uploadAjax")
-	public void uploadAjaxPost(MultipartFile[] uploadFile){
+	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile){
 		
 		log.info("upate ajax post...........................");
 		
@@ -73,20 +78,40 @@ public class StudyDataController {
 			} catch(Exception e){
 				log.error(e.getMessage());
 			}
-			
-			
-			
 		}// end for : multipartFile
+		
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}// end uploadAjaxPost
 	
 	
 	@GetMapping(value="/list",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<StudyDataVO>> getFileList(String g_num){
+
+		return new ResponseEntity<List<StudyDataVO>>(service.getList(g_num, ""), HttpStatus.OK);
+
+	}//end getFileList
+	
+	
+	@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName){
 		
-		service.getList(g_num, "");
+		Resource resource = new FileSystemResource("e:\\upload\\1\\"+fileName);
 		
-		return null;
+		log.info(resource);
+		
+		String resourceName = resource.getFilename();
+		
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			headers.add("Content-Disposition", "attachment; filename="+new String(resourceName.getBytes("UTF-8"),
+					"ISO-8859-1"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new ResponseEntity<Resource>(resource, headers,HttpStatus.OK);
 	}
 
 }
