@@ -20,17 +20,19 @@ import org.jsoup.select.Elements;
 public class Crawler {
 	static String exUrl = "https://wdown.ebsi.co.kr/W61001/01exam";
 	
-	public static void getEx(String downP,String downH) throws IOException{
+	public static void getEx(String downP,String downH, String path) throws IOException{
+		//파라미터 == path
 		int fileNameIndex = exUrl.length();
 		System.out.println(downP.substring(fileNameIndex+14)+"문제파일이름입니다.");
 		InputStream in = new URL(downP).openStream();
 		//파일 카피해버리기.
-		Files.copy(in, Paths.get("C:/upload/new/"+downP.substring(fileNameIndex+14)), StandardCopyOption.REPLACE_EXISTING);
+		//String path = "C:/upload/new/";
+		Files.copy(in, Paths.get(path+downP.substring(fileNameIndex+14)), StandardCopyOption.REPLACE_EXISTING);
 		in.close();
 		System.out.println(downH.substring(fileNameIndex+14)+"해설파일이름입니다.");
 		InputStream in2 = new URL(downH).openStream();
 		//파일 카피해버리기.
-		Files.copy(in2, Paths.get("C:/upload/new/"+downH.substring(fileNameIndex+14)), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(in2, Paths.get(path+downH.substring(fileNameIndex+14)), StandardCopyOption.REPLACE_EXISTING);
 		in2.close();
 		
 		System.out.println("성공입니다");

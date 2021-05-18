@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,71 +20,89 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class pdftestM {
 	static int count = 0;
-
-	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList, String exFileName)
-			throws Exception {
+	public void pdfDelete(ArrayList<String> downPList, ArrayList<String> downHList,String path){
+		System.out.println("실행합니다#@!#!");
+		
+		for(int i = 0 ; i <downPList.size();i++){
+			System.out.println(path+"경로!");
+			System.out.println(downPList.get(i).substring(52)+"다운!");
+			File file = new File(path +downPList.get(i).substring(52));
+			if (file.exists()) {
+				System.out.println("존재하는 파일");
+			}
+			System.out.println(file.getAbsolutePath()+"문제파일을 지웁니다.");
+			boolean bool = file.delete();
+			
+			File file2 = new File(path +downHList.get(i).substring(52));
+			if (file2.exists()) {
+				System.out.println("존재하는 파일");
+			}
+			System.out.println(file2.getAbsolutePath()+"해설파일을 지웁니다.");
+			boolean bool2 = file2.delete();
+		}
+		
+		
+	}
+	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList, String exFileName,
+			String path) throws Exception {
+		// 파라미터 경로, 파일이름
 		String fileName = "";
-		String dir ="C:/upload/new";
+		//path = "C:/upload/new/";
 		count++;
 		fileName = exFileName + count + ".pdf";
 		BaseFont baseFont = BaseFont.createFont("C:/Windows/Fonts/malgun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
 		Font font = new Font(baseFont, 12);
 
-		File directory = new File(dir);
+		File directory = new File(path);
 		if (!directory.exists())
 			directory.mkdirs(); // 파일경로 없으면 생성
 		Document document = new Document();
-		PdfWriter.getInstance(document, new FileOutputStream(dir + "/" + fileName));
-		if(exRealMultiList.size()>0){
-			try {
-				
-				document.open();
-					for (int i = 0; i < exRealMultiList.size(); i++) {
-						PdfPTable pdfTable = new PdfPTable(1);
-						Chunk chunk = new Chunk(exRealMultiList.get(i), font);
-						Chunk chunk2 = new Chunk(exRealTextList.get(i), font);
-						Paragraph ph = new Paragraph(chunk);
-						Paragraph ph2 = new Paragraph(chunk2);
-						pdfTable.addCell(ph);
-						pdfTable.addCell(ph2);
-						document.add(pdfTable);
-						System.out.println("완료입니다.");
-						File file = new File(dir + "/" + fileName);
-						file.delete();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					document.close();
-				}
-		}else{
-			File file = new File(dir+"/"+ fileName);
-			if(file.exists()){
+		FileOutputStream fos = new FileOutputStream(path + fileName);
+		PdfWriter.getInstance(document, fos);
+		if (exRealMultiList.size() > 0) {
+
+			document.open();
+			for (int i = 0; i < exRealMultiList.size(); i++) {
+				PdfPTable pdfTable = new PdfPTable(1);
+				Chunk chunk = new Chunk(exRealMultiList.get(i), font);
+				Chunk chunk2 = new Chunk(exRealTextList.get(i), font);
+				Paragraph ph = new Paragraph(chunk);
+				Paragraph ph2 = new Paragraph(chunk2);
+				pdfTable.addCell(ph);
+				pdfTable.addCell(ph2);
+				document.add(pdfTable);
+				System.out.println("완료입니다.");
+			}
+			document.close();
+
+		} else {
+			
+			fos.close();
+			File file = new File(path + fileName);
+			if (file.exists()) {
 				System.out.println("존재하는 파일");
 			}
 			System.out.println(file.getAbsolutePath());
-			boolean bool =file.delete();
+			boolean bool = file.delete();
 			System.out.println(bool);
 			System.out.println("지워버려려어엉");
 		}
+		fos.close();
 		
-		
-			
-
 	}
 
 	public Object[] findEx(String example, String path, String answer, String searchT) throws IOException {
 		// 해설의 카테고리를 통해서 원하는 문제찾기.
-		// 매개변수fileName(파일이름[문제])
-		// fileName1(경로),fileName2(파일이름[해설]),searchT(검색카테고리)
-		// String fileName1 = "C:/Users/ki11e/upload/example/";
-		// String fileName2 = "korB_hsj_V4AQ713J.pdf";//해설임 이거받아와야댐
+		// 매개변수example(파일이름[문제])
+		// path(경로),answer(파일이름[해설]),searchT(검색카테고리)
+		// String path = "C:/upload/new";
+		// String answer = "korB_hsj_V4AQ713J.pdf";//해설임 이거받아와야댐
 		// 경로지정+파일이름(구함)
 		File source2 = new File(path + answer);
 		PDDocument pdfDoc2 = PDDocument.load(source2);
 		String text2 = new PDFTextStripper().getText(pdfDoc2);
-
+		pdfDoc2.close();
 		String ahn = text2;
 		// String searchT = "매체";
 		String reg = "(\\[출제의도\\]){1}\\p{Space}*(" + searchT + ")";// 원하는 문제를 위해
@@ -118,6 +134,7 @@ public class pdftestM {
 			File source = new File(path + example);
 			PDDocument pdfDoc = PDDocument.load(source);
 			String text = new PDFTextStripper().getText(pdfDoc);
+			pdfDoc.close();
 			Pattern pattern = Pattern.compile("\\[{1}\\d{1,2}(\\p{Space}~\\p{Space}){1}\\d{1,2}\\]{1}");
 			Matcher matcher = pattern.matcher(text);
 			int count = 0;
