@@ -20,20 +20,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class pdftestM {
 	static int count = 0;
-	public void pdfDelete(ArrayList<String> downPList, ArrayList<String> downHList,String path){
-		System.out.println("실행합니다#@!#!");
+	public void pdfDelete(ArrayList<String> downPList, ArrayList<String> downHList,PersonalMakeVO pmvo){
 		
 		for(int i = 0 ; i <downPList.size();i++){
-			System.out.println(path+"경로!");
+			System.out.println(pmvo.getPath()+"경로!");
 			System.out.println(downPList.get(i).substring(52)+"다운!");
-			File file = new File(path +downPList.get(i).substring(52));
+			File file = new File(pmvo.getPath() +downPList.get(i).substring(52));
 			if (file.exists()) {
 				System.out.println("존재하는 파일");
 			}
 			System.out.println(file.getAbsolutePath()+"문제파일을 지웁니다.");
 			boolean bool = file.delete();
 			
-			File file2 = new File(path +downHList.get(i).substring(52));
+			File file2 = new File(pmvo.getPath() +downHList.get(i).substring(52));
 			if (file2.exists()) {
 				System.out.println("존재하는 파일");
 			}
@@ -43,22 +42,21 @@ public class pdftestM {
 		
 		
 	}
-	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList, String exFileName,
-			String path) throws Exception {
+	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList,PersonalMakeVO pmvo) throws Exception {
 		// 파라미터 경로, 파일이름
 		String fileName = "";
 		//path = "C:/upload/new/";
 		count++;
-		fileName = exFileName + count + ".pdf";
+		fileName = pmvo.getExFileName() + count + ".pdf";
 		BaseFont baseFont = BaseFont.createFont("C:/Windows/Fonts/malgun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
 		Font font = new Font(baseFont, 12);
 
-		File directory = new File(path);
+		File directory = new File(pmvo.getPath());
 		if (!directory.exists())
 			directory.mkdirs(); // 파일경로 없으면 생성
 		Document document = new Document();
-		FileOutputStream fos = new FileOutputStream(path + fileName);
+		FileOutputStream fos = new FileOutputStream(pmvo.getPath() + fileName);
 		PdfWriter.getInstance(document, fos);
 		if (exRealMultiList.size() > 0) {
 
@@ -79,7 +77,7 @@ public class pdftestM {
 		} else {
 			
 			fos.close();
-			File file = new File(path + fileName);
+			File file = new File(pmvo.getPath() + fileName);
 			if (file.exists()) {
 				System.out.println("존재하는 파일");
 			}
@@ -92,20 +90,20 @@ public class pdftestM {
 		
 	}
 
-	public Object[] findEx(String example, String path, String answer, String searchT) throws IOException {
+	public Object[] findEx(String example, String answer,PersonalMakeVO pmvo) throws IOException {
 		// 해설의 카테고리를 통해서 원하는 문제찾기.
 		// 매개변수example(파일이름[문제])
 		// path(경로),answer(파일이름[해설]),searchT(검색카테고리)
 		// String path = "C:/upload/new";
 		// String answer = "korB_hsj_V4AQ713J.pdf";//해설임 이거받아와야댐
 		// 경로지정+파일이름(구함)
-		File source2 = new File(path + answer);
+		File source2 = new File(pmvo.getPath() + answer);
 		PDDocument pdfDoc2 = PDDocument.load(source2);
 		String text2 = new PDFTextStripper().getText(pdfDoc2);
 		pdfDoc2.close();
 		String ahn = text2;
 		// String searchT = "매체";
-		String reg = "(\\[출제의도\\]){1}\\p{Space}*(" + searchT + ")";// 원하는 문제를 위해
+		String reg = "(\\[출제의도\\]){1}\\p{Space}*(" + pmvo.getSearchT()+ ")";// 원하는 문제를 위해
 																	// 매체.. 이부분을
 																	// 받아와야댐
 
@@ -131,7 +129,7 @@ public class pdftestM {
 				 */
 			}
 			// String fileName = "korB_mun_8S782INA.pdf";//문제임
-			File source = new File(path + example);
+			File source = new File(pmvo.getPath() + example);
 			PDDocument pdfDoc = PDDocument.load(source);
 			String text = new PDFTextStripper().getText(pdfDoc);
 			pdfDoc.close();

@@ -38,7 +38,12 @@ public class Crawler {
 		System.out.println("성공입니다");
 	}
 	
-	public Object[] urlFromEbs() throws IOException {
+	public Object[] urlFromEbs(PersonalCrawlerVO pcvo) throws IOException {
+		String monthToString = "";
+		for (int i = 0; i < pcvo.getMonthList().length; i++) {
+			monthToString += pcvo.getMonthList()[i];
+			monthToString += ",";
+		}
 		String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36";
 		Document doc = Jsoup.connect("https://www.ebsi.co.kr/ebs/xip/xipc/previousPaperListAjax.ajax")
 				.method(Connection.Method.GET)
@@ -49,11 +54,11 @@ public class Crawler {
 				.header("Accept-Encoding", "gzip, deflate, br") 
 				.header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
 				.data("targetCd", "D300")//이아래부터 우리가 만져줘야함
-				.data("monthList", "03")//여기에 월 추가
-				.data("subjList", "1")//국어1 수학2 영어3 한국사4 사회탐구5 과학탐구6 직업탐구7 제2외국어8
+				.data("monthList", monthToString.substring(0,monthToString.length()-1))//여기에 월 추가 ex)03,04,05
+				.data("subjList", pcvo.getSubject())//국어1 수학2 영어3 한국사4 사회탐구5 과학탐구6 직업탐구7 제2외국어8
 				.data("sort", "recent")
-				.data("beginYear", "2018")
-				.data("endYear", "2021")
+				.data("beginYear", pcvo.getStartYear())
+				.data("endYear", pcvo.getEndYear())
 				.ignoreContentType(false)
 				.get();
 		
