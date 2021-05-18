@@ -24,6 +24,7 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sidemenu -->
+
 		<%@include file="../template/sidemenu.jsp"%>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -98,7 +99,7 @@
 									<div class="card-body">
 									<c:forEach items="${schoolTestList}" var="st">
 									<strong>${st.st_year }학년  ${st.st_semester }학기  ${st.st_test } (${st.st_date })</strong>
-									<a href="/reportcard/schooltest/update?st_num=${st.st_num}" class="float-right">수정</a> 
+									<a href="/sst/reportcard/schooltest/update?st_num=${st.st_num}" class="float-right">수정</a> 
 									<table class="table table-bordered">
 									<tr>
 										<c:forEach items="${st.scorelist }" var="score">
@@ -113,7 +114,7 @@
 									</table>
 									<hr/>
 									</c:forEach>
-									<a class="btn btn-success btn-circle" href="/reportcard/schooltest/create?rc_num=${rc_num}">
+									<a class="btn btn-success btn-circle" href="/sst/reportcard/schooltest/create?rc_num=${rc_num}">
                                         <i class="fas fa-plus"></i>
                                     </a> 성적 추가하기 
 									</div>
@@ -136,38 +137,19 @@
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
-	<script src="/resources/js/personal_chart.js"></script>
+	<script src="/sst/resources/js/school_chart.js"></script>
 	<script type="text/javascript">
-		google.charts.load('current', {
-			'packages' : [ 'corechart' ]
-		});
-		google.charts.setOnLoadCallback(drawChart);
-		function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-					[ '시험', '평균' ],
-					<c:forEach items="${stlist}" var="st">[
-							'<c:out value="${st.st_test}"/>',
-							<c:out value='${st.avg}'/>], </c:forEach> ]);
-			var options = {
-				title : '시험 평균',
-				curveType : 'function',
-				legend : {
-					position : 'bottom'
-				}
-			};
-
-			var chart = new google.visualization.LineChart(document
-					.getElementById('curve_chart'));
-			chart.draw(data, options);
-		} // end drawChart
-
-		$("#chart-change").change(
-				function() {
-					if ($("#chart-change").val() == "평균") {
-						$('#curve_chart').empty();
-						drawChart();
-					}
-				})
+  	$(function(){
+ 		chart.drawAverage(); 
+		$("#chart-change").change(function() {
+			if ($("#chart-change").val() == "전체과목") {
+				chart.drawAllScore();
+			}else{
+				chart.drawAverage();
+			}
+		})
+	})  
+	
 	</script>
 
 </body>

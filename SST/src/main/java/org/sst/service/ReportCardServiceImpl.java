@@ -1,5 +1,6 @@
 package org.sst.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,5 +149,8 @@ public class ReportCardServiceImpl implements ReportCardService {
 	public boolean updateLicenseScore(LicenseScoreVO ls) {
 		return mapper.updateLicenseScore(ls) == 1;
 	}
+
+	
+	
 
 }
