@@ -31,8 +31,7 @@ public class MemberController {
 	private MemberService service;
 	
 	private BCryptPasswordEncoder pwEncoder;
-	
-	
+
 	// 메인 페이지 : 모두 접근 가능
 	@GetMapping({"/main", "/logout"})
 	public void mainPage(){
@@ -53,7 +52,7 @@ public class MemberController {
 	
 	// 회원 가입 요청
 	@PostMapping("/create")
-	public String signUp(MemberVO member, RedirectAttributes rttr){
+	public String signUp(MemberVO member){
 		log.info("[Member SignUp POST]" + member);
 		member.setM_pw(pwEncoder.encode(member.getM_pw()));
 		service.memberSignup(member);

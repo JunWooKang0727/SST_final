@@ -1,6 +1,9 @@
 package org.sst.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 import org.sst.mapper.StudyGroupMapper;
 
@@ -14,10 +17,17 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
 	private StudyGroupMapper mapper; 
 	
+	
 	@Override
-	public void groupCreate(StudyGroupVO group) {
+	public void groupCreate(StudyGroupVO group, String id) {
 		log.info("[group Create]");
-		mapper.groupInsert(group);
+		int result = mapper.groupInsert(group);
+		log.info("result");
+		GroupMemberVO gmem = new GroupMemberVO();
+		gmem.setG_num(group.getG_num());
+		gmem.setM_id(id);
+		gmem.setP_grant(1);
+		mapper.insertGroupMember(gmem);
 	}
 
 	@Override
@@ -36,6 +46,13 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 	public boolean groupRemove(String gid) {
 		log.info("[group Remove]");
 		return mapper.groupDelete(gid) == 1;
+	}
+
+	@Override
+	public List<StudyGroupVO> myGroupGet(String id) {
+		List<StudyGroupVO> mygrouplist = mapper.groupMakeRead(id);
+		log.info("[get my group list]");
+		return mygrouplist;
 	}
 
 	
