@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.sst.mapper.QuestionMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
+	<cache />
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							q_title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							q_contents like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							q_writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+
+
+	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
+	<insert id="insertQuestion"><!-- id와 동일한 메서드를 만들어야한다 -->
+
+		INSERT INTO question(
+		q_num, q_title,q_writer, q_contents, q_date, g_num,
+		gm_num
+		)
+		VALUES(
+		('q_'||q_seq.NEXTVAL), #{q_title},#{q_writer},
+		#{q_contents,jdbcType=CLOB},
+		SYSDATE, 1, 1
+		)
+
+	</insert>
+
+	<!-- parameterType="StudyNoteSearchVO" -->
+
+	<select id="listQuestion" resultType="org.sst.domain.QuestionVO">
+		SELECT /*+INDEX_DESC(question q_num_idx) */ * FROM question
+		<if test="area != null">
+			<where>
+				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
+				<foreach collection="area" item="item" separator="OR" open="("
+					close=")">
+					${item} LIKE #{searchKey}
+				</foreach>
+			</where>
+		</if>
+		
+
+	</select>
+
+
+	<select id="detailQuestion" resultType="org.sst.domain.QuestionVO">
+		select * from question
+		where q_num = #{q_num}
+	</select>
+
+
+	<update id="updateQuestion">
+		update question set q_title=#{q_title},
+		q_contents=#{q_contents}
+		where q_num = #{q_num}
+	</update>
+
+
+	<delete id="deleteQuestion" parameterType="String">
+
+		DELETE FROM question
+		WHERE q_num = #{q_num}
+	</delete>
+
+
+	<select id="countQuestion" resultType="int">
+		select count(*) from question
+		<if test="area != null">
+			<where>
+				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
+				<foreach collection="area" item="item" separator="OR" open="("
+					close=")">
+					${item} LIKE #{searchKey}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+
+	<select id="getQuestionList" resultType="org.sst.domain.QuestionVO">
+	<![CDATA[
+	  select 
+	    q_num, q_title, q_contents, q_writer, q_date
+	  from 
+	      (
+	      select /*+INDEX_DESC(tbl_board pk_question) */
+	        rownum rn, q_num, q_title, q_contents, q_writer, q_date,to_number(substr(q_num,4))
+	      from 
+	        question
+	      where 
+	  ]]>
+
+      <include refid="criteria"></include>
+      
+	  <![CDATA[    
+	      rownum <= #{pageNum} * #{amount}
+	      and to_number(substr(q_num,4)) > 0
+	      order by to_number(substr(q_num,4)) desc
+	      )
+	  where rn > (#{pageNum} -1) * #{amount}   
+	  ]]>
+	</select>
+	
+	
+	  <select id="getTotalCount" resultType="int">
+  select count(*) from question where 
+  
+    <include refid="criteria"></include> 
+    
+  q_num LIKE 'q%'
+  
+  </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
