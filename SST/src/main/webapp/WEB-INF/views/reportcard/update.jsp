@@ -13,7 +13,7 @@
 
 <title>SST</title>
 <!-- Custom styles for this template-->
-<link href="/resources/css/personalstudy.css" rel="stylesheet">
+<link href="/sst/resources/css/personalstudy.css" rel="stylesheet">
 
 </head>
 <body id="page-top">
@@ -44,7 +44,7 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">성적란 수정하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/update" method="post" class="centerform">
+									<form action="/sst/reportcard/update" method="post" class="centerform">
 										
 										타이틀: <input type="text" name="rc_title" placeholder="입력해주세요." class="form-control" 
 											value="${reportcard.rc_title}" required><br> 
@@ -79,7 +79,7 @@
 	</a>
 
 	<!-- Custom scripts for all pages-->
-	<script src="/resources/js/personalstudy.js"></script>
+	<script src="/sst/resources/js/personalstudy.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 

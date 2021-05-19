@@ -51,19 +51,17 @@
 					<div class="row headerLine"></div>
 					<!-- end of row -->
 
-					
-					
-					<div class="row">
-						
-						<div class="fileArea">
-							
-						</div>
-					
-					
-					</div>
 
 					
+					<div class="row filebox">
+						
 					
+					</div>
+					<!-- end of row -->
+
+
+
+					<!-- end of row -->
 
 				</div>
 				<!-- /.container-fluid -->
@@ -94,175 +92,107 @@
 		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
-	
+
 	<script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-
-						var result = '<c:out value="${result}"/>';
-
-						checkModal(result);
-
-						history.replaceState({}, null, null);
-
-						function checkModal(result) {
-
-							if (result === '' || history.state) {
-								return;
-							}
-
-							if (parseInt(result) > 0) {
-								$(".modal-body").html(
-										"게시글 " + parseInt(result)
-												+ " 번이 등록되었습니다.");
-							}
-
-							$("#myModal").modal("show");
-						}
-
-						$("#regBtn").on("click", function(e) {
-							
-							e.preventDefault();
-							self.location = "/studynote/create";
-
-						});
-
-						var actionForm = $("#actionForm");
-
-						$(".notePagingArea a").on(
-								"click",
-								function(e) {
-
-									e.preventDefault();
-
-									console.log('click');
-
-									actionForm.find("input[name='pageNum']")
-											.val($(this).attr("href"));
-									actionForm.submit();
-								});
-
-						$(".move")
-								.on(
-										"click",
-										function(e) {
-
-											e.preventDefault();
-											actionForm
-													.append("<input type='hidden' name='sn_num' value='"
-															+ $(this).attr(
-																	"href")
-															+ "'>");
-											actionForm.attr("action",
-													"/studynote/read");
-											actionForm.submit();
-
-										});
-
-						var searchForm = $("#searchForm");
-
-						$("#searchForm button").on(
-								"click",
-								function(e) {
-				
-									if (!searchForm.find("option:selected")
-											.val()) {
-										alert("검색종류를 선택하세요");
-										return false;
-									}
-
-									if (!searchForm.find(
-											"input[name='keyword']").val()) {
-										alert("키워드를 입력하세요");
-										return false;
-									}
-
-									searchForm.find("input[name='pageNum']")
-											.val("1");
-									e.preventDefault();
-
-									searchForm.submit();
-
-								});
-
-					});
 	
 	$(function(){
 		
-		$('.fileArea')
-		  .on("dragover", dragOver)
-		  .on("dragleave", dragOver)
-		  .on("drop", uploadFiles);
-		 
-		function dragOver(e){
-		  e.stopPropagation();
-		  e.preventDefault();
-		  if (e.type == "dragover") {
-		        $(e.target).css({
-		            "background-color": "black",
-		            "outline-offset": "-20px"
-		        });
-		    } else {
-		        $(e.target).css({
-		            "background-color": "gray",
-		            "outline-offset": "-10px"
-		        });
-		    }
-		}
-		 
-		function uploadFiles(e){
-		  e.stopPropagation();
-		  e.preventDefault();
-		    dragOver(e); //1
-		    
-		    e.dataTransfer = e.originalEvent.dataTransfer; //2
-		    var files = e.target.files || e.dataTransfer.files;
-		    
-		    console.log(files);
-		  
-		    var formData = new FormData();
-		    
-		    for(var i=0;i<files.length;i++){
-		    	formData.append("uploadFile",files[i]);
-		    }
+		showUploadedFile();
 		
-		    $.ajax({
-		    	
-		    	url:'/studydata/uploadAjax',
-		    	processData:false,
-		    	contentType : false,
-		    	data:formData,
-		    	type:'POST',
-		    	success:function(result){
-		    		alert("Uploaded");
-		    	}
-		    	
-		    	
-		    });
-		}
+		$('.filebox')
+			.on("dragover",dragOver)
+			.on("dragleave",dragOver)
+			.on("drop",uploadFiles)
 		
 		
 	});
 	
-
+	function dragOver(e){
+		e.stopPropagation();
+		e.preventDefault();
 		
-		
-		
+	    if (e.type == "dragover") {
+	        $(e.target).css({
+	            "background-color": "black",
+	            "outline-offset": "-20px"
+	        });
+	    } else {
+	        $(e.target).css({
+	            "background-color": "gray",
+	            "outline-offset": "-10px"
+	        });
+	    }
+	}
 	
-</script>
+	function uploadFiles(e){
+		e.stopPropagation();
+		e.preventDefault();
+		
+	    dragOver(e); //1
+	    
+	    e.dataTransfer = e.originalEvent.dataTransfer; //2
+	    var files = e.target.files || e.dataTransfer.files;
+	    
+	    console.log(files);
+		
+	    var formData = new FormData();
+	    
+	    for(var i=0;i<files.length;i++){
+	    	formData.append("uploadFile",files[i]);
+	    }
+	    
+	    if(confirm("파일을 등록할까요")){
+		    $.ajax({
+		    	url:'/studydata/uploadAjax',
+		    	processData : false,
+		    	contentType : false,
+		    	data : formData,
+		    	type : 'POST',
+		    	
+		    	success :function(result){
+		    		alert("Uploaded");
+		    		
+		    		showUploadedFile();
+		    	}
+		    
+		    });// end of ajax
+ 	    }else{
+	    	return;
+	    } 
+
+	}//end of uploadFiles
+	
+	
+	
+	function showUploadedFile(){
+		
+		var str = "";
+		$('.filebox').empty();
+		
+		$.ajax({
+			
+			url : '/studydata/list',
+			dataType : 'json',
+			type : 'GET',
+			data : {"g_num":"1"},
+			success : function(data){
+				
+				$(data).each(function(i,obj){
+					
+					str += "<a class='fileObj' href='/studydata/download?fileName="+obj.fileName+"'><span>" + obj.fileName + "</span></a>";
+					
+					
+					
+					console.log("실행됨");
+				});
+				
+				$('.filebox').append(str);
+			}
+		}); //end of ajax
+		
+	}
+	</script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
+>>>>>>> refs/remotes/origin/junwoo_laptop

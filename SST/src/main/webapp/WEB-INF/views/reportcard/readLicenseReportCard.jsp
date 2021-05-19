@@ -23,6 +23,7 @@
 	<!-- Page Wrapper -->
 	<div id="wrapper">
 		<!-- sidemenu -->
+
 		<%@include file="../template/sidemenu.jsp"%>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -100,7 +101,7 @@
 									<div class="card-body">
 									<c:forEach items="${licenseTestList}" var="test">
 									<strong>${test.lt_test}  ${test.lt_round}회  (${test.lt_date })</strong>
-									<a href="/reportcard/licensetest/update?lt_num=${test.lt_num}" class="float-right">수정</a>
+									<a href="/sst/reportcard/licensetest/update?lt_num=${test.lt_num}" class="float-right">수정</a>
 											<c:if test="${test.scorelist.size() !=0 }">
 											<table class="table table-bordered">
 												<tr>
@@ -133,7 +134,7 @@
 											</c:if>
 											<hr/>
 									</c:forEach>
-									<a class="btn btn-success btn-circle" href="/reportcard/licensetest/create?rc_num=${rc_num}">
+									<a class="btn btn-success btn-circle" href="/sst/reportcard/licensetest/create?rc_num=${rc_num}">
                                         <i class="fas fa-plus"></i>
                                     </a> 성적 추가하기 
 									</div>
@@ -157,10 +158,10 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-    <script src="/resources/vendor/chart.js/Chart.min.js"></script>
-    <script src="/resources/js/license_chart.js?ver=4"></script>
+    <script src="/sst/resources/vendor/chart.js/Chart.min.js"></script>
+    <script src="/sst/resources/js/license_chart.js?ver=4"></script>
 
-<c:set var="current" value="${ltlist[fn:length(ltlist)-1]}"></c:set>
+<c:set var="current" value="${licenseTestList[fn:length(licenseTestList)-1]}"></c:set>
 	<script type="text/javascript">
 		var data = {
 			labels : [ 

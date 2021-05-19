@@ -1,5 +1,7 @@
 package org.sst.mapper;
 
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,4 +178,31 @@ public class ReportCardMapperTests {
 //	public void testDeleteLicenseTestScore(){
 //		log.info("결과!:                 "+mapper.deleteLicenseTestScore("lt42"));
 //	}
+	
+	
+	
+//	@Test
+//	public void testAnalysis1(){
+//		log.info(mapper.selectReportCardSubject("rc4"));
+//	}
+	
+//	@Test
+//	public void testAnalysis2(){
+//		HashMap map = new HashMap();
+//		map.put("rc_num", "rc4");
+//		map.put("list", mapper.schoolTestSubjects("rc4"));
+//		log.info(mapper.allSubjectScoreSchoolTest(map));
+//	}
+//	@Test
+//	public void testAnalysis3(){
+//		log.info(mapper.averageSchoolTest("rc4"));
+//	}
+
+	@Test
+	public void testAnalysis4(){
+		HashMap map = new HashMap();
+		map.put("rc_num", "rc22");
+		map.put("list", mapper.licenseTestSubjects("rc22"));
+		log.info(mapper.allSubjectScoreLicenseTest(map));
+	}
 }

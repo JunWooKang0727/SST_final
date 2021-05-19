@@ -32,7 +32,7 @@ public class ReportCardController {
 	private ReportCardService service;
 
 	// ReportCard
-	@GetMapping(value = "/list")
+	@GetMapping("/list")
 	public void list(@RequestParam("m_id") String m_id, Model model) {
 		model.addAttribute("reportcardList", service.listReportCard(m_id));
 	}

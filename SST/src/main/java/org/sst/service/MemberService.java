@@ -10,7 +10,7 @@ public interface MemberService {
 	
 	public boolean memberModify(MemberVO member);
 	
-	public boolean memberRemove(MemberVO member);
+	public boolean memberRemove(String id);
 	
 	public int memberIdCount(String id);
 }

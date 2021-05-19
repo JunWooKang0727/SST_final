@@ -43,10 +43,10 @@ public interface ReportCardMapper {
 	int updateLicenseScore(LicenseScoreVO ls);
 	
 	
-	List<SchoolTestVO> averageSchoolTest(String rc_num);
-	List<HashMap> allSubjectAverage(HashMap map);
-	List<String> selectReportCardSubject(String rc_num);
+	List<HashMap> averageSchoolTest(String rc_num);
+	List<HashMap> allSubjectScoreSchoolTest(HashMap map);
+	List<String> schoolTestSubjects(String rc_num);
 	
-	List<HashMap> allLicenseSubjectAverage(HashMap map);
-	List<String> selectRCLicenseTestSubject(String rc_num);
+	List<HashMap> allSubjectScoreLicenseTest(HashMap map);
+	List<String> licenseTestSubjects(String rc_num);
 }
