@@ -8,7 +8,7 @@ public class pdftest {
 	public static void main(String[] args) throws Exception {
 		Crawler cr = new Crawler();//1
 		pdftestM pm = new pdftestM();//1
-		PersonalCrawlerVO pcvo  = new PersonalCrawlerVO();//1
+		PersonalCrawlerVO pcvo  = new PersonalCrawlerVO(null, args, null, null, null);//1
 		
 		int urlLeng = pcvo.getExUrl().length();
 		
@@ -50,7 +50,8 @@ public class pdftest {
 			System.out.println(i+"번째입니다.");
 			
 			//path, 
-			PersonalMakeVO pmvo = new PersonalMakeVO();
+			PersonalMakeVO pmvo = new PersonalMakeVO(EndYear, EndYear, EndYear);
+			pmvo.setExFileName("newexample");
 			pmvo.setPath("C:/upload/new/");
 			pmvo.setSearchT("표현상 특징을 파악한다");
 			Object[] r = pm.findEx(
@@ -59,10 +60,11 @@ public class pdftest {
 					pmvo);
 			ArrayList<String> exRealMultiList =(ArrayList<String>) r[0] ;
 			ArrayList<String> exRealTextList = (ArrayList<String>) r[1];
+			ArrayList<String> solRealTextList = (ArrayList<String>) r[2];
 			pmvo.setExFileName("sample");
 				System.out.println("순서대로 (문제, 경로, 해설, 찾을 검색어) 를 넣습니다. 그러면 OBJCET LIST를 반환하는데 이둘은 각각 문제를만듭니다.");
 				try {
-					pm.pdfCreate(exRealMultiList, exRealTextList,pmvo);
+					pm.pdfCreate(exRealMultiList, exRealTextList,solRealTextList,pmvo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

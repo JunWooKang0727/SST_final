@@ -104,11 +104,14 @@
 									<div>
 										<span id="studyhour">00</span>
 										<!-- 시 -->
-										<span>:</span><span id="studymin">00</span>
+										<span>:</span>
+										<span id="studymin">00</span>
 										<!-- 분 -->
-										<span>:</span> <span id="studysec">00</span>
+										<span>:</span> 
+										<span id="studysec">00</span>
 										<!--초-->
-										<span>.</span> <span id="studymilisec">00</span>
+										<span>.</span> 
+										<span id="studymilisec">00</span>
 										<!--밀리초-->
 
 									</div>
@@ -128,26 +131,42 @@
 								</div>
 								<input type="submit" value="공부완료" class="studydone"> <br>
 								<br>
+								</form>
 						</div>
-						<div class="col"/><div class="col"><div class="col"><div class="col"><div class="col">
+						
+						
+						
 						<div class="col">
-
+							
+							<form method="post" action="/personalcrawlmake/create">
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "Path"></label>
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "path"></label>
+							</div>
+							<div class = "storeFile">
+							<label>저장될 파일명 : <input type="text" name = "exFileName"></label>
+							</div>
+							<div class = "searchT">
+							<label>검색할 문제 : <input type="text" name = "searchT"></label>
+							</div>
+							</div>
 							<div class="inputSubject">과목 :
-
-							<form method="get" action="form-action.html">
-
-								<label><input type="radio" name="subject" value="kor">
-									국어</label> <label><input type="radio" name="subject"
-									value="mat"> 수학</label> <label><input type="radio"
-									name="subject" value="eng"> 영어</label> <label><input
-									type="radio" name="subject" value="soc"> 사회탐구</label> <label><input
-									type="radio" name="subject" value="sci"> 과학탐구</label>
+								<label><input type="radio" name="Subject" value="1">국어</label> 
+								<label><input type="radio" name="Subject"value="2"> 수학</label> 
+								<label><input type="radio" name="Subject" value="3"> 영어</label> 
+								<label><input type="radio" name="Subject" value="4"> 사회탐구</label> 
+								<label><input type="radio" name="Subject" value="5"> 과학탐구</label>
+								<label><input type="radio" name="Subject" value="6"> 직업탐구</label>
+								<label><input type="radio" name="Subject" value="7"> 제2외국어</label>
 								
-							</form></div>
+							</div>
+							
 							<br>
 
-							<div class="selectYear">년도 :
-							<select name="ps_year" placeholder="카테고리를 선택하세요">
+							<div class="selectYear">
+							시작년도 :
+							<select name="StartYear">
 								<option selected>선택</option>
 								<option value="2015">2015</option>
 								<option value="2016">2016</option>
@@ -156,34 +175,46 @@
 								<option value="2019">2019</option>
 								<option value="2020">2020</option>
 								<option value="2021">2021</option>
-
 							</select> 
-</div>
-<br>
-							<form>
+			
+						<br>
+						끝년도 :
+							<select name="EndYear">
+								<option selected>선택</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+							</select> 
+						</div>
+						
+						<br>
+							<div>
 								<fieldset>
 									<legend>월선택</legend>
-									3월 <input type="checkbox" name="month" value="mar" checked />
-									4월 <input type="checkbox" name="month" value="apr" /> 5월 <input
-										type="checkbox" name="month" value="may" /> 6월 <input
-										type="checkbox" name="month" value="jun" /> 7월 <input
-										type="checkbox" name="month" value="jul" /> 9월 <input
-										type="checkbox" name="month" value="set" /> 10월 <input
-										type="checkbox" name="month" value="oct" /> 11월 <input
-										type="checkbox" name="month" value="nov" /> 12월 <input
-										type="checkbox" name="month" value="dec" />
-
+									3월 <input type="checkbox" name="MonthList" value="03" checked />
+									4월 <input type="checkbox" name="MonthList" value="04" /> 
+									5월 <input type="checkbox" name="MonthList" value="05" /> 
+									6월 <input type="checkbox" name="MonthList" value="06" /> 
+									7월 <input type="checkbox" name="MonthList" value="07" /> 
+									9월 <input type="checkbox" name="MonthList" value="09" /> 
+									10월 <input type="checkbox" name="MonthList" value="10" /> 
+									11월 <input type="checkbox" name="MonthList" value="11" /> 
+									12월 <input type="checkbox" name="MonthList" value="12" />
 								</fieldset>
 
-							</form><br>
-							<p>
-									<input type="submit" value="Submit"> <input
-										type="reset" value="Reset">
-								</p>
+							</div>
+							<br>
+								<div>
+								<input type="submit" value="문제만들기"> 
+								<input type="reset" value="설정초기화">
+								</div>
+							</form>
 						</div>
-						</form>
 					</div>
-
 
 					<!-- /.container-fluid -->
 

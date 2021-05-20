@@ -3,6 +3,7 @@ package org.sst.domain;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,12 +43,13 @@ public class pdftestM {
 		
 		
 	}
-	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList,PersonalMakeVO pmvo) throws Exception {
+	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList,ArrayList<String> solRealTextList, PersonalMakeVO pmvo) throws Exception {
 		// 파라미터 경로, 파일이름
 		String fileName = "";
 		//path = "C:/upload/new/";
 		count++;
 		fileName = pmvo.getExFileName() + count + ".pdf";
+		String fileNameSol = pmvo.getExFileName()+"sol" + count + ".pdf";
 		BaseFont baseFont = BaseFont.createFont("C:/Windows/Fonts/malgun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
 		Font font = new Font(baseFont, 12);
@@ -57,12 +59,16 @@ public class pdftestM {
 			directory.mkdirs(); // 파일경로 없으면 생성
 		Document document = new Document();
 		FileOutputStream fos = new FileOutputStream(pmvo.getPath() + fileName);
+		
 		PdfWriter.getInstance(document, fos);
+		
 		if (exRealMultiList.size() > 0) {
 
 			document.open();
 			for (int i = 0; i < exRealMultiList.size(); i++) {
-				PdfPTable pdfTable = new PdfPTable(1);
+				//PdfPTable pdfTable = new PdfPTable(1);
+				PdfPTable pdfTable = new PdfPTable(2);
+				//이거를 나중에 바꺼버릴
 				Chunk chunk = new Chunk(exRealMultiList.get(i), font);
 				Chunk chunk2 = new Chunk(exRealTextList.get(i), font);
 				Paragraph ph = new Paragraph(chunk);
@@ -87,6 +93,37 @@ public class pdftestM {
 			System.out.println("지워버려려어엉");
 		}
 		fos.close();
+		
+		Document documentSol = new Document();
+		FileOutputStream fosSol = new FileOutputStream(pmvo.getPath() + fileNameSol);
+		PdfWriter.getInstance(documentSol, fosSol);
+		if (exRealMultiList.size() > 0) {
+
+			documentSol.open();
+			for (int i = 0; i < solRealTextList.size(); i++) {
+				//PdfPTable pdfTable2 = new PdfPTable(1);
+				PdfPTable pdfTable2 = new PdfPTable(1);
+				Chunk chunk3 = new Chunk(solRealTextList.get(i), font);
+				Paragraph ph3 = new Paragraph(chunk3);
+				pdfTable2.addCell(ph3);
+				documentSol.add(pdfTable2);
+				System.out.println("완료입니다.");
+			}
+			documentSol.close();
+
+		} else {
+			
+			fosSol.close();
+			File file = new File(pmvo.getPath() + fileNameSol);
+			if (file.exists()) {
+				System.out.println("존재하는 파일");
+			}
+			System.out.println(file.getAbsolutePath());
+			boolean bool = file.delete();
+			System.out.println(bool);
+			System.out.println("지워버려려어엉");
+		}
+		fosSol.close();
 		
 	}
 
@@ -138,6 +175,7 @@ public class pdftestM {
 			int count = 0;
 			ArrayList<String> exMultiList = new ArrayList<String>();
 			ArrayList<String> exTextList = new ArrayList<String>();
+			ArrayList<String> solTextList = new ArrayList<String>();
 			while (matcher.find()) {
 				count++;
 				System.out.println("Match number " + count);
@@ -157,6 +195,7 @@ public class pdftestM {
 				ArrayList<String> exMultiStartNumList = new ArrayList<String>();
 				ArrayList<String> exMultiEndNumList = new ArrayList<String>();
 				System.out.println(text.indexOf(exRange[0] + ".") + "지문시작 부터 지문까지");
+								
 				exMultiStartNumList.add(exRange[0]);
 				exMultiEndNumList.add(exRange[1]);
 
@@ -181,15 +220,19 @@ public class pdftestM {
 				if (!exNumList.get(i).equals("45")) {
 					// 문제번호 = exNumList.get(i)".");
 					int exNumBefore = text.indexOf(exNumList.get(i) + ".");
+					//해설만들기
+					int solNumBefore = text2.indexOf(exNumList.get(i) + ".");
 					// 문제번호 인덱스 = exNumBefore);
 					// 문제 다음번호 Integer.parseInt(exNumList.get(i)) + 1) + '.'
 					// 문제 다음번호 인덱스 exNumAfter
 					int exNumAfter = text.indexOf((Integer.parseInt(exNumList.get(i).trim()) + 1) + ".");
+					int solNumAfter = text2.indexOf((Integer.parseInt(exNumList.get(i).trim()) + 1) + ".");
 					/*
 					 * System.out.println("문제다음번호 인덱스다" + exNumAfter);
 					 * System.out.println("===========문제===========");
 					 */
 					exTextList.add(text.substring(exNumBefore, exNumAfter));
+					solTextList.add(text2.substring(solNumBefore, solNumAfter));
 					/*
 					 * System.out.println(text.substring(exNumBefore,
 					 * exNumAfter));
@@ -198,21 +241,26 @@ public class pdftestM {
 				} else {
 					int exNumBefore = text.indexOf(exNumList.get(i) + ".");
 					exTextList.add(text.substring(exNumBefore, text.length()));
+					int solNumBefore = text2.indexOf(exNumList.get(i) + ".");
+					solTextList.add(text.substring(solNumBefore, text.length()));
 					/* System.out.println("문제번호다" + exNumList.get(i) + "."); */
 				}
 
 			}
 			ArrayList<String> exRealMultiList = new ArrayList<String>();
 			ArrayList<String> exRealTextList = new ArrayList<String>();
+			ArrayList<String> solRealTextList = new ArrayList<String>();
 			for (int i = 0; i < exTextList.size(); i++) {
 				exRealMultiList.add("연관된 지문: \n" + exMultiList.get(i));
 				exRealTextList.add("찾으시는 문제:\n" + exTextList.get(i));
+				solRealTextList.add("찾으시는 문제의 해설:\n"+solTextList.get(i));
 
 			}
 			System.out.println("바보녀석!" + exTextList.size());
-			Object[] exPan = new Object[2];
+			Object[] exPan = new Object[3];
 			exPan[0] = exRealMultiList;
 			exPan[1] = exRealTextList;
+			exPan[2] = solRealTextList;
 			return exPan;
 		} else {
 			return null;

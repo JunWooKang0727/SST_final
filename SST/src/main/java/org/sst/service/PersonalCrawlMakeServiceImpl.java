@@ -39,7 +39,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 
 	@Override
 	public Object[] urlFromEbs(PersonalCrawlerVO pcvo) throws IOException {
-
+		System.out.println(pcvo.toString()+"처리할pcvo값입니다.");
 		String monthToString = "";
 		for (int i = 0; i < pcvo.getMonthList().length; i++) {
 			monthToString += pcvo.getMonthList()[i];
@@ -63,8 +63,12 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 																							// ex)03,04,05
 				.data("subjList", pcvo.getSubject())// 국어1 수학2 영어3 한국사4 사회탐구5
 													// 과학탐구6 직업탐구7 제2외국어8
-				.data("sort", "recent").data("beginYear", pcvo.getStartYear()).data("endYear", pcvo.getEndYear())
-				.ignoreContentType(false).get();
+				.data("sort", "recent")
+				.data("beginYear", pcvo.getStartYear())
+				.data("endYear", pcvo.getEndYear())
+				.ignoreContentType(false)
+				.get();
+		System.out.println(monthToString.substring(0, monthToString.length() - 1)+" : "+pcvo.getSubject()+" : "+pcvo.getStartYear()+" : "+pcvo.getEndYear());
 
 		/* System.out.println(doc.html()); */
 		Elements buttonElements = doc.select("button[class=btn_L_col2 has_down]");
@@ -119,7 +123,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 	}
 
 	@Override
-	public Object[] findEx(String example, String answer, PersonalMakeVO pmvo) throws IOException {
+	public Object[] findEx(String example, String answer,PersonalMakeVO pmvo) throws IOException {
 		// 해설의 카테고리를 통해서 원하는 문제찾기.
 		// 매개변수example(파일이름[문제])
 		// path(경로),answer(파일이름[해설]),searchT(검색카테고리)
@@ -132,11 +136,9 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 		pdfDoc2.close();
 		String ahn = text2;
 		// String searchT = "매체";
-		String reg = "(\\[출제의도\\]){1}\\p{Space}*(" + pmvo.getSearchT() + ")";// 원하는
-																				// 문제를
-																				// 위해
-		// 매체.. 이부분을
-		// 받아와야댐
+		String reg = "(\\[출제의도\\]){1}\\p{Space}*(" + pmvo.getSearchT()+ ")";// 원하는 문제를 위해
+																	// 매체.. 이부분을
+																	// 받아와야댐
 
 		String[] result = ahn.split(reg);
 		if (result.length != 0) {
@@ -169,6 +171,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			int count = 0;
 			ArrayList<String> exMultiList = new ArrayList<String>();
 			ArrayList<String> exTextList = new ArrayList<String>();
+			ArrayList<String> solTextList = new ArrayList<String>();
 			while (matcher.find()) {
 				count++;
 				System.out.println("Match number " + count);
@@ -188,6 +191,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 				ArrayList<String> exMultiStartNumList = new ArrayList<String>();
 				ArrayList<String> exMultiEndNumList = new ArrayList<String>();
 				System.out.println(text.indexOf(exRange[0] + ".") + "지문시작 부터 지문까지");
+								
 				exMultiStartNumList.add(exRange[0]);
 				exMultiEndNumList.add(exRange[1]);
 
@@ -212,15 +216,19 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 				if (!exNumList.get(i).equals("45")) {
 					// 문제번호 = exNumList.get(i)".");
 					int exNumBefore = text.indexOf(exNumList.get(i) + ".");
+					//해설만들기
+					int solNumBefore = text2.indexOf(exNumList.get(i) + ".");
 					// 문제번호 인덱스 = exNumBefore);
 					// 문제 다음번호 Integer.parseInt(exNumList.get(i)) + 1) + '.'
 					// 문제 다음번호 인덱스 exNumAfter
 					int exNumAfter = text.indexOf((Integer.parseInt(exNumList.get(i).trim()) + 1) + ".");
+					int solNumAfter = text2.indexOf((Integer.parseInt(exNumList.get(i).trim()) + 1) + ".");
 					/*
 					 * System.out.println("문제다음번호 인덱스다" + exNumAfter);
 					 * System.out.println("===========문제===========");
 					 */
 					exTextList.add(text.substring(exNumBefore, exNumAfter));
+					solTextList.add(text2.substring(solNumBefore, solNumAfter));
 					/*
 					 * System.out.println(text.substring(exNumBefore,
 					 * exNumAfter));
@@ -229,35 +237,41 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 				} else {
 					int exNumBefore = text.indexOf(exNumList.get(i) + ".");
 					exTextList.add(text.substring(exNumBefore, text.length()));
+					int solNumBefore = text2.indexOf(exNumList.get(i) + ".");
+					solTextList.add(text.substring(solNumBefore, text.length()));
 					/* System.out.println("문제번호다" + exNumList.get(i) + "."); */
 				}
 
 			}
 			ArrayList<String> exRealMultiList = new ArrayList<String>();
 			ArrayList<String> exRealTextList = new ArrayList<String>();
+			ArrayList<String> solRealTextList = new ArrayList<String>();
 			for (int i = 0; i < exTextList.size(); i++) {
 				exRealMultiList.add("연관된 지문: \n" + exMultiList.get(i));
 				exRealTextList.add("찾으시는 문제:\n" + exTextList.get(i));
+				solRealTextList.add("찾으시는 문제의 해설:\n"+solTextList.get(i));
 
 			}
 			System.out.println("바보녀석!" + exTextList.size());
-			Object[] exPan = new Object[2];
+			Object[] exPan = new Object[3];
 			exPan[0] = exRealMultiList;
 			exPan[1] = exRealTextList;
+			exPan[2] = solRealTextList;
 			return exPan;
 		} else {
 			return null;
 		}
+		
 	}
 
 	@Override
-	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList, PersonalMakeVO pmvo)
-			throws Exception {
+	public void pdfCreate(ArrayList<String> exRealMultiList, ArrayList<String> exRealTextList,ArrayList<String> solRealTextList, PersonalMakeVO pmvo) throws Exception {
 		// 파라미터 경로, 파일이름
 		String fileName = "";
-		// path = "C:/upload/new/";
+		//path = "C:/upload/new/";
 		count++;
 		fileName = pmvo.getExFileName() + count + ".pdf";
+		String fileNameSol = pmvo.getExFileName()+"sol" + count + ".pdf";
 		BaseFont baseFont = BaseFont.createFont("C:/Windows/Fonts/malgun.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
 		Font font = new Font(baseFont, 12);
@@ -267,7 +281,9 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			directory.mkdirs(); // 파일경로 없으면 생성
 		com.itextpdf.text.Document document = new com.itextpdf.text.Document();
 		FileOutputStream fos = new FileOutputStream(pmvo.getPath() + fileName);
+		
 		PdfWriter.getInstance(document, fos);
+		
 		if (exRealMultiList.size() > 0) {
 
 			document.open();
@@ -285,7 +301,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			document.close();
 
 		} else {
-
+			
 			fos.close();
 			File file = new File(pmvo.getPath() + fileName);
 			if (file.exists()) {
@@ -297,7 +313,37 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			System.out.println("지워버려려어엉");
 		}
 		fos.close();
+		
+		com.itextpdf.text.Document documentSol = new com.itextpdf.text.Document();
+		FileOutputStream fosSol = new FileOutputStream(pmvo.getPath() + fileNameSol);
+		PdfWriter.getInstance(documentSol, fosSol);
+		if (exRealMultiList.size() > 0) {
 
+			documentSol.open();
+			for (int i = 0; i < solRealTextList.size(); i++) {
+				PdfPTable pdfTable2 = new PdfPTable(1);
+				Chunk chunk3 = new Chunk(solRealTextList.get(i), font);
+				Paragraph ph3 = new Paragraph(chunk3);
+				pdfTable2.addCell(ph3);
+				documentSol.add(pdfTable2);
+				System.out.println("완료입니다.");
+			}
+			documentSol.close();
+
+		} else {
+			
+			fosSol.close();
+			File file = new File(pmvo.getPath() + fileNameSol);
+			if (file.exists()) {
+				System.out.println("존재하는 파일");
+			}
+			System.out.println(file.getAbsolutePath());
+			boolean bool = file.delete();
+			System.out.println(bool);
+			System.out.println("지워버려려어엉");
+		}
+		fosSol.close();
+		
 	}
 
 	@Override
@@ -357,9 +403,11 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 					pmvo);
 			ArrayList<String> exRealMultiList = (ArrayList<String>) r[0];
 			ArrayList<String> exRealTextList = (ArrayList<String>) r[1];
+			ArrayList<String> solRealTextList = (ArrayList<String>) r[2];
 			System.out.println("순서대로 (문제, 경로, 해설, 찾을 검색어) 를 넣습니다. 그러면 OBJCET LIST를 반환하는데 이둘은 각각 문제를만듭니다.");
 			try {
-				pdfCreate(exRealMultiList, exRealTextList, pmvo);
+				pdfCreate(exRealMultiList, exRealTextList,solRealTextList, pmvo);
+				System.out.println("~~~~~~~~~~~~~~~~~~문제가 완성되었습니다~~~~~~~~~~~~~~~~~~~~");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
