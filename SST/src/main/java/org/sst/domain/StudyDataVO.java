@@ -1,9 +1,11 @@
 package org.sst.domain;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class StudyDataVO {
+public class StudyDataVO implements Serializable{
 	
 	private String fileName;
 	private String uploadPath;

@@ -101,8 +101,10 @@
 	    sn_num, sn_title, sn_contents, sn_writer, sn_date
 	  from 
 	      (
-	      select /*+INDEX_DESC(tbl_board pk_studynote) */
-	        rownum rn, sn_num, sn_title, sn_contents, sn_writer, sn_date,to_number(substr(sn_num,4))
+
+	      select
+	        rownum rn, sn_num, sn_title, sn_contents, sn_writer, sn_date, to_number(substr(sn_num,4))
+
 	      from 
 	        studynote
 	      where 
@@ -112,7 +114,9 @@
       
 	  <![CDATA[    
 	      rownum <= #{pageNum} * #{amount}
+
 	      and to_number(substr(sn_num,4)) > 0
+
 	      order by to_number(substr(sn_num,4)) desc
 	      )
 	  where rn > (#{pageNum} -1) * #{amount}   
