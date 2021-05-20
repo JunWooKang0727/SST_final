@@ -5,10 +5,13 @@ import java.util.HashMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.Criteria;
 import org.sst.domain.PageDTO;
+import org.sst.domain.WANoteVO;
 import org.sst.service.WANoteService;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +26,13 @@ public class WANoteController {
 	
 	@GetMapping("/create")
 	public void create() {
+	}
+	@PostMapping("/create")
+	public String create(WANoteVO vo,RedirectAttributes rttr) {
+		service.createWANote(vo);
+		rttr.addFlashAttribute("result", "success");
+		log.info(vo.getTaglist().toString());
+		return "redirect:/wanote/list?m_id=" + vo.getM_id();
 	}
 	
 	@GetMapping("/list")

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.sst.domain.Criteria;
 import org.sst.domain.WANoteVO;
+import org.sst.domain.WAtagVO;
 
 public interface WANoteMapper {
 	List<WANoteVO> listWANote(String m_id);
@@ -15,4 +16,7 @@ public interface WANoteMapper {
 	
 	List<WANoteVO> listWithPagingWANote(HashMap map);
 	int getTotalCount(HashMap map);
+	
+	List<WAtagVO> listAllTag(String keyword);
+	
 }

@@ -28,8 +28,7 @@ public class WANoteMapperTests {
 //		vo.setW_question("MapperTest");
 //		vo.setW_answer("MapperTest");
 //		vo.setW_reason("MapperTest");
-//		vo.setW_tag1("MapperTest");
-//		vo.setW_tag2("MapperTest");
+//		vo.setW_subject("MapperTest");
 //		
 //		log.info(mapper.createWANote(vo));
 //	}

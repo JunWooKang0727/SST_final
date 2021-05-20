@@ -50,9 +50,7 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Board List Page
-				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
-					New Board</button>
+				<button id='regBtn' type="button" class="btn btn-xs pull-right float-right">오답노트 작성하기</button>
 			</div>
 
 			<!-- /.panel-heading -->
@@ -60,11 +58,10 @@
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>#번호</th>
+							<th>글번호</th>
 							<th>제목</th>
 							<th>작성자</th>
 							<th>작성일</th>
-							<th>수정일</th>
 						</tr>
 					</thead>
 
@@ -76,8 +73,7 @@
                   <c:out value="${wanote.w_title}" />
                   </a>
               <td><c:out value="${wanote.m_id}" /></td>
-              <td></td>
-              <td></td>
+              <td><c:out value="${wanote.w_date}" /></td>
             </tr>
           </c:forEach>
 

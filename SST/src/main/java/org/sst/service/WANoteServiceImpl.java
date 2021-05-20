@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sst.domain.WANoteVO;
+import org.sst.domain.WAtagVO;
 import org.sst.mapper.WANoteMapper;
 
 import lombok.Setter;
@@ -51,6 +52,12 @@ public class WANoteServiceImpl implements WANoteService{
 	public int getTotalCount(HashMap map) {
 		// TODO Auto-generated method stub
 		return mapper.getTotalCount(map);
+	}
+
+	@Override
+	public List<WAtagVO> listAllTag(String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.listAllTag(keyword);
 	}
 
 }

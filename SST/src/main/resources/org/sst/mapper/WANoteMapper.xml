@@ -23,20 +23,24 @@
 	<insert id="createWANote" parameterType="org.sst.domain.WANoteVO">
 		insert into
 		WAnote
-		(w_num, w_title, w_question, w_answer, w_reason, w_tag1, w_tag2, m_id)
-		values('w'||to_char(wanote_seq.nextval), #{w_title}, #{w_question},
-		#{w_answer}, #{w_reason}, #{w_tag1}, #{w_tag2}, #{m_id})
+		(w_num, w_title, w_question, w_answer, w_reason, w_subject,
+		m_id,w_date)
+		values('w'||to_char(wanote_seq.nextval), #{w_title},
+		#{w_question},
+		#{w_answer}, #{w_reason}, #{w_subject}, #{m_id},sysdate)
 	</insert>
 
 	<!-- <select id="listWANote" resultType="org.sst.domain.WANoteVO" parameterType="String"> 
 		<![CDATA[ select /*+INDEX_DESC(wanote pk_wanote) */ * from wanote where m_id=#{m_id} 
 		]]> </select> -->
 
-	<select id="listWithPagingWANote" resultType="org.sst.domain.WANoteVO" parameterType="java.util.HashMap">
+	<select id="listWithPagingWANote" resultType="org.sst.domain.WANoteVO"
+		parameterType="java.util.HashMap">
 		  <![CDATA[   
-			select w_num, w_title, w_question, w_answer, w_reason, w_tag1, w_tag2, m_id from 
+			select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
 			(select  /*+INDEX_DESC(wanote pk_wanote) */ 
-				rownum rn ,w_num, w_title, w_question, w_answer, w_reason, w_tag1, w_tag2, m_id
+				rownum rn ,w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
+		w_date
 			 from wanote where m_id=#{m_id} and
 		]]>
 		<include refid="criteria"></include>  
@@ -51,7 +55,7 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from wanote where
 		<include refid="criteria"></include>
-		 m_id=#{m_id}
+		m_id=#{m_id}
 	</select>
 
 
@@ -62,15 +66,29 @@
 
 	<delete id="deleteWANote" parameterType="String">
 		DELETE FROM
-		wanote WHERE w_num=#{w_num}
+		wanote WHERE
+		w_num=#{w_num}
 	</delete>
 
 	<update id="updateWANote" parameterType="org.sst.domain.WANoteVO">
 		UPDATE WAnote
-		SET w_title= #{w_title},w_question= #{w_question},w_answer=
+		SET
+		w_title= #{w_title},w_question= #{w_question},w_answer=
 		#{w_answer}
 		,w_reason= #{w_reason}, w_tag1= #{w_tag1},w_tag2=#{w_tag2}
-		WHERE w_num=#{w_num}
+		WHERE
+		w_num=#{w_num}
 	</update>
+
+
+	<select id="listAllTag" resultType="org.sst.domain.WAtagVO"
+		parameterType="String">
+		select * from tag where tg_name LIKE '%'||#{keyword}||'%'
+	</select>
+
+	<select id="readTag" resultType="org.sst.domain.WAtagVO"
+		parameterType="String">
+		select * from tag where tg_name=#{tg_name}
+	</select>
 
 </mapper>
