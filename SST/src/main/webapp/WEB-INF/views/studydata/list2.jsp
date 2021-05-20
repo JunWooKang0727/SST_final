@@ -50,13 +50,31 @@
 					<!-- Content Row -->
 					<div class="row headerLine"></div>
 					<!-- end of row -->
-
-
-					
-					<div class="row filebox">
-						
-					
+					<div class="row">
+						<div class="showCurPath"></div>
 					</div>
+
+					<div class="row">
+
+						<div class="createDirBtn">새 폴더</div>
+
+
+						<div class="modal">
+							<div class="modal_content" title="클릭하면 창이 닫힙니다.">
+								새 폴더 만들기
+							</div>
+							<form class="dirNameForm" action="/studydata/create" method="POST">
+								<input type="text" name="dirName">
+							</form>
+							<div class="btnArea">
+								<a href="" class="create">만들기</a><a href="" class="cancel">취소</a>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="row filebox"></div>
 					<!-- end of row -->
 
 
@@ -94,103 +112,176 @@
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
 
 	<script type="text/javascript">
-	
-	$(function(){
-		
-		showUploadedFile();
-		
-		$('.filebox')
-			.on("dragover",dragOver)
-			.on("dragleave",dragOver)
-			.on("drop",uploadFiles)
-		
-		
-	});
-	
-	function dragOver(e){
-		e.stopPropagation();
-		e.preventDefault();
-		
-	    if (e.type == "dragover") {
-	        $(e.target).css({
-	            "background-color": "black",
-	            "outline-offset": "-20px"
-	        });
-	    } else {
-	        $(e.target).css({
-	            "background-color": "gray",
-	            "outline-offset": "-10px"
-	        });
-	    }
-	}
-	
-	function uploadFiles(e){
-		e.stopPropagation();
-		e.preventDefault();
-		
-	    dragOver(e); //1
-	    
-	    e.dataTransfer = e.originalEvent.dataTransfer; //2
-	    var files = e.target.files || e.dataTransfer.files;
-	    
-	    console.log(files);
-		
-	    var formData = new FormData();
-	    
-	    for(var i=0;i<files.length;i++){
-	    	formData.append("uploadFile",files[i]);
-	    }
-	    
-	    if(confirm("파일을 등록할까요")){
-		    $.ajax({
-		    	url:'/studydata/uploadAjax',
-		    	processData : false,
-		    	contentType : false,
-		    	data : formData,
-		    	type : 'POST',
-		    	
-		    	success :function(result){
-		    		alert("Uploaded");
-		    		
-		    		showUploadedFile();
-		    	}
-		    
-		    });// end of ajax
- 	    }else{
-	    	return;
-	    } 
+		$(function() {
 
-	}//end of uploadFiles
-	
-	
-	
-	function showUploadedFile(){
-		
-		var str = "";
-		$('.filebox').empty();
-		
-		$.ajax({
-			
-			url : '/studydata/list',
-			dataType : 'json',
-			type : 'GET',
-			data : {"g_num":"1"},
-			success : function(data){
-				
-				$(data).each(function(i,obj){
-					
-					str += "<a class='fileObj' href='/studydata/download?fileName="+obj.fileName+"'><span>" + obj.fileName + "</span></a>";
-					
-					
-					
-					console.log("실행됨");
+			showUploadedFile();
+
+			$('.filebox').on("dragover", dragOver).on("dragleave", dragOver)
+					.on("drop", uploadFiles);
+
+			$('.filebox').on("click", "span", function(e) {
+
+				var targetFile = $(this).data("file");
+				//var type = $(this).data("type");
+				var uuid = $(this).data("uuid");
+				console.log(targetFile);
+
+				$.ajax({
+
+					url : '/studydata/deleteFile',
+					data : {
+						fileName : targetFile,
+						uuid : uuid
+					},
+					dataType : 'text',
+					type : 'POST',
+					success : function(result) {
+						alert(result);
+						showUploadedFile();
+					}
+
+				});//end of ajax
+
+			});//end of span on click event
+
+		});
+
+		function dragOver(e) {
+			e.stopPropagation();
+			e.preventDefault();
+
+			if (e.type == "dragover") {
+				$(e.target).css({
+					"background-color" : "black",
+					"outline-offset" : "-20px"
 				});
-				
-				$('.filebox').append(str);
+			} else {
+				$(e.target).css({
+					"background-color" : "gray",
+					"outline-offset" : "-10px"
+				});
 			}
-		}); //end of ajax
+		}
+
+		function uploadFiles(e) {
+			e.stopPropagation();
+			e.preventDefault();
+
+			dragOver(e); //1
+
+			e.dataTransfer = e.originalEvent.dataTransfer; //2
+			var files = e.target.files || e.dataTransfer.files;
+
+			console.log(files);
+
+			var formData = new FormData();
+
+			for (var i = 0; i < files.length; i++) {
+				formData.append("uploadFile", files[i]);
+			}
+
+			if (confirm("파일을 등록할까요")) {
+				$.ajax({
+					url : '/studydata/uploadAjax',
+					processData : false,
+					contentType : false,
+					data : formData,
+					type : 'POST',
+
+					success : function(result) {
+						alert("Uploaded");
+
+						showUploadedFile();
+					}
+
+				});// end of ajax
+			} else {
+				return;
+			}
+
+		}//end of uploadFiles
+
+		function showUploadedFile() {
+
+			var str = "";
+			$('.filebox').empty();
+
+			$
+					.ajax({
+
+						url : '/studydata/list',
+						dataType : 'json',
+						type : 'GET',
+						data : {
+							"g_num" : "1"
+						},
+						success : function(data) {
+
+							$(data)
+									.each(
+											function(i, obj) {
+
+												var fileCallPath = encodeURIComponent(obj.uploadPath
+														+ "/"
+														+ obj.uuid
+														+ "_"
+														+ obj.fileName);
+
+												str += "<div class='fileObj'><a href='/studydata/download?fileName="
+														+ fileCallPath
+														+ "'>"
+														+ obj.fileName
+														+ "</a><br>";
+												str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+"\'> 삭제 </span></div>";
+
+												console.log("실행됨");
+											});
+
+							$('.filebox').append(str);
+						}
+					}); //end of ajax
+
+		}// end of showUploadedFile
+
 		
-	}
+		//새폴더 모달창 관련
+		$(function() {
+			$(".createDirBtn").click(function() {
+				var div = $(".modal")
+				
+				
+				div.css("position", "absolute");
+				div.css("top", Math.max(0, (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop()) + "px");
+				div.css("left", Math.max(0, (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+				div.fadeIn();
+			});
+			$(".modal_content").click(function() {
+				$(".modal").fadeOut();
+			});
+			
+			$(".create").click(function(e){
+				e.preventDefault();
+				
+				$(".modal").fadeOut();
+				
+				if($("input[name=dirName]").val().trim()==""){
+					alert("폴더명을 입력하세요");
+					$("input[name=dirName]").val('');
+					return;
+				}
+				
+				$(".dirNameForm").submit();
+				$("input[name=dirName]").val('');
+			});
+			
+			
+			$(".cancel").click(function(e){
+				e.preventDefault();
+				$(".modal").fadeOut();
+			});
+		});
+
+		
 	</script>
 
 </body>

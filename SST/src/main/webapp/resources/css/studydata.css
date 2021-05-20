@@ -1,18 +1,16 @@
 @CHARSET "UTF-8";
 
-.filebox{
-    outline: 2px dashed #92b0b3 ;
-    outline-offset:-10px;  
-    text-align: center;
-    transition: all .15s ease-in-out;
-    width: 1000px;
-    height: 500px;
-    background-color: gray;
+.filebox {
+	outline: 2px dashed #92b0b3;
+	outline-offset: -10px;
+	text-align: center;
+	transition: all .15s ease-in-out;
+	width: 1000px;
+	height: 500px;
+	background-color: gray;
 }
 
-
-.fileObj{
-	
+.fileObj {
 	border: 1px solid blue;
 	background-color: white;
 	color: black;
@@ -21,3 +19,23 @@
 	margin: 10px;
 }
 
+.createDirBtn {
+	width: 80px;
+	height: 40px;
+	color: black;
+	border: 1px solid black;
+	text-align: center;
+	padding-top: 7px;
+	margin-bottom: 20px;
+}
+
+.modal {
+	position: absolute;
+	width: 50%;
+	height: 200px;
+	background: black;
+	top: 0;
+	left: 0;
+	display: none;
+	 text-align: center;
+}

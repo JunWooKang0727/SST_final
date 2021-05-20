@@ -13,6 +13,11 @@
 	
 	</insert>
 	
+	<delete id="delete">
+	
+		delete from studydata where uuid = #{uuid}
+	
+	</delete>
 	
 	<select id="findByG_num" resultType="org.sst.domain.StudyDataVO">
 	
