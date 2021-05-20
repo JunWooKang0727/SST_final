@@ -50,9 +50,11 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 		Document doc = Jsoup.connect("https://www.ebsi.co.kr/ebs/xip/xipc/previousPaperListAjax.ajax")
 				.method(Connection.Method.GET).userAgent(userAgent)
 				.header("Referer", "https://www.ebsi.co.kr/ebs/xip/xipc/previousPaperList.ebs")
-				.header("Origin", "https://www.ebsi.co.kr").header("Accept", "text/html")
+				.header("Origin", "https://www.ebsi.co.kr")
+				.header("Accept", "text/html")
 				.header("Accept-Encoding", "gzip, deflate, br")
-				.header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7").data("targetCd", "D300")// 이아래부터
+				.header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+				.data("targetCd", "D300")// 이아래부터
 																											// 우리가
 																											// 만져줘야함
 				.data("monthList", monthToString.substring(0, monthToString.length() - 1))// 여기에
