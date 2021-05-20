@@ -83,7 +83,7 @@
 					<div class="row">
 
 						<div class="studyNoteFormWrap">
-						<form action="Question_InsertAction.do" method="post">
+						<form action="StudyNote_InsertAction.do" method="post">
 
 							<!-- 작성자 : <input type="text" name="gm_num"> --><br> 
 							<!-- <input class="input_title" type="text" placeholder="제목을 입력하세요" name="sn_title"> -->
