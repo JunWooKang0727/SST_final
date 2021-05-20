@@ -14,9 +14,11 @@
 	</insert>
 	
 	
-	<select id="findByG_num">
+	<select id="findByG_num" resultType="org.sst.domain.StudyDataVO">
 	
 		select * from studydata where g_num = #{g_num}
+		and regdate >= '00/01/01'
+		order by regdate ASC
 	
 	</select>
 	

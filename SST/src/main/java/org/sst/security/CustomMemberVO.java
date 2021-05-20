@@ -12,7 +12,7 @@ import lombok.Getter;
 
 @Getter
 public class CustomMemberVO extends User {
-
+	//1
 	private static final long serialVerisonUID = 1L;
 	
 	private MemberVO member;

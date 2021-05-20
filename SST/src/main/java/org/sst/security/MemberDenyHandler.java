@@ -13,7 +13,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class MemberDenyHandler implements AccessDeniedHandler {
-
+	//1
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessException)
 			throws IOException, ServletException {

@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="org.sst.mapper.StudyNoteMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
+<mapper namespace="org.sst.mapper.QuestionMapper"> <!-- 동일한 이름의 인터페이스를 만들어야한다 -->
 	<cache />
 
 	<sql id="criteria">
@@ -12,13 +12,13 @@
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'T'.toString()">
-							sn_title like '%'||#{keyword}||'%'
+							q_title like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'C'.toString()">
-							sn_contents like '%'||#{keyword}||'%'
+							q_contents like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'W'.toString()">
-							sn_writer like '%'||#{keyword}||'%'
+							q_writer like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
@@ -29,15 +29,15 @@
 
 
 	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
-	<insert id="insertStudyNote"><!-- id와 동일한 메서드를 만들어야한다 -->
+	<insert id="insertQuestion"><!-- id와 동일한 메서드를 만들어야한다 -->
 
-		INSERT INTO studynote(
-		sn_num, sn_title,sn_writer, sn_contents, sn_date, g_num,
+		INSERT INTO question(
+		q_num, q_title,q_writer, q_contents, q_date, g_num,
 		gm_num
 		)
 		VALUES(
-		('sn_'||sn_seq.NEXTVAL), #{sn_title},#{sn_writer},
-		#{sn_contents,jdbcType=CLOB},
+		('q_'||q_seq.NEXTVAL), #{q_title},#{q_writer},
+		#{q_contents,jdbcType=CLOB},
 		SYSDATE, 1, 1
 		)
 
@@ -45,8 +45,8 @@
 
 	<!-- parameterType="StudyNoteSearchVO" -->
 
-	<select id="listStudyNote" resultType="org.sst.domain.StudyNoteVO">
-		SELECT /*+INDEX_DESC(studynote sn_num_idx) */ * FROM studynote
+	<select id="listQuestion" resultType="org.sst.domain.QuestionVO">
+		SELECT /*+INDEX_DESC(question q_num_idx) */ * FROM question
 		<if test="area != null">
 			<where>
 				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
@@ -61,28 +61,28 @@
 	</select>
 
 
-	<select id="detailStudyNote" resultType="org.sst.domain.StudyNoteVO">
-		select * from studynote
-		where sn_num = #{sn_num}
+	<select id="detailQuestion" resultType="org.sst.domain.QuestionVO">
+		select * from question
+		where q_num = #{q_num}
 	</select>
 
 
-	<update id="updateStudyNote">
-		update studynote set sn_title=#{sn_title},
-		sn_contents=#{sn_contents}
-		where sn_num = #{sn_num}
+	<update id="updateQuestion">
+		update question set q_title=#{q_title},
+		q_contents=#{q_contents}
+		where q_num = #{q_num}
 	</update>
 
 
-	<delete id="deleteStudyNote" parameterType="String">
+	<delete id="deleteQuestion" parameterType="String">
 
-		DELETE FROM studynote
-		WHERE sn_num = #{sn_num}
+		DELETE FROM question
+		WHERE q_num = #{q_num}
 	</delete>
 
 
-	<select id="countStudyNote" resultType="int">
-		select count(*) from studynote
+	<select id="countQuestion" resultType="int">
+		select count(*) from question
 		<if test="area != null">
 			<where>
 				<!-- where (title LIKE %aa% OR writer LIKE %aa%) -->
@@ -95,18 +95,16 @@
 	</select>
 
 
-	<select id="getStudyNoteList" resultType="org.sst.domain.StudyNoteVO">
+	<select id="getQuestionList" resultType="org.sst.domain.QuestionVO">
 	<![CDATA[
 	  select 
-	    sn_num, sn_title, sn_contents, sn_writer, sn_date
+	    q_num, q_title, q_contents, q_writer, q_date
 	  from 
 	      (
-
-	      select
-	        rownum rn, sn_num, sn_title, sn_contents, sn_writer, sn_date, to_number(substr(sn_num,4))
-
+	      select /*+INDEX_DESC(tbl_board pk_question) */
+	        rownum rn, q_num, q_title, q_contents, q_writer, q_date,to_number(substr(q_num,4))
 	      from 
-	        studynote
+	        question
 	      where 
 	  ]]>
 
@@ -114,10 +112,8 @@
       
 	  <![CDATA[    
 	      rownum <= #{pageNum} * #{amount}
-
-	      and to_number(substr(sn_num,4)) > 0
-
-	      order by to_number(substr(sn_num,4)) desc
+	      and to_number(substr(q_num,4)) > 0
+	      order by to_number(substr(q_num,4)) desc
 	      )
 	  where rn > (#{pageNum} -1) * #{amount}   
 	  ]]>
@@ -125,11 +121,11 @@
 	
 	
 	  <select id="getTotalCount" resultType="int">
-  select count(*) from studynote where 
+  select count(*) from question where 
   
     <include refid="criteria"></include> 
     
-  sn_num LIKE 'sn%'
+  q_num LIKE 'q%'
   
   </select>
 </mapper>

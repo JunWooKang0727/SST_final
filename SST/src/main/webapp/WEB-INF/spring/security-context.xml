@@ -6,14 +6,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- spring security tag-lib 사용을 위해 use-expression="true" 설정을 해야한다 -->
 	
-	<!-- MemberAccessDeny : 권한 없을 때 페이지 리다이렉트 시키는 핸들러 -->
-	<bean id="MemberAccessDeny" class="org.sst.security.MemberDenyHandler"></bean>
+
 	
-	<!-- MemberLoginSuccess : 로그인 성공 시 페이지 리다이렉트 시키는 핸들러 -->
-	<bean id="MemberLoginSuccess" class="org.sst.security.MemberSuccessHandler"></bean>
-	
-	<!-- MemberDetailService : 로그인 처리 -->
-	<bean id="MemberDetailService" class="org.sst.security.MemberDetailService"></bean>
 	
 	<!-- 암호화를 위한 security api -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />

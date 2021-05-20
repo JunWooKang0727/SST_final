@@ -50,6 +50,8 @@
 					<!-- Content Row -->
 					<div class="row headerLine"></div>
 					<!-- end of row -->
+
+
 					
 					<div class="row filebox">
 						
@@ -94,6 +96,8 @@
 	<script type="text/javascript">
 	
 	$(function(){
+		
+		showUploadedFile();
 		
 		$('.filebox')
 			.on("dragover",dragOver)
@@ -152,9 +156,9 @@
 		    	}
 		    
 		    });// end of ajax
-	    }else{
+ 	    }else{
 	    	return;
-	    }
+	    } 
 
 	}//end of uploadFiles
 	
@@ -163,23 +167,26 @@
 	function showUploadedFile(){
 		
 		var str = "";
-		
+		$('.filebox').empty();
 		
 		$.ajax({
 			
 			url : '/studydata/list',
 			dataType : 'json',
 			type : 'GET',
+			data : {"g_num":"1"},
 			success : function(data){
 				
 				$(data).each(function(i,obj){
 					
-					str += "<div class='fileObj'>" + obj.fileName + "</div>";
+					str += "<a class='fileObj' href='/studydata/download?fileName="+obj.fileName+"'><span>" + obj.fileName + "</span></a>";
 					
-					uploadResult.append(str);
+					
 					
 					console.log("실행됨");
 				});
+				
+				$('.filebox').append(str);
 			}
 		}); //end of ajax
 		
@@ -188,15 +195,4 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 

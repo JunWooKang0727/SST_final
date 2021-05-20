@@ -17,7 +17,7 @@ public class MemberSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
 			throws IOException, ServletException {
-		
+		//1
 		log.warn("Login success......................");
 		
 		List<String> roleNames = new ArrayList<>();

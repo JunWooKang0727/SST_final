@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j;
  */
 @Log4j
 public class MemberDetailService implements UserDetailsService {
-
+	//1
 	@Setter(onMethod_ = {@Autowired})
 	private MemberMapper mapper;
 	

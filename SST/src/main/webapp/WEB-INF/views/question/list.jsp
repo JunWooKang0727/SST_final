@@ -16,20 +16,15 @@
 <meta name="author" content="">
 <title>SST</title>
 <!-- Custom fonts for this template-->
-<link href="../../../resources/vendor/fontawesome-free/css/all.min.css"
+<link href="../../resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
-<link href="../../../resources/css/studynote.css" rel="stylesheet">
-
-
-<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-<link href="../../../resources/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-
+<link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="../../resources/css/studynote.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -55,16 +50,7 @@
 					<!-- Content Row -->
 					<div class="row headerLine"></div>
 					<!-- end of row -->
-					
-					<div class="row">
-						
-					 <form action="/studynote/list"> 
-						<input type="text" id="datepicker" name="startDate">
-						<input type="text" id="datepicker2" name="endDate">
-						<input type="submit" value="날짜 선택">
-					 </form>
-					</div>
-					
+
 					<div class="row">
 
 						<div class="noteListArea">
@@ -84,17 +70,14 @@
 										<td></td>
 										<td></td>
 									</tr>
-									<c:forEach var="studynote" items="${list}">
+									<c:forEach var="question" items="${list}">
 										<tr class="sn_row">
-											<td class="sn_num">
-											<c:set var ="num" value="${studynote.sn_num }"/>
-											${fn:substring(num,3,1000)}
-											</td>
+											<td class="sn_num">${question.q_num }</td>
 											<td class="sn_title"><a class="noHyper move"
-												href="${studynote.sn_num }">${studynote.sn_title }</a></td>
-											<td class="sn_writer">${studynote.sn_writer }</td>
+												href="${question.q_num }">${question.q_title }</a></td>
+											<td class="sn_writer">${question.q_writer }</td>
 											<td class="sn_date"><fmt:parseDate var="dt"
-													value="${studynote.sn_date}" pattern="yyyy-MM-dd HH:mm:ss" />
+													value="${question.q_date}" pattern="yyyy-MM-dd HH:mm:ss" />
 												<fmt:formatDate value="${dt}" pattern="yyyy/MM/dd" /></td>
 										</tr>
 									</c:forEach>
@@ -141,7 +124,7 @@
 						<div class="noteListFooterArea">
 
 												
-							<form id='searchForm' action="/studynote/list" method='get'>
+							<form id='searchForm' action="/question/list" method='get'>
 							<select name='type'>
 								<option value=""
 									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
@@ -178,7 +161,7 @@
 
 						</div>
 
-						<form id='actionForm' action="/studynote/list" method='get'>
+						<form id='actionForm' action="/question/list" method='get'>
 							<input type='hidden' name='pageNum'
 								value='${pageMaker.cri.pageNum}'> 
 							<input type='hidden'
@@ -215,18 +198,14 @@
 	</a>
 
 	<!-- Bootstrap core JavaScript-->
-	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
-
+	<script src="../../resources/vendor/jquery/jquery.min.js"></script>
 	<script
-		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
 	<script
-		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+		src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
-	<script src="../../../resources/js/sb-admin-2.min.js"></script>
-	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  -->
-
-	<script src="../../../resources/vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="../../resources/js/sb-admin-2.min.js"></script>
 	
 	<script type="text/javascript">
 	$(document)
@@ -257,7 +236,7 @@
 						$("#regBtn").on("click", function(e) {
 							
 							e.preventDefault();
-							self.location = "/studynote/create";
+							self.location = "/question/create";
 
 						});
 
@@ -283,12 +262,12 @@
 
 											e.preventDefault();
 											actionForm
-													.append("<input type='hidden' name='sn_num' value='"
+													.append("<input type='hidden' name='q_num' value='"
 															+ $(this).attr(
 																	"href")
 															+ "'>");
 											actionForm.attr("action",
-													"/studynote/read");
+													"/question/read");
 											actionForm.submit();
 
 										});
@@ -318,30 +297,10 @@
 									searchForm.submit();
 
 								});
-						
-						
-						
-							
-							$("#datepicker").datepicker({
-								
-							
-								
-							});
-							
-							$("#datepicker2").datepicker({
-								
-							
-								
-							});
-						
-						
+
 					});
 </script>
-<script type="text/javascript">
 
-
-
-</script>
 </body>
 </html>
 

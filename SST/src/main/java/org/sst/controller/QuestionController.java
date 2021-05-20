@@ -13,20 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.Criteria;
 import org.sst.domain.PageDTO;
-import org.sst.domain.StudyNoteVO;
-import org.sst.service.StudyNoteService;
-
+import org.sst.domain.QuestionVO;
+import org.sst.service.QuestionService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/studynote/*")
+@RequestMapping("/question/*")
 @AllArgsConstructor
-public class StudyNoteController {
+public class QuestionController {
 
-	private StudyNoteService service;
+	private QuestionService service;
 
 	@GetMapping("/create")
 	public void create() {
@@ -34,11 +33,11 @@ public class StudyNoteController {
 	}
 
 	@PostMapping("/create")
-	public String create(StudyNoteVO vo){
+	public String create(QuestionVO vo){
 		
 		service.register(vo);
 		
-		return "redirect:/studynote/list";
+		return "redirect:/question/list";
 	}
 	
 	
@@ -58,14 +57,14 @@ public class StudyNoteController {
 	}
 	
 	@GetMapping({ "/read", "/update" })
-    public void get(@RequestParam("sn_num") String sn_num, @ModelAttribute("cri") Criteria cri, Model model) {
+    public void get(@RequestParam("q_num") String q_num, @ModelAttribute("cri") Criteria cri, Model model) {
 
         log.info("/get or modify");
-        model.addAttribute("studynote", service.read(sn_num));
+        model.addAttribute("question", service.read(q_num));
     }
 	
 	@PostMapping("/update")
-	public String modify(StudyNoteVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+public String modify(QuestionVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + vo);
 
 		if (service.update(vo)>0) {
@@ -77,16 +76,16 @@ public class StudyNoteController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:/board/list";
+		return "redirect:/question/list";
 	}
 	
 	@PostMapping("/delete")
-	public String remove(@RequestParam("sn_num") String sn_num, Criteria cri, RedirectAttributes rttr) {
+	public String remove(@RequestParam("q_num") String q_num, Criteria cri, RedirectAttributes rttr) {
 
-		log.info("remove..." + sn_num);
+		log.info("remove..." + q_num);
 
 		//List<BoardAttachVO> attachList = service.getAttachList(bno);f
-		service.delete(sn_num);
+		service.delete(q_num);
 /*		if (service.remove(bno)) {
 
 			// delete Attach Files
@@ -94,7 +93,7 @@ public class StudyNoteController {
 
 			rttr.addFlashAttribute("result", "success");
 		}*/
-		return "redirect:/board/list";
+		return "redirect:/question/list";
 		//return "redirect:/board/list" + cri.getListLink();
 	}
 
