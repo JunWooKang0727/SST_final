@@ -126,7 +126,7 @@ public class StudyDataController {
 		log.info(vo.getCurPath());
 		return new ResponseEntity<List<StudyDataVO>>(service.getList(vo), HttpStatus.OK);
 
-	}//end getFileList
+	}//end getFileList 123
 	
 	
 	@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
