@@ -4,15 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="org.sst.mapper.StudyGroupMapper">
  	
- 	<!-- 그룹 생성 -->
- 	<insert id="groupInsert" parameterType="org.sst.domain.StudyGroupVO">
+ 	<!-- 그룹 생성 & 그룹생성과 동시에 멤버추가는 동시에(?) 실행되어야함. -->
+ 	<insert id="groupInsert" parameterType="org.sst.domain.StudyGroupVO"
+ 	useGeneratedKeys="true" keyColumn="g_num" keyProperty="g_num">
  		insert into studygroup(G_NUM, G_NAME, G_CONTENT, G_SECREAT, G_PASSWD, G_CATEGORY, G_MEMNUM)
-		values('gn'||to_char(group_num_seq.nextval), #{g_name}, #{g_content}, #{g_secreat}, #{g_passwd}, #{g_category}, #{g_memnum})
+		values('gn'||to_char(group_num_seq.nextval), #{g_name}, #{g_content}, 
+		#{g_secreat}, #{g_passwd}, #{g_category}, #{g_memnum})
  	</insert>
  	
+ 	<!-- 그룹 생성과 동시에 그룹에 멤버 추가 -->
+ 	<insert id="insertGroupMember" parameterType="org.sst.domain.GroupMemberVO">
+			insert into groupmember(GM_NUM, G_NUM, GM_INDEX, P_GRANT, M_ID)
+			values('gm'||to_char(groupmem_num_seq.nextval), #{g_num}, GROUP_MEM_SEQ.NEXTVAL, #{p_grant}, #{m_id})
+	</insert>
+	
+	<!-- 회원이 생성한 그룹 조회 -->
+	<select id="groupMakeRead" resultType="org.sst.domain.StudyGroupVO" parameterType="String">
+		<![CDATA[
+			select * from studygroup s where s.G_NUM IN 
+			(select gm.G_NUM from groupmember gm where gm.m_id = #{id} and gm.p_grant = 1)
+		]]>
+	</select>
+	
  	<!-- 그룹 상세 조회 (그룹 수정)-->
 	<select id="groupDetailRead" resultType="org.sst.domain.StudyGroupVO">
-		select * from studygroup where G_NUM = #{gnum}
+		select * from studygroup where G_NUM = #{g_num}
 	</select>
 	
 	<!-- 그룹 정보 수정 -->
@@ -25,4 +41,6 @@
 	<delete id="groupDelete">
 		delete from studygroup where G_NUM = #{gnum}
 	</delete>
+	
+	<!-- 스터디 그룹원 가져오기 -->
  </mapper>
