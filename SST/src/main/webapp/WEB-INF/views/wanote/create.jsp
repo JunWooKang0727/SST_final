@@ -14,19 +14,7 @@
 <meta name="author" content="">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
-<style type="text/css">
-.tag-list a {
-    height: 29px;
-    margin: 15px 5px;
-    padding: 0px 8px;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: normal;
-    color: #000;
-    background-color: #eee;
-    border-radius: 12px;
-}
-</style>
+<link href="/sst/resources/css/wanote.css" rel="stylesheet">
 </head>
 <body id="page-top">
 

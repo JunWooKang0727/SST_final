@@ -1,0 +1,11 @@
+.tag-list a {
+    height: 29px;
+    margin: 15px 5px;
+    padding: 0px 8px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: normal;
+    color: #000;
+    background-color: #eee;
+    border-radius: 12px;
+}

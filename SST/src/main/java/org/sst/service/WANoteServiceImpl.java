@@ -23,8 +23,9 @@ public class WANoteServiceImpl implements WANoteService{
 	}
 
 	@Override
-	public boolean  createWANote(WANoteVO vo) { 
-		return mapper.createWANote(vo)==1;
+	public String createWANote(WANoteVO vo) { 
+		mapper.createWANote(vo);
+		return vo.getW_num();
 	}
 
 	@Override
@@ -58,6 +59,31 @@ public class WANoteServiceImpl implements WANoteService{
 	public List<WAtagVO> listAllTag(String keyword) {
 		// TODO Auto-generated method stub
 		return mapper.listAllTag(keyword);
+	}
+
+	@Override
+	public String createTag(WAtagVO vo) {
+		// TODO Auto-generated method stub
+		mapper.createTag(vo);
+		return vo.getTg_num();
+	}
+
+	@Override
+	public WAtagVO readTag(WAtagVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.readTag(vo);
+	}
+
+	@Override
+	public int createWATag(HashMap map) {
+		// TODO Auto-generated method stub
+		return mapper.createWATag(map);
+	}
+
+	@Override
+	public List<WAtagVO> listWATag(String w_num) {
+		// TODO Auto-generated method stub
+		return mapper.listWATag(w_num);
 	}
 
 }

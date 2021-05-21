@@ -1,5 +1,7 @@
 package org.sst.mapper;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 
 import org.junit.Test;
@@ -9,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.sst.domain.Criteria;
 import org.sst.domain.WANoteVO;
+import org.sst.domain.WAtagVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -38,10 +41,10 @@ public class WANoteMapperTests {
 //		log.info(mapper.listWANote("ggy"));
 //	}
 	
-//	@Test
-//	public void testRead() {
-//		log.info(mapper.readWANote("w2"));
-//	}
+	@Test
+	public void testRead() {
+		log.info(mapper.readWANote("350"));
+	}
 	
 //	@Test
 //	public void testUpdate() {
@@ -62,14 +65,14 @@ public class WANoteMapperTests {
 //		log.info(mapper.deleteWANote("w2"));
 //	}
 	
-//	@Test
-//	public void testList2() {
-//		HashMap map = new HashMap<>();
-//		map.put("m_id", "ggy");
-//		map.put("cri", new Criteria(1,3));
-//		map.put("typeArr", new Criteria(1,3).getTypeArr());
-//		log.info(mapper.listWithPagingWANote(map));
-//	}
+	@Test
+	public void testList2() {
+		HashMap map = new HashMap<>();
+		map.put("m_id", "ggy");
+		map.put("cri", new Criteria(1,3));
+		map.put("typeArr", new Criteria(1,3).getTypeArr());
+		log.info(mapper.listWithPagingWANote(map));
+	}
 	
 //	@Test
 //	public void testCount() {
@@ -80,5 +83,41 @@ public class WANoteMapperTests {
 //		log.info(mapper.getTotalCount(map));
 //	}
 	
-
+//	  @Test
+//	  public void testCreateWANotes() {
+//
+//	    for(int i = 0; i < 100; i++) {
+//	    	WANoteVO vo = new WANoteVO();
+//			vo.setM_id("ggy");
+//			vo.setW_title("MapperTest");
+//			vo.setW_question("MapperTest");
+//			vo.setW_answer("MapperTest");
+//			vo.setW_reason("MapperTest");
+//			vo.setW_subject("MapperTest");
+//			
+//			log.info(mapper.createWANote(vo));
+//
+//	      }
+//	    }//end for
+	
+//	@Test
+//	public void testCreateTag() {
+//		WAtagVO vo1 =mapper.readTag("안유진");
+//		if(vo1==null){
+//			WAtagVO vo2 =new WAtagVO();
+//			vo2.setTg_name("안유진");
+//			log.info(mapper.createTag(vo2));
+//			log.info("result----------------------------------"+vo2.getTg_num());
+//			HashMap map = new HashMap();
+//			map.put("w_num", "335");
+//			map.put("tg_num", vo2.getTg_num());
+//			log.info("result(없을때)--------------------------------"+mapper.createWATag(map));
+//		}else{
+//			HashMap map = new HashMap();
+//			map.put("w_num", "335");
+//			map.put("tg_num", vo1.getTg_num());
+//			log.info("result(있을때)--------------------------------"+mapper.createWATag(map));
+//		}
+//	}
+	
 }

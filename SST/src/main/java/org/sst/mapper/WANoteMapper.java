@@ -19,4 +19,10 @@ public interface WANoteMapper {
 	
 	List<WAtagVO> listAllTag(String keyword);
 	
+	int createTag(WAtagVO vo);
+	WAtagVO readTag(WAtagVO vo);
+	
+	int createWATag(HashMap map);
+	List<WAtagVO> listWATag(String w_num);
+	
 }
