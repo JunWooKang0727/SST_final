@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,12 +39,20 @@ public class StudyDataController {
 	
 	
 	@GetMapping("/list2")
-	public void goList(){
+	public void goList(StudyDataListVO studyDataList, Model model){
 		log.info("go list");
+		
+		studyDataList.setG_num("1"); //임의로 1로 지정 //그룹 번호를 그룹페이지 들어갈 때 가져와야함
+		studyDataList.setCurPath("1"); // 임의로 1로 지정 //그룹번호로 되어야함
+		log.info("file group number : "+studyDataList.getG_num());
+		log.info(studyDataList);
+		model.addAttribute("studyDataList",	 studyDataList);
+		
 	}
 	
+	//새 폴더 생성
 	@PostMapping("/create")
-	public String makeDir(String curDir, String dirName){
+	public String makeDir(String curPath, String dirName){
 		
 		String uploadFolder = "E:\\upload\\1";
 		
@@ -56,7 +65,7 @@ public class StudyDataController {
 		File dir = new File(uploadFolder, uuidFile);
 		dir.mkdir();
 		StudyDataVO vo = new StudyDataVO();
-		
+		log.info("new folder in "+curPath);
 		vo.setFileName(dirName);
 		vo.setFileType(false);
 		vo.setG_num("1"); //여기에 그룹 넘버
@@ -123,7 +132,20 @@ public class StudyDataController {
 	@GetMapping(value="/list",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<StudyDataVO>> getFileList(StudyDataListVO vo){
-		log.info(vo.getCurPath());
+	//	StudyDataListVO vo2 = new StudyDataListVO();
+		//vo2.setCurPath("1\\new"); // DB에 있는 문자열
+		
+		//(서비스에서 처리해줘야 할 것) 다시 정규표현식이용 가능
+
+		if(vo.getCurPath() == null){
+			vo.setCurPath("1");
+		}
+		String regPath = vo.getCurPath().replace("\\", "\\\\");
+		regPath = regPath + "$";
+		//vo.setCurPath("^1");
+		vo.setCurPath(regPath);
+		//vo2.setG_num("1");
+		log.info("새로만든거"+vo.getCurPath());
 		return new ResponseEntity<List<StudyDataVO>>(service.getList(vo), HttpStatus.OK);
 
 	}//end getFileList 123

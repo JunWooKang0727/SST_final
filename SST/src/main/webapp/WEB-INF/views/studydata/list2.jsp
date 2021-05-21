@@ -60,11 +60,11 @@
 
 
 						<div class="modal">
-							<div class="modal_content" title="클릭하면 창이 닫힙니다.">
-								새 폴더 만들기
-							</div>
-							<form class="dirNameForm" action="/studydata/create" method="POST">
+							<div class="modal_content" title="클릭하면 창이 닫힙니다.">새 폴더 만들기</div>
+							<form class="dirNameForm" action="/studydata/create"
+								method="POST">
 								<input type="text" name="dirName">
+								
 							</form>
 							<div class="btnArea">
 								<a href="" class="create">만들기</a><a href="" class="cancel">취소</a>
@@ -74,10 +74,16 @@
 					</div>
 
 
-					<div class="row filebox"></div>
+					<div class="row">
+						<div class="folderbox"></div>
+
+						<div class="filebox"></div>
+					</div>
+
 					<!-- end of row -->
 
-
+					<input type="hidden" value="<c:out value='${studyDataList.curPath}'/>" name="curPath">
+					<input type="hidden" value="<c:out value='${studyDataList.g_num}'/>" name="g_num">
 
 					<!-- end of row -->
 
@@ -119,7 +125,7 @@
 			$('.filebox').on("dragover", dragOver).on("dragleave", dragOver)
 					.on("drop", uploadFiles);
 
-			$('.filebox').on("click", "span", function(e) {
+			$('.filebox, .folderbox').on("click", "span", function(e) {
 
 				var targetFile = $(this).data("file");
 				//var type = $(this).data("type");
@@ -216,7 +222,8 @@
 							"g_num" : "1"
 						},
 						success : function(data) {
-
+							$('.filebox').empty();
+							$('.folderbox').empty();
 							$(data)
 									.each(
 											function(i, obj) {
@@ -226,62 +233,170 @@
 														+ obj.uuid
 														+ "_"
 														+ obj.fileName);
+												if (obj.fileType == true) {
+													console.log(obj.fileType
+															+ "파일타입입니다");
+													str += "<div class='fileObj'><a href='/studydata/download?fileName="
+															+ fileCallPath
+															+ "'>"
+															+ obj.fileName
+															+ "</a><br>";
+													str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
+														"\' data-path='"+obj.uploadPath+"'> 삭제 </span></div>";
 
+													$('.filebox').append(str);
+													str = "";
+
+												} else if (obj.fileType == 0) {
+													str += "<div class='fileObj'><a href='/studydata/download?fileName="
+															+ fileCallPath
+															+ "'>"
+															+ obj.fileName
+															+ "</a><br>";
+													str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
+														"\' data-path='"+obj.uploadPath+
+														"' data-fname=\'"+obj.fileName+"\'> 삭제 </span></div>";
+													$('.folderbox').append(str)
+													str = "";
+												}
+
+												console.log("실행됨");
+											});
+
+							//$('.filebox').append(str);if문 안에서 대체
+						}//end of success
+					}); //end of ajax
+
+		}// end of showUploadedFile
+
+		//새폴더 모달창 관련
+		$(function() {
+			$(".createDirBtn").click(
+					function() {
+						var div = $(".modal")
+
+						div.css("position", "absolute");
+						div.css("top", Math.max(0, (($(window).height() - div
+								.outerHeight()) / 2)
+								+ $(window).scrollTop())
+								+ "px");
+						div.css("left", Math.max(0, (($(window).width() - div
+								.outerWidth()) / 2)
+								+ $(window).scrollLeft())
+								+ "px");
+						div.fadeIn();
+					});
+			$(".modal_content").click(function() {
+				$(".modal").fadeOut();
+			});
+
+			$(".create").click(function(e) {
+				e.preventDefault();
+
+				$(".modal").fadeOut();
+
+				if ($("input[name=dirName]").val().trim() == "") {
+					alert("폴더명을 입력하세요");
+					$("input[name=dirName]").val('');
+					return;
+				}
+				$(".dirNameForm").append("<div class='gdd'></div>");
+				
+				$.ajax({
+					url:"/studydata/create",
+					data:{
+						"dirName" : $("input[name=dirName]").val(),
+						"curPath" : $("input[name=curPath]").val()
+					},
+					type : 'POST',
+					success:function(data){
+						$("input[name=dirName]").val('');
+						
+
+						//$('.filebox').append(str);if문 안에서 대체
+					}//end of success
+					
+
+				});
+				
+				
+			});
+
+			$(".cancel").click(function(e) {
+				e.preventDefault();
+				$(".modal").fadeOut();
+			});
+		}); // end of $(function()
+				
+				
+		//디렉토리 이동 관련
+		$(function(){
+			
+			$('.folderbox').on("click","a", function(e){
+				e.preventDefault();
+				
+				var cp = $(this).next().next().data('fname');
+				cp=$('input[name=curPath]').val()+"\\"+cp;
+				console.log(cp);
+				
+				 $.ajax({
+					url:'/studydata/list',
+					type : 'GET',
+					data : {
+						"curPath" : cp,
+						"g_num" : $('input[name=g_num]').val()
+					},
+					success : function(data){
+						str="";
+						
+						$('input[name=curPath]').val(cp);
+						$('.filebox').empty();
+						$('.folderbox').empty();
+						$(data)
+								.each(
+										function(i, obj) {
+
+											var fileCallPath = encodeURIComponent(obj.uploadPath
+													+ "/"
+													+ obj.uuid
+													+ "_"
+													+ obj.fileName);
+											if (obj.fileType == true) {
+												console.log(obj.fileType
+														+ "파일타입입니다");
 												str += "<div class='fileObj'><a href='/studydata/download?fileName="
 														+ fileCallPath
 														+ "'>"
 														+ obj.fileName
 														+ "</a><br>";
-												str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+"\'> 삭제 </span></div>";
+												str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
+													"\' data-path='"+obj.uploadPath+"'> 삭제 </span></div>";
 
-												console.log("실행됨");
-											});
+												$('.filebox').append(str);
+												str = "";
 
-							$('.filebox').append(str);
-						}
-					}); //end of ajax
+											} else if (obj.fileType == 0) {
+												str += "<div class='fileObj'><a href='/studydata/download?fileName="
+														+ fileCallPath
+														+ "'>"
+														+ obj.fileName
+														+ "</a><br>";
+												str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
+													"\' data-path='"+obj.uploadPath+
+													"' data-fname=\'"+obj.fileName+"\'> 삭제 </span></div>";
+												$('.folderbox').append(str)
+												str = "";
+											}
 
-		}// end of showUploadedFile
-
-		
-		//새폴더 모달창 관련
-		$(function() {
-			$(".createDirBtn").click(function() {
-				var div = $(".modal")
-				
-				
-				div.css("position", "absolute");
-				div.css("top", Math.max(0, (($(window).height() - div.outerHeight()) / 2) + $(window).scrollTop()) + "px");
-				div.css("left", Math.max(0, (($(window).width() - div.outerWidth()) / 2) + $(window).scrollLeft()) + "px");
-				div.fadeIn();
-			});
-			$(".modal_content").click(function() {
-				$(".modal").fadeOut();
-			});
-			
-			$(".create").click(function(e){
-				e.preventDefault();
-				
-				$(".modal").fadeOut();
-				
-				if($("input[name=dirName]").val().trim()==""){
-					alert("폴더명을 입력하세요");
-					$("input[name=dirName]").val('');
-					return;
-				}
-				
-				$(".dirNameForm").submit();
-				$("input[name=dirName]").val('');
+											console.log("실행됨");
+										});
+					}
+					
+					
+				}); 
 			});
 			
-			
-			$(".cancel").click(function(e){
-				e.preventDefault();
-				$(".modal").fadeOut();
-			});
 		});
-
-		
 	</script>
 
 </body>

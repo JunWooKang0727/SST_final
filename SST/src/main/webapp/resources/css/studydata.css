@@ -8,6 +8,11 @@
 	width: 1000px;
 	height: 500px;
 	background-color: gray;
+	
+}
+
+.folderbox{
+	text-align:center;
 }
 
 .fileObj {
@@ -38,4 +43,8 @@
 	left: 0;
 	display: none;
 	 text-align: center;
+}
+
+.deleteBtn{
+	
 }

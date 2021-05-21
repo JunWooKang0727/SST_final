@@ -22,6 +22,7 @@
 	<select id="findByG_num" resultType="org.sst.domain.StudyDataVO">
 	
 		select * from studydata where g_num = #{g_num}
+		and REGEXP_LIKE(uploadpath, #{curPath})
 		and regdate >= '00/01/01'
 		order by regdate ASC
 	
