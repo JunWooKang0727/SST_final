@@ -26,7 +26,7 @@ var replyService =(function(){
 		
 		var bno = param.bno;
 		var page = param.page || 1;
-		
+		console.log("show listttt");
 		$.getJSON("/replies/pages/" + bno + "/" + page+ ".json", 
 				function(data){
 			if(callback){

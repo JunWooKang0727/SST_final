@@ -217,11 +217,11 @@
 									var replyUL = $(".chat");
 
 									showList(1);
-
+									console.log(bnoValue)
 									function showList(page) {
 
 										console.log("show list " + page);
-										
+										console.log(bnoValue)
 										replyService
 												.getList(
 														{
