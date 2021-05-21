@@ -12,15 +12,15 @@ public interface QuestionReplyService {
 	
 	public int register(QuestionReplyVO vo);
 	
-	public QuestionReplyVO get(Long rno);
+	public QuestionReplyVO get(String rno);
 	
 	public int modify(QuestionReplyVO vo);
 	
-	public int remove(Long rno);
+	public int remove(String rno);
 	
-	public List<QuestionReplyVO> getList(Criteria cri, Long bno);
+	public List<QuestionReplyVO> getList(Criteria cri, String q_num);
 	
-	public QuestionReplyPageVO getListPage(Criteria cri, Long bno);
+	public QuestionReplyPageVO getListPage(Criteria cri, String q_num);
 	
 	
 }

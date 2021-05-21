@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sst.mapper.QuestionReplyMapper">
+	<insert id="insert">
+		insert into question_reply (rno,q_num,reply,replyer, replydate)
+		values (seq_reply.nextval, #{q_num} , #{reply}, #{replyer}, sysdate)
+	</insert>
+	
+	<select id="read" resultType="org.sst.domain.QuestionReplyVO">
+		select * from question_reply where rno = #{rno}
+	</select>
+	
+	<delete id="delete">
+		delete from question_reply where rno = #{rno}
+	</delete>
+	
+	<update id="update">
+		update question_reply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+	</update>
+	<!--
+	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
+		select rno, bno, reply, replyer, replyDate, updatedate
+		from tbl_reply
+		where bno = #{bno}
+		order by rno asc
+	</select>
+-->
+<select id="getListWithPaging" resultType="org.sst.domain.QuestionReplyVO">
+
+  <![CDATA[
+ select  rno, q_num, reply, replyer, replydate, updatedate
+ from 
+   (
+    select /*+INDEX(question_reply idx_reply) */ 
+      rownum rn,  rno, q_num, reply, replyer, replyDate, updatedate
+    from question_reply
+    where q_num =  #{q_num}
+    and rno > 0
+    and rownum <= #{cri.pageNum} * #{cri.amount}
+   ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
+]]>
+
+</select>
+
+<select id="getCountByBno" resultType="int">
+<![CDATA[
+select count(rno) from question_reply where q_num = #{q_num}
+]]>
+</select>
+
+
+
+
+
+<!-- 
+	 <sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql> 
+
+
+ 	<select id="getList" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+		select * from tbl_board where bno > 0 
+		]]>
+	</select>
+
+	<insert id="insert">
+		insert into tbl_board (bno,title,content,writer)
+		values (seq_board.nextval, #{title}, #{content}, #{writer})
+	</insert>
+
+ 	 <insert id="insertSelectKey">
+
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+
+		insert into tbl_board (bno,title,content, writer)
+		values (#{bno},
+		#{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where bno =
+		#{bno}
+	</select>
+
+
+	<delete id="delete">
+		delete tbl_board where bno = #{bno}
+	</delete>
+
+	<update id="update">
+		update tbl_board
+		set title= #{title},
+		content=#{content},
+		writer = #{writer},
+		updateDate = sysdate
+		where bno =
+		#{bno}
+	</update> -->
+	
+<!-- 	<select id = "getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+		select
+			bno,title,content,writer,regdate,updatedate
+		from
+			(
+			select /*INDEX_DESC(tbl_board pk_board) */
+				rownum rn, bno, title, content, writer, regdate, updatedate
+			from
+				tbl_board
+			where rownum <=#{pageNum}*#{amount}
+			)
+			where rn>(#{pageNum}-1)*#{amount}
+		]]>
+	</select> -->
+	<!-- <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO"> 
+		<![CDATA[ select bno, title, content, writer, regdate, updatedate from ( 
+		select /*+INDEX_DESC(tbl_board pk_board) */ rownum rn, bno, title, content, 
+		writer, regdate, updatedate from tbl_board where rownum <= #{pageNum} * #{amount} 
+		) where rn > (#{pageNum} -1) * #{amount} ]]> </select> -->
+
+
+ 	 <!-- <select id="getListWithPaging"
+		resultType="org.zerock.domain.BoardVO">
+  <![CDATA[
+  select 
+    bno, title, content, writer, regdate, updatedate
+  from 
+      (
+      select /*+INDEX_DESC(tbl_board pk_board) */
+        rownum rn, bno, title, content, writer, regdate, updatedate 
+      from 
+        tbl_board
+      where 
+  ]]>
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+      
+  <![CDATA[    
+      rownum <= #{pageNum} * #{amount}
+      )
+  where rn > (#{pageNum} -1) * #{amount}   
+  ]]>
+	</select> -->
+
+
+
+
+<!-- 	 <select id="getTotalCount" resultType="int">
+		select count(*) from tbl_board where 
+		
+		<include refid="criteria"></include> 
+		
+		bno > 0
+		
+	</select> -->
+		 <!-- <select id="getTotalCount" resultType="int">
+		select count(*) from tbl_board where bno > 0
+		
+	</select> -->
+
+</mapper>

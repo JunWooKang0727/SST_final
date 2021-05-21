@@ -29,12 +29,12 @@ public class QuestionReplySerivceImpl implements QuestionReplyService {
 	@Override
 	public int register(QuestionReplyVO vo) {
 		log.info("register....."+vo);
-		questionMapper.updateReplyCnt(vo.getBno(), 1);
+		questionMapper.updateReplyCnt(vo.getQ_num(), 1);
 		return mapper.insert(vo);
 	}
 
 	@Override
-	public QuestionReplyVO get(Long rno) {
+	public QuestionReplyVO get(String rno) {
 		log.info("get......"+rno);
 		return mapper.read(rno);
 	}
@@ -47,25 +47,25 @@ public class QuestionReplySerivceImpl implements QuestionReplyService {
 
 	@Transactional
 	@Override
-	public int remove(Long rno) {
+	public int remove(String rno) {
 		log.info("remove....."+rno);
 		
 		QuestionReplyVO vo = mapper.read(rno);
 		
-		questionMapper.updateReplyCnt(vo.getBno(), -1);
+		questionMapper.updateReplyCnt(vo.getQ_num(), -1);
 		return mapper.delete(rno);
 	}
 
 	@Override
-	public List<QuestionReplyVO> getList(Criteria cri, Long bno) {
-		log.info("get Reply List of a Board"+bno);
-		return mapper.getListWithPaging(cri, bno);
+	public List<QuestionReplyVO> getList(Criteria cri, String q_num) {
+		log.info("get Reply List of a Board"+q_num);
+		return mapper.getListWithPaging(cri, q_num);
 	}
 
 	@Override
-	public QuestionReplyPageVO getListPage(Criteria cri, Long bno) {
+	public QuestionReplyPageVO getListPage(Criteria cri, String q_num) {
 		// TODO Auto-generated method stub
-		return new QuestionReplyPageVO(mapper.getCountByBno(bno), mapper.getListWithPaging(cri, bno));
+		return new QuestionReplyPageVO(mapper.getCountByBno(q_num), mapper.getListWithPaging(cri, q_num));
 	}
 	
 	

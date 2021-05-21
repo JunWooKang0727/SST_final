@@ -11,13 +11,13 @@ public interface QuestionReplyMapper {
 
 	public int insert(QuestionReplyVO vo);
 
-	public QuestionReplyVO read(Long bno);
+	public QuestionReplyVO read(String q_num);
 
-	public int delete(Long targetRno);
+	public int delete(String targetRno);
 
 	public int update(QuestionReplyVO reply);
 
-	public List<QuestionReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") Long bno);
+	public List<QuestionReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("q_num") String q_num);
 	
-	public int getCountByBno(Long bno);
+	public int getCountByBno(String q_num);
 }

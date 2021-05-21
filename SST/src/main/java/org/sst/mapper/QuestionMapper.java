@@ -28,6 +28,5 @@ public interface QuestionMapper {
 	
 	public int getTotalCount(Criteria cri);
 	
-	
-	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount")int amount);
+	public void updateReplyCnt(@Param("q_num") String q_num, @Param("amount")int amount);
 }

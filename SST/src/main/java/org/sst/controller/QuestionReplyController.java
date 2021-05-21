@@ -50,13 +50,13 @@ public class QuestionReplyController {
 			})
 	public ResponseEntity<QuestionReplyPageVO> getList(
 			@PathVariable("page") int page,
-			@PathVariable("bno") Long bno){
+			@PathVariable("bno") String q_num){
 		Criteria cri = new Criteria(page,10);
 
-		log.info("getList bno :"+ bno);
+		log.info("getList bno :"+ q_num);
 		log.info(cri);
 		
-		return new ResponseEntity<>(service.getListPage(cri, bno),HttpStatus.OK);
+		return new ResponseEntity<>(service.getListPage(cri, q_num),HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{rno}",
@@ -64,7 +64,7 @@ public class QuestionReplyController {
 					MediaType.APPLICATION_JSON_UTF8_VALUE,
 					MediaType.APPLICATION_XML_VALUE
 			})
-	public ResponseEntity<QuestionReplyVO> get(@PathVariable("rno") Long rno){
+	public ResponseEntity<QuestionReplyVO> get(@PathVariable("rno") String rno){
 		log.info("get:" + rno);
 		
 		return new ResponseEntity<>(service.get(rno) , HttpStatus.OK);
@@ -72,7 +72,7 @@ public class QuestionReplyController {
 	
 	@DeleteMapping(value = "/{rno}",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
+	public ResponseEntity<String> remove(@PathVariable("rno") String rno){
 		log.info("remove"+rno);
 		
 		return service.remove(rno)==1
@@ -85,7 +85,7 @@ public class QuestionReplyController {
 			consumes = "application/json",
 			produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> modify(
-			@PathVariable("rno") Long rno,
+			@PathVariable("rno") String rno,
 			@RequestBody QuestionReplyVO vo){
 				vo.setRno(rno);
 				log.info("rno: "+rno);
