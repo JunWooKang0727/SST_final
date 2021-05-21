@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sst.mapper.WANoteReplyMapper">
+
+
+	<insert id="createWANoteReply" parameterType="org.sst.domain.WANoteReplyVO">
+		insert into
+		WAnoteReply
+		(wr_num,wr_contents,wr_date,m_id,w_num)
+		values
+		(wanotereply_seq.nextval, #{wr_contents}, sysdate,
+		#{m_id}, #{w_num})
+	</insert>
+
+	<delete id="deleteWANoteReply" parameterType="String">
+		delete from
+		wanotereply where wr_num=#{wr_num}
+	</delete>
+
+	<select id="readWANoteReply" resultType="org.sst.domain.WANoteReplyVO">
+		select * from wanotereply where wr_num=#{wr_num}
+	</select>
+
+	<update id="updateWANoteReply">
+		Update WAnoteReply SET
+		wr_contents=#{wr_contents},wr_date=sysdate
+		WHERE wr_num =#{wr_num}
+	</update>
+
+	<select id="listWANoteReply" resultType="org.sst.domain.WANoteReplyVO">		
+		  <![CDATA[
+ 			select  wr_num,wr_contents,wr_date,m_id,w_num
+ 			from 
+   			(
+    			select /*+INDEX_DESC(wanotereply pk_wanotereply) */ 
+      			rownum rn,  wr_num,wr_contents,wr_date,m_id,w_num
+    			from wanotereply
+    			where w_num =  #{w_num}
+    			and wr_num > 0
+    			and rownum <= #{cri.pageNum} * #{cri.amount}
+  			 ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
+]]>
+	</select>
+
+</mapper>

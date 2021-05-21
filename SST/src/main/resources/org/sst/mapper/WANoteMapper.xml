@@ -54,12 +54,11 @@
 
 	<select id="listWithPagingWANote" resultMap="wanoteMap" parameterType="java.util.HashMap">
 		  <![CDATA[   
-select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date,tg_num,tg_name from 
+select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
 			(select  /*+ INDEX_DESC(wanote pk_wanote) */ 
 				rownum rn ,wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
-		w_date,tg_num,tg_name
-			 from wanote LEFT OUTER JOIN (select w_num,watag.tg_num,tg_name from tag,watag where watag.tg_num=tag.tg_num) watag 
-       on wanote.w_num = watag.w_num where m_id= #{m_id} and
+		w_date
+			 from wanote  where m_id= #{m_id} and
 		]]>
 		<include refid="criteria"></include>  
   		<![CDATA[    
