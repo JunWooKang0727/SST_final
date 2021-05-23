@@ -43,7 +43,7 @@ public class StudyDataController {
 		log.info("go list");
 		
 		studyDataList.setG_num("1"); //임의로 1로 지정 //그룹 번호를 그룹페이지 들어갈 때 가져와야함
-		studyDataList.setCurPath("1"); // 임의로 1로 지정 //그룹번호로 되어야함
+		studyDataList.setCurPath("\\"+studyDataList.getG_num()); // 임의로 1로 지정 //그룹번호로 되어야함
 		log.info("file group number : "+studyDataList.getG_num());
 		log.info(studyDataList);
 		model.addAttribute("studyDataList",	 studyDataList);
@@ -52,27 +52,34 @@ public class StudyDataController {
 	
 	//새 폴더 생성
 	@PostMapping("/create")
-	public String makeDir(String curPath, String dirName){
+	public String makeDir(StudyDataListVO listvo, String dirName){
 		
-		String uploadFolder = "E:\\upload\\1";
+		String uploadFolder = "D:\\upload";
 		
 //		if(dirName.equals("")){
 //			return "redirect:/studydata/list2";
 //		}
+
+		if(listvo.getCurPath() == null){
+			listvo.setCurPath("\\"+listvo.getG_num());
+		}
 		
+		String curPath = listvo.getCurPath();
+		uploadFolder = uploadFolder + curPath;
 		UUID uuid = UUID.randomUUID();
 		String uuidFile =uuid.toString()+"_"+dirName;
 		File dir = new File(uploadFolder, uuidFile);
 		dir.mkdir();
+		
 		StudyDataVO vo = new StudyDataVO();
 		log.info("new folder in "+curPath);
 		vo.setFileName(dirName);
 		vo.setFileType(false);
-		vo.setG_num("1"); //여기에 그룹 넘버
+		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
 		vo.setUploader("solkang");
-		vo.setUploadPath("1"); //여기에 현재 경로
+		vo.setUploadPath(uploadFolder.replace("D:\\upload", ""));
 		vo.setUuid(uuid.toString());
-		
+		//log.info(vo);
 		service.upload(vo);
 		
 		return "redirect:/studydata/list2";
@@ -81,11 +88,11 @@ public class StudyDataController {
 	
 	
 	@PostMapping("/uploadAjax")
-	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile){
+	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile,StudyDataListVO vo){
 		
 		log.info("upate ajax post...........................");
 		
-		String uploadFolder = "E:\\upload\\1";
+		String uploadFolder = "D:\\upload\\1";
 		
 		for(MultipartFile multipartFile : uploadFile){
 			
@@ -137,9 +144,10 @@ public class StudyDataController {
 		
 		//(서비스에서 처리해줘야 할 것) 다시 정규표현식이용 가능
 
-		if(vo.getCurPath() == null){
-			vo.setCurPath("1");
-		}
+//		if(vo.getCurPath() == null){
+//			vo.setCurPath("1");
+//		}
+		
 		String regPath = vo.getCurPath().replace("\\", "\\\\");
 		regPath = regPath + "$";
 		//vo.setCurPath("^1");
@@ -155,7 +163,7 @@ public class StudyDataController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent")String userAgent,String fileName){
 		
-		Resource resource = new FileSystemResource("e:\\upload\\"+fileName);
+		Resource resource = new FileSystemResource("D:\\upload\\"+fileName);
 		
 		log.info(resource);
 		
@@ -203,7 +211,7 @@ public class StudyDataController {
 		File file;
 		
 		try {
-			file = new File("e:\\upload\\"+URLDecoder.decode(fileName,"UTF-8"));
+			file = new File("D:\\upload\\"+URLDecoder.decode(fileName,"UTF-8"));
 			
 			file.delete();
 			service.delete(uuid);
