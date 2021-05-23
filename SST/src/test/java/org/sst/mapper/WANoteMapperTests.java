@@ -41,10 +41,10 @@ public class WANoteMapperTests {
 //		log.info(mapper.listWANote("ggy"));
 //	}
 	
-	@Test
-	public void testRead() {
-		log.info(mapper.readWANote("350"));
-	}
+//	@Test
+//	public void testRead() {
+//		log.info(mapper.readWANote("350"));
+//	}
 	
 //	@Test
 //	public void testUpdate() {
@@ -65,14 +65,14 @@ public class WANoteMapperTests {
 //		log.info(mapper.deleteWANote("w2"));
 //	}
 	
-	@Test
-	public void testList2() {
-		HashMap map = new HashMap<>();
-		map.put("m_id", "ggy");
-		map.put("cri", new Criteria(1,3));
-		map.put("typeArr", new Criteria(1,3).getTypeArr());
-		log.info(mapper.listWithPagingWANote(map));
-	}
+//	@Test
+//	public void testList2() {
+//		HashMap map = new HashMap<>();
+//		map.put("m_id", "ggy");
+//		map.put("cri", new Criteria(1,3));
+//		map.put("typeArr", new Criteria(1,3).getTypeArr());
+//		log.info(mapper.listWithPagingWANote(map));
+//	}
 	
 //	@Test
 //	public void testCount() {
@@ -83,22 +83,22 @@ public class WANoteMapperTests {
 //		log.info(mapper.getTotalCount(map));
 //	}
 	
-//	  @Test
-//	  public void testCreateWANotes() {
-//
-//	    for(int i = 0; i < 100; i++) {
-//	    	WANoteVO vo = new WANoteVO();
-//			vo.setM_id("ggy");
-//			vo.setW_title("MapperTest");
-//			vo.setW_question("MapperTest");
-//			vo.setW_answer("MapperTest");
-//			vo.setW_reason("MapperTest");
-//			vo.setW_subject("MapperTest");
-//			
-//			log.info(mapper.createWANote(vo));
-//
-//	      }
-//	    }//end for
+	  @Test
+	  public void testCreateWANotes() {
+
+	    for(int i = 0; i < 100; i++) {
+	    	WANoteVO vo = new WANoteVO();
+			vo.setM_id("ggy");
+			vo.setW_title("MapperTest");
+			vo.setW_question("MapperTest");
+			vo.setW_answer("MapperTest");
+			vo.setW_reason("MapperTest");
+			vo.setW_subject("MapperTest");
+			
+			log.info(mapper.createWANote(vo));
+
+	      }
+	    }//end for
 	
 //	@Test
 //	public void testCreateTag() {

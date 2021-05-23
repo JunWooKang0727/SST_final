@@ -42,5 +42,9 @@
   			 ) where rn > (#{cri.pageNum} -1) * #{cri.amount}
 ]]>
 	</select>
+	
+	<select id="countWANoteReply" resultType="int">
+		select count(*) from wanotereply where w_num=#{w_num}
+	</select>
 
 </mapper>

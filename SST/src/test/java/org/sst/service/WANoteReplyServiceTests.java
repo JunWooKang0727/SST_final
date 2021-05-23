@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class WANoteReplyServiceTests {
 	@Setter(onMethod_ = { @Autowired })
-	private WAnoteReplyService service;
+	private WANoteReplyService service;
 	
 //	@Test
 //	public void testCreate(){
@@ -27,14 +27,17 @@ public class WANoteReplyServiceTests {
 //		vo.setWr_date("2019-12-15");
 //		log.info(service.createWANoteReply(vo));
 //	}
-	
+//	@Test
+//	public void testRead(){
+//		log.info(service.readWANoteReply("5"));
+//	}
 //	@Test
 //	public void testList(){
 //		log.info(service.listWANoteReply(new Criteria(1,2),"350"));
 //	}
 	
 //	@Test
-//	public void testList(){
+//	public void testDelete(){
 //		log.info(service.deleteWANoteReply("3"));
 //	}
 	
@@ -46,4 +49,9 @@ public class WANoteReplyServiceTests {
 //		vo.setWr_contents("에스파는 나야");
 //		log.info(service.updateWANoteReply(vo));
 //	}
+//	
+	@Test
+	public void testCount(){
+		log.info(service.countWANoteReply("350"));
+	}
 }

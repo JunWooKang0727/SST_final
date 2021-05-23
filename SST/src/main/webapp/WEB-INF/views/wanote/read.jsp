@@ -15,6 +15,12 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
 <link href="/sst/resources/css/wanote.css" rel="stylesheet">
+<style type="text/css">
+.chat>ul{
+	list-style:none;
+}
+
+</style>
 </head>
 <body id="page-top">
 
@@ -89,15 +95,22 @@
 									<h5 class="m-0 font-weight-bold text-color-sst"><i class="fa fa-comments fa-fw"></i>댓글</h5>
 								</div>
 								<div class="card-body">
-								<form action="/sst/wanote/create" method="post"
+								      <!-- /.panel-heading -->
+
+									<ul class="chat">
+
+									</ul>
+
+									<form action="/sst/wanotereply/create" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy">
-										<input type="hidden" name="w_num" value="${wanote.w_num} }">
-										<textarea class="form-control" rows="3" name="wr_contents" placeholder="댓글을 입력해주세요." required></textarea>  
+										<input type="hidden" name="m_id" value="ggy" id="m_idValue">
+										<textarea class="form-control" rows="3" name="wr_contents" placeholder="댓글을 입력해주세요."
+										 id="wr_contentsValue"
+										 required></textarea>  
                                     <button type="button" class="btn btn-info float-right" id="submit-btn">댓글 달기</button><br>
 									</form>
 								
-								
+								<div class="panel-footer"></div>
 								</div>
 							</div>
 						</div>
@@ -123,10 +136,142 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- Custom scripts for all pages-->
+<script type="text/javascript" src="/sst/resources/js/wanote_reply.js"></script>
 	<script type="text/javascript">
 		$(document).on("click", ".del-tag", function (e) {
             $(this).remove();
         });
+		
+		$(function(){
+			var w_numValue = '<c:out value="${wanote.w_num}"/>';
+			  var replyUL = $(".chat");
+			  
+			    showList(1);
+			    
+
+			    function showList(page){
+			    	
+			    	console.log("show list " + page);
+			        
+			        replyService.getList({w_num:w_numValue,page: page|| 1 }, function(replyCnt, list) {
+			          
+			        console.log("replyCnt: "+ replyCnt );
+			        console.log("list: " + list);
+			        console.log(list);
+			        
+			        if(page == -1){
+			          pageNum = Math.ceil(replyCnt/10.0);
+			          showList(pageNum);
+			          return;
+			        }
+			          
+			         var str="";
+			         
+			         if(list == null || list.length == 0){
+			           return;
+			         }
+			         
+			         for (var i = 0, len = list.length || 0; i < len; i++) {
+			           str +="<li class='left clearfix border-bottom' data-wrnum='"+list[i].wr_num+"'>";
+			           str +="  <div><div class='header'><strong class='primary-font'>["
+			        	   +list[i].wr_num+"] "+list[i].m_id+"</strong>"; 
+			           str +="    <small class='float-right text-muted'>"
+			               +replyService.displayTime(list[i].wr_date)+"</small></div>";
+			           str +="    <p>"+list[i].wr_contents+"</p></div></li>";
+			         }
+			         
+			         replyUL.html(str);
+			         
+			         showReplyPage(replyCnt);
+
+			     
+			       });//end function
+			         
+			     }//end showList
+			     
+			     
+			    
+			    var pageNum = 1;
+			    var replyPageFooter = $(".panel-footer");
+			    
+			    function showReplyPage(replyCnt){
+			      
+			      var endNum = Math.ceil(pageNum / 10.0) * 10;  
+			      var startNum = endNum - 9; 
+			      
+			      var prev = startNum != 1;
+			      var next = false;
+			      
+			      if(endNum * 10 >= replyCnt){
+			        endNum = Math.ceil(replyCnt/10.0);
+			      }
+			      
+			      if(endNum * 10 < replyCnt){
+			        next = true;
+			      }
+			      
+			      var str = "<ul class='pagination pull-right'>";
+			      
+			      if(prev){
+			        str+= "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+			      }
+			      
+			       
+			      
+			      for(var i = startNum ; i <= endNum; i++){
+			        
+			        var active = pageNum == i? "active":"";
+			        
+			        str+= "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+			      }
+			      
+			      if(next){
+			        str+= "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
+			      }
+			      
+			      str += "</ul></div>";
+			      
+			      console.log(str);
+			      
+			      replyPageFooter.html(str);
+			    }
+			     
+			    replyPageFooter.on("click","li a", function(e){
+			        e.preventDefault();
+			        console.log("page click");
+			        
+			        var targetPageNum = $(this).attr("href");
+			        
+			        console.log("targetPageNum: " + targetPageNum);
+			        
+			        pageNum = targetPageNum;
+			        
+			        showList(pageNum);
+			      });     
+			    
+			    
+			    
+			    $('#submit-btn').on("click",function(e){
+			        
+			        var reply = {
+			              wr_contents: $('#wr_contentsValue').val(),
+			              m_id:$('#m_idValue').val(),
+			              w_num:w_numValue
+			            };
+			        replyService.add(reply, function(result){
+			          alert(result);
+			         $("#wr_contentsValue").val("");
+
+			          
+			          //showList(1);
+			          showList(1);
+			          
+			        });
+			        
+			      });
+
+		})
+		
 	</script>
 
 </body>

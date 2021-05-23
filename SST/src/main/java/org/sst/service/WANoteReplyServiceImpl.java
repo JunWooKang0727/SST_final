@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class WAnoteReplyServiceImpl implements WAnoteReplyService{
+public class WANoteReplyServiceImpl implements WANoteReplyService{
 	@Setter(onMethod_ = @Autowired)
 	private WANoteReplyMapper mapper;
 	
@@ -47,6 +47,19 @@ public class WAnoteReplyServiceImpl implements WAnoteReplyService{
 	public List<WANoteReplyVO> listWANoteReply(Criteria cri, String w_num) {
 		// TODO Auto-generated method stub
 		return mapper.listWANoteReply(cri, w_num);
+	}
+
+	@Override
+	public int countWANoteReply(String w_num) {
+		// TODO Auto-generated method stub
+		log.info("0000000000000000000000000000000000000000000000000000000000000000000000");
+		return mapper.countWANoteReply(w_num);
+	}
+
+	@Override
+	public String sb() {
+		return "##########################################################################################";
+		
 	}
 
 }
