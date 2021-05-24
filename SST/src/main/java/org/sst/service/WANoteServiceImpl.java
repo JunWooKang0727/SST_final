@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.sst.domain.Criteria;
 import org.sst.domain.WANoteVO;
 import org.sst.domain.WAtagVO;
 import org.sst.mapper.WANoteMapper;
@@ -44,15 +45,15 @@ public class WANoteServiceImpl implements WANoteService{
 	}
 
 	@Override
-	public List<WANoteVO> listWithPagingWANote(HashMap map) {
+	public List<WANoteVO> listWithPagingWANote(Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.listWithPagingWANote(map);
+		return mapper.listWithPagingWANote(cri);
 	}
 
 	@Override
-	public int getTotalCount(HashMap map) {
+	public int getTotalCount(Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.getTotalCount(map);
+		return mapper.getTotalCount(cri);
 	}
 
 	@Override
@@ -84,6 +85,18 @@ public class WANoteServiceImpl implements WANoteService{
 	public List<WAtagVO> listWATag(String w_num) {
 		// TODO Auto-generated method stub
 		return mapper.listWATag(w_num);
+	}
+
+	@Override
+	public List<HashMap> countTagChart(String m_id) {
+		// TODO Auto-generated method stub
+		return mapper.countTagChart(m_id);
+	}
+
+	@Override
+	public List<HashMap> countReasonChart(String m_id) {
+		// TODO Auto-generated method stub
+		return mapper.countReasonChart(m_id);
 	}
 
 }

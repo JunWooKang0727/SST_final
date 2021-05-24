@@ -112,7 +112,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                        <img class="rounded-circle" src="/sst/resources/img/undraw_profile_1.svg"
                                             alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -124,7 +124,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                        <img class="rounded-circle" src="/sst/resources/img/undraw_profile_2.svg"
                                             alt="">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -136,7 +136,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                        <img class="rounded-circle" src="/sst/resources/img/undraw_profile_3.svg"
                                             alt="">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -174,7 +174,7 @@
 								${sessionScope.loginsession.id }
 								</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="/sst/resources/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div id="topbars" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

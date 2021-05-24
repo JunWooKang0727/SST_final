@@ -56,7 +56,12 @@
 								<hr>Q. ${wanote.w_question}
 								<br>
 								<hr>
-								<div class="tag-list">
+									<div class='uploadResult'>
+										<ul>
+										</ul>
+									</div>
+
+									<div class="tag-list">
 								<c:forEach items="${wanote.taglist}" var="tag">
 								<a><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
@@ -81,6 +86,10 @@
 								<div class="collapse" id="collapseCardExample">
 									<div class="card-body">
 										${wanote.w_answer}
+										
+										
+										<hr>
+										<strong class="text-warning">틀린 이유:</strong> ${wanote.w_reason}
 									</div>
 								</div>
 							</div>
@@ -109,8 +118,12 @@
 										 required></textarea>  
                                     <button type="button" class="btn btn-info float-right" id="submit-btn">댓글 달기</button><br>
 									</form>
-								
-								<div class="panel-footer"></div>
+
+									<div class="panel-footer">
+										<div class='bigPictureWrapper'>
+											<div class='bigPicture'></div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -134,14 +147,18 @@
 	
 
 
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- Custom scripts for all pages-->
 <script type="text/javascript" src="/sst/resources/js/wanote_reply.js"></script>
 	<script type="text/javascript">
+	
+	//태그검색
 		$(document).on("click", ".del-tag", function (e) {
             $(this).remove();
         });
 		
+		//댓글처리
 		$(function(){
 			var w_numValue = '<c:out value="${wanote.w_num}"/>';
 			  var replyUL = $(".chat");
@@ -177,7 +194,12 @@
 			        	   +list[i].wr_num+"] "+list[i].m_id+"</strong>"; 
 			           str +="    <small class='float-right text-muted'>"
 			               +replyService.displayTime(list[i].wr_date)+"</small></div>";
-			           str +="    <p>"+list[i].wr_contents+"</p></div></li>";
+			           str +="<div class='contents'><p>"+list[i].wr_contents+"</p>";
+			           if(list[i].m_id=='ggy'){
+			        	   str+="<div class='float-right updateForm'><a class='text-info' data-oper='updateReply'>수정</a> | <a class='text-danger' data-oper='deleteReply'>삭제</a></div></div>";
+			           }
+			           
+			           str +="</div></li>";
 			         }
 			         
 			         replyUL.html(str);
@@ -269,10 +291,120 @@
 			        });
 			        
 			      });
+			    
+			    $(".chat").on("click", ".updateForm>a", function(e){
+			        
+			        var wr_num = $(this).parents('li').data("wrnum");
+			        if($(this).data('oper')=='updateReply'){
+			        	$(this).parents('li').find('div.contents>p').attr('hidden','true');
+			        	$(this).parent().attr('hidden','true');
+			        	$(this).parents('li').find('div.contents').append("<div class='modifyReply'><textarea class='form-control' rows='3' name='wr_contents'" 
+			        			+"placeholder='"+$(this).parents('li').find('div.contents>p').text()+"' id='wr_contentsUpdate' required></textarea> "
+			        			+"<div class='float-right updateReply'><a data-oper='cancel'>취소</a> | <a class='text-info' data-oper='update'>수정</a><br></div></div></div>");
+			        }else{
+			         	  replyService.remove(wr_num, function(result){
+			           	      alert(result);
+			           	      showList(pageNum);
+			         
+			           	  });
+			        }
+			      });
+			    
+				 $(".chat").on("click", "div.updateReply>a", function(e){
+			        var wr_num = $(this).parents('li').data("wrnum");
+			        if($(this).data('oper')=='update'){
+			        	var wr_contents = $(this).parents('li').find('#wr_contentsUpdate').val();
+			        	var reply={
+			        			wr_num:wr_num,
+			        			wr_contents:wr_contents
+			        	};
+			        	 replyService.update(reply, function(result){
+			           	      alert(result); 
+						        $(this).parents('li').find('div.contents>p').removeAttr('hidden');
+						        $(this).parents('li').find('div.updateForm').removeAttr('hidden');
+						        $(this).parents('li').find('div.contents>.modifyReply').remove();
+						        showList(pageNum);
+			           	  });
 
+			        }else{
+				        $(this).parents('li').find('div.contents>p').removeAttr('hidden');
+				        $(this).parents('li').find('div.updateForm').removeAttr('hidden');
+				        $(this).parents('li').find('div.contents>.modifyReply').remove();
+			        }
+
+			        
+			      });
+			    
+			    
+			    //첨부파일
+			    $.getJSON("/sst/wanote/getAttachList", {w_num:w_numValue}, function(arr){
+			        
+			       console.log(arr);
+			       
+			       var str = "";
+			       
+			       $(arr).each(function(i, attach){
+			       console.log(attach.fileType);
+			         //image type
+			         if(attach.fileType=='true'){
+			           var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
+			           
+			           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+			           str += "<img height='250' src='/sst/wanoteAttach/display?fileName="+fileCallPath+"'>";
+			           str += "</div>";
+			           str +"</li>";
+			         }else{
+			             
+			           str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+			           str += "<span> "+attach.fileName+"</span><br/>";
+			           str += "<img src='/sst/resources/img/attach.png'></a>";
+			           str += "</div>";
+			           str +"</li><hr>";
+			         }
+			       });
+			       
+			       $(".uploadResult ul").html(str);
+			       
+			     });//end getjson
+			     
+			    function showImage(fileCallPath){
+				    
+			        alert(fileCallPath);
+			        
+			        $(".bigPictureWrapper").css("display","flex").show();
+			        
+			        $(".bigPicture")
+			        .html("<img src='sst/wanoteAttach/display?fileName="+fileCallPath+"' >")
+			        .animate({width:'100%', height: '100%'}, 1000);
+			        
+			      }
+			    $(".bigPictureWrapper").on("click", function(e){
+			        $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
+			        setTimeout(function(){
+			          $('.bigPictureWrapper').hide();
+			        }, 1000);
+			      });
+
+			  
+			  $(".uploadResult").on("click","li", function(e){
+			      
+			    console.log("view image");
+			    
+			    var liObj = $(this);
+			    
+			    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
+			    
+			    if(liObj.data("type")){
+			      showImage(path.replace(new RegExp(/\\/g),"/"));
+			    }else {
+			      //download 
+			      self.location ="/sst/wanoteAttach/download?fileName="+path
+			    }
+			    
+			    
+			  });
 		})
 		
 	</script>
-
 </body>
 </html>

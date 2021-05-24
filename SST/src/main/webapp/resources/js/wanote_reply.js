@@ -66,11 +66,54 @@ var replyService = (function() {
 			return [ yy, '/', (mm > 9 ? '' : '0') + mm, '/',
 					(dd > 9 ? '' : '0') + dd ].join('');
 		}
+	};
+	function remove(wr_num, callback, error) {
+		$.ajax({
+			type : 'delete',
+			url : '/sst/wanotereply/' + wr_num,
+			success : function(deleteResult, status, xhr) {
+				if (callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
 	}
-	;
+
+	function update(reply, callback, error) {
+
+
+		$.ajax({
+			type : 'put',
+			url : '/sst/wanotereply/' + reply.wr_num,
+			data : JSON.stringify(reply),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+
+	
+	
+	
+	
 	return {
 		add : add,
 		getList : getList,
+		remove : remove,
+		update : update,
 		displayTime : displayTime
 		
 	};

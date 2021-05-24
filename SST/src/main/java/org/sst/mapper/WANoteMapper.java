@@ -14,8 +14,8 @@ public interface WANoteMapper {
 	int deleteWANote(String w_num);
 	WANoteVO readWANote(String w_num);
 	
-	List<WANoteVO> listWithPagingWANote(HashMap map);
-	int getTotalCount(HashMap map);
+	List<WANoteVO> listWithPagingWANote(Criteria cri);
+	int getTotalCount(Criteria cri);
 	
 	List<WAtagVO> listAllTag(String keyword);
 	
@@ -24,5 +24,8 @@ public interface WANoteMapper {
 	
 	int createWATag(HashMap map);
 	List<WAtagVO> listWATag(String w_num);
+	
+	List<HashMap> countTagChart(String m_id);
+	List<HashMap> countReasonChart(String m_id);
 	
 }

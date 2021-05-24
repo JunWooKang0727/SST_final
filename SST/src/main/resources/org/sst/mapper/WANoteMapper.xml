@@ -9,10 +9,10 @@
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'T'.toString()">
-							w_title like '%'||#{cri.keyword}||'%'
+							w_title like '%'||#{keyword}||'%'
 						</when>
 						<when test="type == 'C'.toString()">
-							w_question like '%'||#{cri.keyword}||'%'
+							w_question like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
@@ -52,27 +52,35 @@
 
 	</resultMap>
 
-	<select id="listWithPagingWANote" resultMap="wanoteMap" parameterType="java.util.HashMap">
+
+	<select id="listWithPagingWANote" resultMap="wanoteMap"
+		parameterType="org.sst.domain.Criteria">
 		  <![CDATA[   
 select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
 			(select  /*+ INDEX_DESC(wanote pk_wanote) */ 
 				rownum rn ,wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
 		w_date
-			 from wanote  where m_id= #{m_id} and
-		]]>
+			 from wanote  where 
+			 ]]>
+		<if test="m_id != null">
+			m_id=#{m_id} and
+		</if>
 		<include refid="criteria"></include>  
   		<![CDATA[    
-      	rownum <= #{cri.pageNum} * #{cri.amount}
+      	rownum <= #{pageNum} * #{amount}
       	)
-  		where rn > (#{cri.pageNum} -1) * #{cri.amount}   
+  		where rn > (#{pageNum} -1) * #{amount}   
   	]]>
 	</select>
 
 
 	<select id="getTotalCount" resultType="int">
-		select count(*) from wanote where
+		select count(*) from wanote where 
 		<include refid="criteria"></include>
-		 m_id=#{m_id}
+		<if test="m_id != null">
+			 m_id=#{m_id} and
+		</if>
+		w_num>0 
 	</select>
 
 
@@ -118,5 +126,24 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 	<select id="listWATag" resultType="org.sst.domain.WAtagVO" parameterType="String">
 	select * from watag where w_num=#{w_num}
 	</select>
+
+
+	<select id="countTagChart" resultType="java.util.HashMap"
+		parameterType="String">
+		 <![CDATA[   
+		select * from (select tg_name,count(*) as count from tag,watag,wanote
+		where tag.tg_num=watag.tg_num and wanote.w_num = watag.w_num and m_id=#{m_id}
+		group by tg_name order by count(*) desc) where rownum<10
+				]]>
+	</select>
+
+	<select id="countReasonChart" resultType="java.util.HashMap"
+		parameterType="String">
+		select w_reason,count(*) as count from wanote
+		where m_id=#{m_id}
+		group by w_reason order by count(*) desc
+
+	</select>
+
 
 </mapper>

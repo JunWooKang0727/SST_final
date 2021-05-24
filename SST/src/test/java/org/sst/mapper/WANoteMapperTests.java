@@ -83,22 +83,22 @@ public class WANoteMapperTests {
 //		log.info(mapper.getTotalCount(map));
 //	}
 	
-	  @Test
-	  public void testCreateWANotes() {
-
-	    for(int i = 0; i < 100; i++) {
-	    	WANoteVO vo = new WANoteVO();
-			vo.setM_id("ggy");
-			vo.setW_title("MapperTest");
-			vo.setW_question("MapperTest");
-			vo.setW_answer("MapperTest");
-			vo.setW_reason("MapperTest");
-			vo.setW_subject("MapperTest");
-			
-			log.info(mapper.createWANote(vo));
-
-	      }
-	    }//end for
+//	  @Test
+//	  public void testCreateWANotes() {
+//
+//	    for(int i = 0; i < 100; i++) {
+//	    	WANoteVO vo = new WANoteVO();
+//			vo.setM_id("ggy");
+//			vo.setW_title("MapperTest");
+//			vo.setW_question("MapperTest");
+//			vo.setW_answer("MapperTest");
+//			vo.setW_reason("MapperTest");
+//			vo.setW_subject("MapperTest");
+//			
+//			log.info(mapper.createWANote(vo));
+//
+//	      }
+//	    }//end for
 	
 //	@Test
 //	public void testCreateTag() {
@@ -119,5 +119,9 @@ public class WANoteMapperTests {
 //			log.info("result(있을때)--------------------------------"+mapper.createWATag(map));
 //		}
 //	}
-	
+	@Test
+	public void testCountChart() {
+
+		log.info(mapper.countTagChart("ggy"));
+	}
 }

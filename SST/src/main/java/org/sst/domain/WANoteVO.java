@@ -16,6 +16,6 @@ public class WANoteVO {
 	private String m_id;
 	
 	private List<WAtagVO> taglist;
-	private List<WANoteAttachFile> files;
+	private List<WanoteAttachVO> attachList;
 	
 }

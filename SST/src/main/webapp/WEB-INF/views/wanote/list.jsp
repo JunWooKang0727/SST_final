@@ -43,9 +43,9 @@
 							<div class="card shadow mb-4">
 
 								<ul class="nav nav-tabs">
-									<li class="nav-item"><a class="nav-link active" href="#">나의 오답노트</a>
+									<li class="nav-item"><a class="nav-link active" href="/sst/wanote/list" id='allWanote'>전체 오답노트</a>
 									</li>
-									<li class="nav-item"><a class="nav-link" href="#">전체 오답노트</a>
+									<li class="nav-item"><a class="nav-link" href="/sst/wanote/mylist?m_id=ggy">나의 오답노트</a>
 									</li>
 								</ul>
 
@@ -58,7 +58,6 @@
 				<form id='searchForm' action="/sst/wanote/list" method='get'
 						class="float-right">
 						 <div class="input-group">
-						<input type='hidden' name='m_id' value='ggy' /> 
 							<select name='type' class="form-control">
 								<option value=""
 									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
@@ -139,7 +138,6 @@
 			</div>
 
 			<form id='actionForm' action="/sst/wanote/list" method='get'>
-			<input type='hidden' name='m_id' value='ggy' /> 
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 
@@ -210,7 +208,6 @@
 	$(document)
 			.ready(
 					function() {
-
 						var result = '<c:out value="${result}"/>';
 
 						checkModal(result);
@@ -232,11 +229,7 @@
 							$("#myModal").modal("show");
 						}
 
-						$("#regBtn").on("click", function() {
 
-							self.location = "/05/board/register";
-
-						});
 
 						var actionForm = $("#actionForm");
 
