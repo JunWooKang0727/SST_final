@@ -53,9 +53,11 @@
 					<div class="row">
 						<div class="showCurPath"></div>
 					</div>
-
 					<div class="row">
-
+						<div class="goParent">..</div>
+					</div>
+					<div class="row">
+						
 						<div class="createDirBtn">새 폴더</div>
 
 
@@ -86,7 +88,7 @@
 						value="<c:out value='${studyDataList.curPath}'/>" name="curPath">
 					<input type="hidden"
 						value="<c:out value='${studyDataList.g_num}'/>" name="g_num">
-
+				
 					<!-- end of row -->
 
 				</div>
@@ -126,20 +128,34 @@
 
 			$('.filebox').on("dragover", dragOver).on("dragleave", dragOver)
 					.on("drop", uploadFiles);
-
+			
+			//삭제 버튼 (span) 클릭 이벤트
 			$('.filebox, .folderbox').on("click", "span", function(e) {
-
+				
+				if($(this).data("ftype")==0){
+					if(!confirm("하위 폴더 내의 모든 폴더가 삭제됩니다\n삭제하시겠습니까?")){
+						return;
+					}
+				}
+				
 				var targetFile = $(this).data("file");
 				//var type = $(this).data("type");
 				var uuid = $(this).data("uuid");
 				console.log(targetFile);
-
+				var ftype = $(this).data("ftype");
+				var fname = $(this).data("fname");
+				var fpath = $(this).data("path");
+				var g_num = $(this).data("gnum");
 				$.ajax({
 
 					url : '/studydata/deleteFile',
 					data : {
-						fileName : targetFile,
-						uuid : uuid
+						fileCallPath : targetFile,
+						uuid : uuid,
+						fileType : ftype,
+						fileName : fname,
+						uploadPath : fpath,
+						g_num : g_num
 					},
 					dataType : 'text',
 					type : 'POST',
@@ -187,9 +203,10 @@
 			for (var i = 0; i < files.length; i++) {
 				formData.append("uploadFile", files[i]);
 			}
-				formData.append("g_num",$("input[name=g_num]").val());
-				formData.append("curPath",$("input[name=curPath]").val());
-				
+			formData.append("g_num", $("input[name=g_num]").val());
+			formData.append("curPath", $("input[name=curPath]").val());
+			
+
 			if (confirm("파일을 등록할까요")) {
 				$.ajax({
 					url : '/studydata/uploadAjax',
@@ -211,64 +228,59 @@
 
 		}//end of uploadFiles
 
-		function showUploadedFile() {
-
+		function showUploadedFile(cp) {
+			
 			var str = "";
 			$('.filebox').empty();
-
-			$
-					.ajax({
-
-						url : '/studydata/list',
-						dataType : 'json',
-						type : 'GET',
-						data : {
-							"curPath" : $("input[name=curPath]").val(),
-							"g_num" : $("input[name=g_num]").val()
+			var curP = "";
+			
+			if(cp == null){
+				curP =	$("input[name=curPath]").val();
+			}else{
+				curP = cp;
+			}
+			
+			$.ajax({
+				url : '/studydata/list',
+				dataType : 'json',
+				type : 'GET',
+				data : {
+						"curPath" : curP,
+						"g_num" : $("input[name=g_num]").val()
 						},
-						success : function(data) {
+				success : function(data) {
 							$('.filebox').empty();
 							$('.folderbox').empty();
-							$(data)
-									.each(
-											function(i, obj) {
+							$(data).each(function(i, obj) {
 
-												var fileCallPath = encodeURIComponent(obj.uploadPath
-														+ "/"
-														+ obj.uuid
-														+ "_"
-														+ obj.fileName);
-												if (obj.fileType == true) {
-													console.log(obj.fileType
-															+ "파일타입입니다");
-													str += "<div class='fileObj'><a href='/studydata/download?fileName="
-															+ fileCallPath
-															+ "'>"
-															+ obj.fileName
-															+ "</a><br>";
-													str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
-														"\' data-path='"+obj.uploadPath+"'> 삭제 </span></div>";
+								var fileCallPath = encodeURIComponent(obj.uploadPath
+									+ "/"+ obj.uuid+ "_"+ obj.fileName);
+								if (obj.fileType == true) {
+									
+									str += "<div class='fileObj'><a class='file btn btn-light btn-icon-split' href='/studydata/download?fileName="
+										+ fileCallPath+ "'>"+ obj.fileName+ "</a><br>";
+									str += "<span class='deleteBtn' data-file=\'"+fileCallPath
+									+"\' data-uuid=\'"+obj.uuid+"\' data-path=\'"+obj.uploadPath+"\'"
+									+"data-ftype=\'"+obj.fileType+"\'> 삭제 </span></div>";
 
-													$('.filebox').append(str);
-													str = "";
+									$('.filebox').append(str);
+									str = "";
 
-												} else if (obj.fileType == 0) {
-													str += "<div class='fileObj'><a href='/studydata/download?fileName="
-															+ fileCallPath
-															+ "'>"
-															+ obj.fileName
-															+ "</a><br>";
-													str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
-														"\' data-path='"+obj.uploadPath+
-														"' data-fname=\'"+obj.fileName+"\'> 삭제 </span></div>";
-													$('.folderbox').append(str)
-													str = "";
-												}
+								} else if (obj.fileType == 0) {
+									str += "<div class='fileObj'><a class='file btn btn-light btn-icon-split' href='#'>"+ obj.fileName+ "</a><br>";
+									str += "<span class='deleteBtn' data-file=\'"+fileCallPath
+									+"\' data-uuid=\'"+obj.uuid+"\' data-path='"+obj.uploadPath
+									+"' data-fname=\'"+obj.fileName+"\'"
+									+"data-ftype=\'"+obj.fileType+"\'"
+									+"data-gnum=\'"+obj.g_num+"\'> 삭제 </span></div>";
+									$('.folderbox').append(str)
+									str = "";
+								}//end of if
 
-												console.log("실행됨");
-											});
+								console.log(fileCallPath);
+							});//end of each (data)
 
-							//$('.filebox').append(str);if문 안에서 대체
+						
 						}//end of success
 					}); //end of ajax
 
@@ -335,85 +347,45 @@
 		//디렉토리 이동 관련
 		$(function() {
 
-			$('.folderbox')
-					.on(
-							"click",
-							"a",
-							function(e) {
-								e.preventDefault();
+			$('.folderbox').on("click","a",function(e) {
+							e.preventDefault();
 
-								var cp = $(this).next().next().data('fname');
-								cp = $('input[name=curPath]').val() + "\\" + cp;
-								console.log(cp);
+							var cp = $(this).next().next().data('fname');
+							var uuid = $(this).next().next().data('uuid');
+							cp = $('input[name=curPath]').val() + "\\" + cp;
+							console.log(cp);
+							
+							showUploadedFile(cp);
+							$('input[name=curPath]').val(cp);
+							
+							
+										
+			});//동적 할당 (a 클릭 이벤트) 끝
 
-								$
-										.ajax({
-											url : '/studydata/list',
-											type : 'GET',
-											data : {
-												"curPath" : cp,
-												"g_num" : $('input[name=g_num]')
-														.val()
-											},
-											success : function(data) {
-												str = "";
-
-												$('input[name=curPath]')
-														.val(cp);
-												$('.filebox').empty();
-												$('.folderbox').empty();
-												$(data)
-														.each(
-																function(i, obj) {
-
-																	var fileCallPath = encodeURIComponent(obj.uploadPath
-																			+ "/"
-																			+ obj.uuid
-																			+ "_"
-																			+ obj.fileName);
-																	if (obj.fileType == true) {
-																		console
-																				.log(obj.fileType
-																						+ "파일타입입니다");
-																		str += "<div class='fileObj'><a href='/studydata/download?fileName="
-																				+ fileCallPath
-																				+ "'>"
-																				+ obj.fileName
-																				+ "</a><br>";
-																		str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
-													"\' data-path='"+obj.uploadPath+"'> 삭제 </span></div>";
-
-																		$(
-																				'.filebox')
-																				.append(
-																						str);
-																		str = "";
-
-																	} else if (obj.fileType == 0) {
-																		str += "<div class='fileObj'><a href='/studydata/download?fileName="
-																				+ fileCallPath
-																				+ "'>"
-																				+ obj.fileName
-																				+ "</a><br>";
-																		str += "<span class='deleteBtn' data-file=\'"+fileCallPath+"\' data-uuid=\'"+obj.uuid+
-													"\' data-path='"+obj.uploadPath+
-													"' data-fname=\'"+obj.fileName+"\'> 삭제 </span></div>";
-																		$(
-																				'.folderbox')
-																				.append(
-																						str)
-																		str = "";
-																	}
-
-																	console
-																			.log("실행됨");
-																});
-											}
-
-										});
-							});
-
-		});
+			//디렉토리 밖으로
+			$('.goParent').on("click",function(){
+				
+				var cur = $('input[name=curPath]').val();
+				
+				
+				if(cur.lastIndexOf("\\") > 0){
+					var prev = cur.substr(0,cur.lastIndexOf("\\"));
+					console.log(prev);
+					showUploadedFile(prev);
+					$('input[name=curPath]').val(prev);
+				}else{
+					console.log("없어요");
+					return;
+				}
+				
+				
+			});//goParent 클릭 이벤트 끝		
+							
+							
+							
+		}); //end of $(function())
+		
+	
 	</script>
 
 </body>

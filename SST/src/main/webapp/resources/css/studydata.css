@@ -16,12 +16,12 @@
 }
 
 .fileObj {
-	border: 1px solid blue;
+/* 	border: 1px solid blue;
 	background-color: white;
 	color: black;
 	width: 100px;
 	height: 50px;
-	margin: 10px;
+	margin: 10px; */
 }
 
 .createDirBtn {
@@ -46,5 +46,25 @@
 }
 
 .deleteBtn{
+	
+	color: black;
+	display: inline;
+}
+
+.goParent{
+	width: 80px;
+	height: 40px;
+	color: black;
+	border: 1px solid black;
+	text-align: center;
+	padding-top: 7px;
+	margin-bottom: 20px;
+}
+
+.file{
+	font-size: 15px;
+	width: 80px;
+	height: 40px;
+	display: inline;
 	
 }

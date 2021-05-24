@@ -2,6 +2,7 @@ package org.sst.controller;
 
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -54,7 +55,7 @@ public class StudyDataController {
 	@PostMapping("/create")
 	public String makeDir(StudyDataListVO listvo, String dirName){
 		
-		String uploadFolder = "D:\\upload";
+		String uploadFolder = "E:\\upload";
 		
 //		if(dirName.equals("")){
 //			return "redirect:/studydata/list2";
@@ -68,7 +69,7 @@ public class StudyDataController {
 		uploadFolder = uploadFolder + curPath;
 		UUID uuid = UUID.randomUUID();
 		String uuidFile =uuid.toString()+"_"+dirName;
-		File dir = new File(uploadFolder, uuidFile);
+		File dir = new File(uploadFolder, dirName);
 		dir.mkdir();
 		
 		StudyDataVO vo = new StudyDataVO();
@@ -77,7 +78,7 @@ public class StudyDataController {
 		vo.setFileType(false);
 		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
 		vo.setUploader("solkang");
-		vo.setUploadPath(uploadFolder.replace("D:\\upload", ""));
+		vo.setUploadPath(uploadFolder.replace("E:\\upload", ""));
 		vo.setUuid(uuid.toString());
 		//log.info(vo);
 		service.upload(vo);
@@ -92,7 +93,15 @@ public class StudyDataController {
 		
 		log.info("upate ajax post...........................");
 		
-		String uploadFolder = "D:\\upload\\1";
+		String uploadFolder = "E:\\upload";
+		
+		String curPath = vo.getCurPath();
+		
+		
+	
+		uploadFolder=uploadFolder + curPath;
+		
+		
 		
 		for(MultipartFile multipartFile : uploadFile){
 			
@@ -113,13 +122,13 @@ public class StudyDataController {
 			studyData.setFileName(uploadFileName);
 			//uuid create
 			UUID uuid = UUID.randomUUID();
-
+			
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 			File saveFile = new File(uploadFolder, uploadFileName);
 			
-			studyData.setG_num("1");
+			studyData.setG_num(vo.getG_num());
 			studyData.setUploader("solkang");
-			studyData.setUploadPath("1");
+			studyData.setUploadPath(curPath);
 			studyData.setFileType(true);
 			studyData.setUuid(uuid.toString());
 			
@@ -163,7 +172,7 @@ public class StudyDataController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent")String userAgent,String fileName){
 		
-		Resource resource = new FileSystemResource("D:\\upload\\"+fileName);
+		Resource resource = new FileSystemResource("E:\\upload\\"+fileName);
 		
 		log.info(resource);
 		
@@ -204,25 +213,77 @@ public class StudyDataController {
 	
 	@PostMapping("/deleteFile")
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(String fileName, String uuid){
+	public ResponseEntity<String> deleteFile(String fileCallPath, StudyDataVO vo){
 		
-		log.info("deleteFile: "+fileName);
-		
+		log.info("deleteFile: "+vo);
 		File file;
 		
-		try {
-			file = new File("D:\\upload\\"+URLDecoder.decode(fileName,"UTF-8"));
-			
-			file.delete();
-			service.delete(uuid);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(vo.isFileType()){
+			try {
+				log.info("파일 타입 : ");
+				file = new File("E:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
+				if(file.isDirectory()){
+					log.info("================ 디렉토리 입니다 =================");
+				}else{
+					log.info("=======아닙니다");
+				}
+				file.delete();
+				service.delete(vo.getUuid());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}else if(!vo.isFileType()){
+			try {
+				log.info("디렉토리 타입 : ");
+				file = new File("E:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
+				if(file.isDirectory()){
+					
+					StudyDataListVO listvo = new StudyDataListVO();
+					listvo.setG_num(vo.getG_num());
+					String regExp = vo.getUploadPath()+"\\"+vo.getFileName();
+					regExp = regExp.replace("\\", "\\\\");
+					listvo.setCurPath(regExp);
+					
+					List<StudyDataVO> childFiles = service.getList(listvo);
+					
+					//경로안에 파일 모두 삭제
+					deleteFilesRecursively(file);
+					
+					//DB상의 로우 모두 삭제
+					for(StudyDataVO stddata : childFiles){
+						service.delete(stddata.getUuid());
+					}
+					
+				}else{
+					log.info("=======아닙니다");
+				}
+				
+				//file.delete();
+				service.delete(vo.getUuid());
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
+		
+		
+		
 		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
 	
+	
+    public boolean deleteFilesRecursively(File rootFile) {
+        File[] allFiles = rootFile.listFiles();
+        if (allFiles != null) {
+            for (File file : allFiles) {
+                deleteFilesRecursively(file);
+            }
+        }
+        System.out.println("Remove file: " + rootFile.getPath());
+        return rootFile.delete();
 
+    }
 
 }
