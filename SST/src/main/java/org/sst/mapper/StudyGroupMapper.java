@@ -2,6 +2,8 @@ package org.sst.mapper;
 
 import java.util.List;
 
+import org.sst.domain.Criteria;
+import org.sst.domain.Criteria2;
 import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 
@@ -18,4 +20,12 @@ public interface StudyGroupMapper {
 	public int groupDelete(String gnum);
 	
 	public List<StudyGroupVO> groupMakeRead(String id);
+	
+	//public List<StudyGroupVO> totalgroupList();
+	
+	public List<StudyGroupVO> totalgroupList(Criteria2 cri);
+	
+	public int getTotalCount(Criteria2 cri);
+	
+//	public List<StudyGroupVO> searchGroup(Criteria2 cri);
 }

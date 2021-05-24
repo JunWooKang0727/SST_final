@@ -93,7 +93,7 @@ public class StudyGroupControllerTests {
 		log.info(resultPage); 
 	}*/
 	
-	@Test
+	/*@Test
 	public void groupRemove() throws Exception {
 		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/group/remove")
 				.param("g_num", "gn1")
@@ -105,5 +105,14 @@ public class StudyGroupControllerTests {
 				.param("g_memnum", "10"))
 				.andReturn().getModelAndView().getViewName();
 		log.info(resultPage);
+	}*/
+	
+	@Test
+	public void totalListGet() throws Exception {
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/group/search")
+				.param("pageNum", "2")
+				.param("amount", "12"))
+				.andReturn()
+				.getModelAndView().getModelMap());
 	}
 }

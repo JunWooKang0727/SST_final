@@ -3,7 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="org.sst.mapper.StudyGroupMapper">
- 	
+ 
+ 	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							g_name like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							g_content like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
  	<!-- 그룹 생성 & 그룹생성과 동시에 멤버추가는 동시에(?) 실행되어야함. -->
  	<insert id="groupInsert" parameterType="org.sst.domain.StudyGroupVO"
  	useGeneratedKeys="true" keyColumn="g_num" keyProperty="g_num">
@@ -42,5 +59,63 @@
 		delete from studygroup where G_NUM = #{gnum}
 	</delete>
 	
-	<!-- 스터디 그룹원 가져오기 -->
+	<!-- 그룹 전체 조회 -->
+	<!-- <select id="totalgroupList" resultType="org.sst.domain.StudyGroupVO">
+		select * from studygroup
+	</select> -->
+	<!-- 스터디 그룹  -->
+	<!-- 게시판 -->
+	<!-- <select id="totalgroupList" resultType="org.sst.domain.StudyGroupVO">
+		<![CDATA[
+			select g_num, g_name, g_content, g_secreat, g_passwd, g_category, g_memnum from (
+				select /*+INDEX_DESC(studygroup pk_studygroup)*/ 
+				rownum rn, g_num, g_name, g_content, g_secreat, g_passwd, g_category, 
+				g_memnum from studygroup where rownum <= #{pageNum} * #{amount}
+				)
+			where rn > (#{pageNum} -1)*#{amount}
+		]]>
+	</select> -->
+	
+	<!-- <select id="getTotalCount" resultType="int">
+		select count(*) from studygroup
+	</select> -->
+	
+	<!-- 숫자와 문자 정렬하려면 컬럼+0 으로 해결하면된다. -->
+	<!-- <select id="searchGroup" resultType="org.sst.domain.StudyGroupVO">
+		select /*+INDEX_DESC(studygroup g_num) */ * from studygroup
+		<if test="area != null">
+			<where>
+				<foreach collection="area" item="item" separator="OR"
+				open="(" close=")">
+					${item} LIKE #{searchKey}
+				</foreach>
+			</where>
+		</if>
+	</select> -->
+	
+	<select id="totalgroupList" resultType="org.sst.domain.StudyGroupVO">
+		<![CDATA[
+			select * from
+			(
+				select /*+INDEX_DESC(studygroup pk_studygroup)*/
+				rownum rn, g_num, g_name, g_content, g_secreat,
+				g_passwd, g_category, g_memnum
+				from studygroup
+				where
+		]]>
+		<include refid="criteria"></include>
+		
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+			)
+			where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int" >
+		select count(*) from studygroup where
+		<include refid="criteria"></include>
+		g_num LIKE 'gn%'
+	</select>
+	
  </mapper>

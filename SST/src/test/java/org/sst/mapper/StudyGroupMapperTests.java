@@ -1,10 +1,14 @@
 package org.sst.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.sst.domain.Criteria;
+import org.sst.domain.Criteria2;
 import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 
@@ -56,9 +60,43 @@ public class StudyGroupMapperTests {
 		mapper.groupDelete("gn21");
 	}*/
 	
-	@Test
+	/*@Test
 	public void testMyGroupRead(){
 		mapper.groupMakeRead("study0516").forEach(groups -> log.info(groups));
+	}*/
+	
+	/*@Test
+	public void totalgroupRead(){
+		mapper.totalgroupList().forEach(groups -> log.info(groups));
+	}*/
+	
+	/*@Test
+	public void testPaging(){
+		Criteria2 cri = new Criteria2();
+		cri.setPageNum(1);
+		cri.setAmount(12);
+		List<StudyGroupVO> list = mapper.totalgroupList(cri);
+		list.forEach(groups -> log.info(groups));
+	}*/
+	
+	@Test
+	public void searchTest(){
+		Criteria2 cri = new Criteria2();
+		cri.setKeyword("편입영어");
+		cri.setType("T");
+		
+		List<StudyGroupVO> grouplist = mapper.totalgroupList(cri);
+		grouplist.forEach(groups->log.info(groups));
 	}
+	
+	/*@Test
+	public void totalCountTest(){
+		Criteria2 cri = new Criteria2();
+		cri.setKeyword("영어");
+		cri.setPageNum(2);
+		cri.setType("T");
+		
+		log.info(mapper.getTotalCount(cri));
+	}*/
 	
 }

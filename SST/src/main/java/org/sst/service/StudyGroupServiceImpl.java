@@ -3,6 +3,7 @@ package org.sst.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.sst.domain.Criteria2;
 import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 import org.sst.mapper.StudyGroupMapper;
@@ -55,6 +56,26 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 		return mygrouplist;
 	}
 
+	@Override
+	public List<StudyGroupVO> totalGroupGet(Criteria2 cri) {
+		log.info("[get list with criteria : ");
+		return mapper.totalgroupList(cri);
+	}
+
+	@Override
+	public int getTotal(Criteria2 cri) {
+		log.info("[get total count]");	
+		return mapper.getTotalCount(cri);
+	}
+
+	/*@Override
+	public List<StudyGroupVO> totalGroupGet() {
+		log.info("[get total group list");
+		List<StudyGroupVO> totallist = mapper.totalgroupList();
+		return totallist;
+	}
+	 */
+	
 	
 	
 }

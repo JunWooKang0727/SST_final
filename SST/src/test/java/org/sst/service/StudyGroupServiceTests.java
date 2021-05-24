@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.sst.domain.Criteria;
+import org.sst.domain.Criteria2;
 import org.sst.domain.StudyGroupVO;
 
 import lombok.Setter;
@@ -18,7 +20,7 @@ public class StudyGroupServiceTests {
 	@Setter(onMethod_ = {@Autowired})
 	private StudyGroupService service;
 	
-	@Test
+	/*@Test
 	public void groupCreateService(){
 		StudyGroupVO group = new StudyGroupVO();
 		group.setG_name("study0516");
@@ -29,7 +31,7 @@ public class StudyGroupServiceTests {
 		group.setG_passwd("study0516");
 		service.groupCreate(group, "member01");
 	}
-	
+	*/
 	/*@Test
 	public void groupDetailReadService(){
 		log.info(service.groupDetailGet("gn23"));
@@ -51,4 +53,19 @@ public class StudyGroupServiceTests {
 	public void mygroupReadTest(){
 		service.myGroupGet("study0516");
 	}*/
+	
+	/*@Test
+	public void totalgroupReadTest(){
+		service.totalGroupGet().forEach(groups -> log.info(groups));
+	}*/
+	
+	@Test
+	public void testGetList(){
+		Criteria2 cri = new Criteria2();
+		cri.setKeyword("영어");
+		cri.setType("T");
+		cri.setPageNum(1);
+		service.totalGroupGet(cri).forEach(groups -> log.info(groups));
+	}
+	
 }

@@ -82,7 +82,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">그룹관리:</h6>
                         <a class="collapse-item" href="/group/create">그룹생성</a>
-                        <a class="collapse-item" href="register.html">그룹검색</a>
+                        <a class="collapse-item" href="/group/search">그룹검색</a>
                         <a class="collapse-item" href="/group/main">그룹관리</a>
                     </div>
                 </div>

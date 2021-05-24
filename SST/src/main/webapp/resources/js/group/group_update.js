@@ -2,6 +2,7 @@ $(document).ready(function(){
 
 	var formObj = $('form');
 	var g_num = $('#g_num').val();
+	
 	$('.groupbtn').on("click", function(e){
 		e.preventDefault();
 		var oper = $(this).data("oper");
@@ -18,4 +19,5 @@ $(document).ready(function(){
 		
 		formObj.submit();
 	}); // groupbtn 끝 
+	
 });

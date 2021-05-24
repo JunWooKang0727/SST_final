@@ -5,9 +5,14 @@ import java.security.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.sst.domain.Criteria;
+import org.sst.domain.Criteria2;
+import org.sst.domain.PageDTO;
+import org.sst.domain.PageDTO2;
 import org.sst.domain.StudyGroupVO;
 import org.sst.service.StudyGroupService;
 
@@ -43,9 +48,16 @@ public class StudyGroupController {
 	
 	@GetMapping({"/read", "/update"})
 	public void groupDetailRead(@RequestParam("g_num") String g_num, Model model){
-		log.info("[Group Read / Update Page GET]");
+		log.info("[Group Read / Update Page]");
 		model.addAttribute("group", service.groupDetailGet(g_num));
 		log.info(service.groupDetailGet(g_num));
+	}
+	
+	@GetMapping("/selectdetail")
+	public void groupSearchDetailRead(@RequestParam("g_num") String g_num,
+			@ModelAttribute("cri") Criteria2 cri, Model model) {
+		log.info("[Group search detail read]");
+		model.addAttribute("group", service.groupDetailGet(g_num));
 	}
 	
 	@PostMapping("/update")
@@ -64,4 +76,16 @@ public class StudyGroupController {
 		return "redirect:/group/main";
 	}
 	
+	/*@GetMapping("/search")
+	public void totalgroupRead(Model model){
+		log.info("[Group Total Read]");
+		model.addAttribute("totalgroup", service.totalGroupGet());
+	}*/
+	                                                        
+	@GetMapping("/search")
+	public void totalgroupRead(Criteria2 cri, Model model){
+		log.info("[Group Total Read]");
+		model.addAttribute("totalgroup", service.totalGroupGet(cri));
+		model.addAttribute("pageMaker", new PageDTO2(cri, service.getTotal(cri)));
+	}
 }
