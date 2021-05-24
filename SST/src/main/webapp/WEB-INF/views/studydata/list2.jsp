@@ -267,7 +267,7 @@
 									str = "";
 
 								} else if (obj.fileType == 0) {
-									str += "<div class='fileObj'><a class='file btn btn-light btn-icon-split' href='#'>"+ obj.fileName+ "</a><br>";
+									str += "<div class='dirObj'><a class='file btn btn-light btn-icon-split' href='#'>"+ obj.fileName+ "</a><br>";
 									str += "<span class='deleteBtn' data-file=\'"+fileCallPath
 									+"\' data-uuid=\'"+obj.uuid+"\' data-path='"+obj.uploadPath
 									+"' data-fname=\'"+obj.fileName+"\'"
