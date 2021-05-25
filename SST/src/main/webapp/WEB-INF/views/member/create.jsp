@@ -76,12 +76,6 @@
                                 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
                             </form>
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">아이디 찾기</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">비밀번호 찾기</a>
-                            </div>
                         </div>
                     </div>
                 </div>

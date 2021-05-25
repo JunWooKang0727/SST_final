@@ -12,8 +12,7 @@
     <meta name="author" content="">
     <title>SST</title>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <!-- radioajax0412의 위치는? -->
-    <script type="text/javascript" src="../radioajax0412.js"></script>
+
     <!-- Custom fonts for this template-->
     <link href="../../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -43,24 +42,31 @@
                         <h1 class="h3 mb-0 text-gray-800">생성한 그룹</h1>
                     </div>
                     <!-- 페이지 본문 -->
-                    <!-- 생성한 그룹 -->
+                    <!-- 생성한 그룹 -->  
                     <div class="row">
-	                	<div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="mb-2">
-                                            	<a href="/SST/StudyGroup/groupdetail.do" class="h5 mb-1 font-weight-bold text-gray-800">그룹이름</a>
-                                            </div>
-                                            <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
-                                                스터디 상세정보 : 시간, 설명, 현재 인원 수</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                       </div>
-                    </div>
+                       <c:forEach items="${mygrouplist }" var="group">
+		                	<div class="col-xl-3 col-md-6 mb-4">
+	                            <div class="card border-left-success shadow h-100 py-2">
+	                                <div class="card-body">
+	                                    <div class="row no-gutters align-items-center">
+	                                        <div class="col mr-2">
+	                                            <div class="mb-2">
+	                                            	<a href="/group/read?g_num=<c:out value="${group.g_num }"/>" class="h5 mb-1 font-weight-bold text-gray-800">
+	                                            	<c:out value="${group.g_name }"/></a>
+	                                            </div>
+	                                            <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
+													스터디 설명 : <c:out value="${group.g_content }"/>
+	                                            </div>
+	                                            <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
+	                                            	그룹 정원 : <c:out value="${group.g_memnum }"/>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                   		</div>
+                       </c:forEach>
+                	</div>
                        
                 	
                 	<!-- 참여중인 그룹 -->
@@ -77,7 +83,8 @@
                                             	<a href="" class="h5 mb-1 font-weight-bold text-gray-800">그룹이름</a>
                                             </div>
                                             <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
-                                                스터디 상세정보 : 시간, 설명, 현재 인원 수</div>
+                                                	스터디 상세정보 : 시간, 설명, 현재 인원 수
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +113,7 @@
                                 </div>
                             </div>
                        </div>
-                       
+                       </div>
                 	</div>
             </div>
             <!-- End of Main Content -->

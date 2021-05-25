@@ -55,7 +55,7 @@
 	                                    </div>
 	                                    <div class="col-sm-9">
 	                                        <input name="m_id" type="text" class="form-control rounded-pill" id="exampleLastName"
-	                                            value=<c:out value="${member.m_id }"/> readonly>
+	                                            value=<c:out value="${member.m_id }"/> />
 	                                    </div>
 	                                </div>
 	                                <div class="form-group row">

@@ -6,8 +6,8 @@
  
  	<!-- 회원가입 -->
  	<insert id="memberInsert" parameterType="org.sst.domain.MemberVO">
-		insert into member(M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL)
-		values(#{m_id}, #{m_pw}, #{m_name}, #{m_phone}, #{m_birth}, #{m_email})
+		insert into member(M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL, ENABLED)
+		values(#{m_id}, #{m_pw}, #{m_name}, #{m_phone}, #{m_birth}, #{m_email}, '1')
 	</insert>
 	
 	<!-- 권한 추가 -->
