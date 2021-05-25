@@ -51,14 +51,16 @@
 					<div class="row headerLine"></div>
 					<!-- end of row -->
 					<div class="row">
-						<div class="showCurPath"></div>
+						<div class="showCurPath">
+							<span>현재 폴더</span> <span class="curP"></span>
+						</div>
 					</div>
 					<div class="row">
-						<div class="goParent">..</div>
+						<div class="goParent btn-secondary"><i class="fas fa-arrow-up"></i></div>
 					</div>
 					<div class="row">
 						
-						<div class="createDirBtn">새 폴더</div>
+						<div class="createDirBtn btn btn-light"><span><img class='addicon' src='../../../resources/img/plus.png'></span>새 폴더</div>
 
 
 						<div class="modal">
@@ -75,10 +77,10 @@
 
 					</div>
 
-
 					<div class="row">
 						<div class="folderbox"></div>
-
+					</div> 
+					<div class="row">
 						<div class="filebox"></div>
 					</div>
 
@@ -110,7 +112,7 @@
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
-
+	
 	<!-- Bootstrap core JavaScript-->
 	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
 	<script
@@ -120,6 +122,7 @@
 		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="../../../resources/js/sb-admin-2.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 	<script type="text/javascript">
 		$(function() {
@@ -130,10 +133,14 @@
 					.on("drop", uploadFiles);
 			
 			//삭제 버튼 (span) 클릭 이벤트
-			$('.filebox, .folderbox').on("click", "span", function(e) {
-				
+			$('.filebox, .folderbox').on("click", ".deleteBtn", function(e) {
+				e.stopPropagation();
 				if($(this).data("ftype")==0){
 					if(!confirm("하위 폴더 내의 모든 폴더가 삭제됩니다\n삭제하시겠습니까?")){
+						return;
+					}
+				}else{
+					if(!confirm("정말 삭제하시겠습니까?")){
 						return;
 					}
 				}
@@ -170,6 +177,7 @@
 
 		});
 
+		//드래그 앤 드롭 (효과)
 		function dragOver(e) {
 			e.stopPropagation();
 			e.preventDefault();
@@ -186,7 +194,8 @@
 				});
 			}
 		}
-
+		
+		
 		function uploadFiles(e) {
 			e.stopPropagation();
 			e.preventDefault();
@@ -240,6 +249,8 @@
 				curP = cp;
 			}
 			
+			$('.curP').html(curP);
+			
 			$.ajax({
 				url : '/studydata/list',
 				dataType : 'json',
@@ -257,9 +268,13 @@
 									+ "/"+ obj.uuid+ "_"+ obj.fileName);
 								if (obj.fileType == true) {
 									
-									str += "<div class='fileObj'><a class='file btn btn-light btn-icon-split' href='/studydata/download?fileName="
-										+ fileCallPath+ "'>"+ obj.fileName+ "</a><br>";
-									str += "<span class='deleteBtn' data-file=\'"+fileCallPath
+									str += "<div class='fileObj'><a class='file btn btn-light' href='/studydata/download?fileName="
+										+ fileCallPath+ "'><span><img class='fileicon' src='../../../resources/img/file.png'></span><span>"+ obj.fileName+ "</span></a>";
+										
+									str +="<span class='uploader'>"+obj.uploader+"</span>";
+									str +="<span class='regdate'>"+moment(obj.regdate).format('YYYY-MM-DD')+"</span>";
+										
+									str += "<span class='btn deleteBtn' data-file=\'"+fileCallPath
 									+"\' data-uuid=\'"+obj.uuid+"\' data-path=\'"+obj.uploadPath+"\'"
 									+"data-ftype=\'"+obj.fileType+"\'> 삭제 </span></div>";
 
@@ -267,8 +282,8 @@
 									str = "";
 
 								} else if (obj.fileType == 0) {
-									str += "<div class='dirObj'><a class='file btn btn-light btn-icon-split' href='#'>"+ obj.fileName+ "</a><br>";
-									str += "<span class='deleteBtn' data-file=\'"+fileCallPath
+									str += "<div class='dirObj card border-left-primary shadow'><a class='dir btn btn-light' href='#'><span><img class='fileicon' src='../../../resources/img/folder.png'></span><span>"+ obj.fileName+ "</span></a>";
+									str += "<span class='btn deleteBtn' data-file=\'"+fileCallPath
 									+"\' data-uuid=\'"+obj.uuid+"\' data-path='"+obj.uploadPath
 									+"' data-fname=\'"+obj.fileName+"\'"
 									+"data-ftype=\'"+obj.fileType+"\'"
@@ -350,8 +365,8 @@
 			$('.folderbox').on("click","a",function(e) {
 							e.preventDefault();
 
-							var cp = $(this).next().next().data('fname');
-							var uuid = $(this).next().next().data('uuid');
+							var cp = $(this).next().data('fname');
+							var uuid = $(this).next().data('uuid');
 							cp = $('input[name=curPath]').val() + "\\" + cp;
 							console.log(cp);
 							
@@ -374,7 +389,7 @@
 					showUploadedFile(prev);
 					$('input[name=curPath]').val(prev);
 				}else{
-					console.log("없어요");
+					alert("현재 최상위 폴더입니다");
 					return;
 				}
 				
@@ -390,4 +405,6 @@
 
 </body>
 </html>
+
+
 

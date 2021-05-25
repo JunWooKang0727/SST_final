@@ -3,42 +3,57 @@
 .filebox {
 	outline: 2px dashed #92b0b3;
 	outline-offset: -10px;
-	text-align: center;
+	text-align:left;
 	transition: all .15s ease-in-out;
 	width: 1000px;
-	height: 500px;
+	min-height:500px;
 	background-color: gray;
 	
 }
 
 .folderbox{
-	text-align:center;
+	width: 1000px;
 }
 
 .fileObj {
- 	border: 1px solid blue;
 	background-color: white;
 	color: black;
-	width: 100%;
+	width: 980px;
 	height: 50px;
 	margin: 10px; 
-	
+	text-align: left;
+}
+
+.file{
+	font-size: 15px;
+	width: 500px;
+	height: 50px;
+	text-align:left;
+	float: left;
+	padding-top: 12px;
 }
 
 .dirObj{
-	border: 1px solid blue;
+	/* border: 1px solid blue; */
 	background-color: white;
 	color: black;
-	width: 100px;
+	width: 250px;
 	height: 50px;
 	margin: 10px; 
+	display: inline-block;
+}
+
+.dir{
+	font-size: 15px;
+	width: 160px;
+	height: 40px;
+	text-align: left;
 }
 
 .createDirBtn {
-	width: 80px;
+	width: 110px;
 	height: 40px;
 	color: black;
-	border: 1px solid black;
 	text-align: center;
 	padding-top: 7px;
 	margin-bottom: 20px;
@@ -52,30 +67,55 @@
 	top: 0;
 	left: 0;
 	display: none;
-	 text-align: center;
+	text-align: center;
 }
 
 .deleteBtn{
 	
 	color: black;
-	display: inline;
+	font-size:10px;
+	width: 80px;
+	margin-top: 5px;
 }
 
 .goParent{
 	width: 80px;
 	height: 40px;
 	color: black;
-	border: 1px solid black;
+	
 	text-align: center;
 	padding-top: 7px;
 	margin-bottom: 20px;
 }
 
-.file{
-	font-size: 15px;
-	width: 100%;
-	height: 40px;
-	display: inline;
-	float: left;
-	
+
+
+
+
+.uploader{
+	margin-left: 20px;
+	margin-right: 100px;
+	margin-top:12px;
+	height: 30px;
+	display: inline-block;
+}
+
+.regdate{
+	margin-left: 20px;
+	margin-right: 100px;
+	margin-top:12px;
+	height: 30px;
+	display: inline-block;
+}
+
+.fileicon{
+	weight:30px;
+	height: 30px;
+	margin-right: 10px;
+}
+
+.addicon{
+	weight:20px;
+	height:20px;
+	margin-right: 10px;
 }
