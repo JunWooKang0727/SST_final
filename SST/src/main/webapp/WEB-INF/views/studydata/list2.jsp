@@ -81,6 +81,14 @@
 						<div class="folderbox"></div>
 					</div> 
 					<div class="row">
+						<div class="boxheader">
+							<span class="header header_fname">파일명</span>
+							<span class="header header_fuploader">업로더 ID</span>
+							<span class="header header_fregdate">업로드날짜</span>
+							
+						</div>
+					</div>
+					<div class="row">
 						<div class="filebox"></div>
 					</div>
 
