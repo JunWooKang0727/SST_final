@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +14,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+
 <title>SST</title>
 <!-- Custom fonts for this template-->
 <link href="../../../resources/vendor/fontawesome-free/css/all.min.css"
@@ -152,7 +153,7 @@
 						return;
 					}
 				}
-				var csrfHeaderName = "${_csrf.headerName} ";
+				var csrfHeaderName = "${_csrf.headerName}";
 				var csrfTokenValue = "${_csrf.token}";
 				
 				console.log("1"+csrfHeaderName);
@@ -182,11 +183,14 @@
 						uploadPath : fpath,
 						g_num : g_num
 					},
-					dataType : 'text',
+					//dataType : 'text',
 					type : 'POST',
-					success : function(result) {
-						alert(result);
+					success : function() {
+						//alert(result);
 						showUploadedFile();
+					},
+					error:function(xhr,status,error){
+						console.log('error:'+error);
 					}
 
 				});//end of ajax
@@ -233,24 +237,32 @@
 			}
 			formData.append("g_num", $("input[name=g_num]").val());
 			formData.append("curPath", $("input[name=curPath]").val());
-			
+			formData.append("${_csrf.parameterName}","${_csrf.token}");
 
 			if (confirm("파일을 등록할까요")) {
 				$.ajax({
 					url : '/studydata/uploadAjax',
+					
 					processData : false,
 					contentType : false,
-					beforeSend:function(xhr){
-						
-						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-					},
+					
 					data : formData,
 					type : 'POST',
-
-					success : function(result) {
+/* 					beforeSend:function(xhr){
+						
+						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+					}, */
+					//dataType:'json',
+					success : function() {
 						alert("Uploaded");
-
+						console.log("ehla");
 						showUploadedFile();
+					},
+					error:function(xhr,status,error){
+						console.log("1"+csrfHeaderName);
+						console.log("2토큰"+csrfTokenValue);
+						console.log('error:'+error);
+						console.log('status:'+status);
 					}
 
 				});// end of ajax
@@ -326,6 +338,9 @@
 
 		//새폴더 모달창 관련
 		$(function() {
+			var csrfHeaderName = "${_csrf.headerName} ";
+			var csrfTokenValue = "${_csrf.token}";
+			
 			$(".createDirBtn").click(
 					function() {
 						var div = $(".modal")
@@ -359,18 +374,30 @@
 
 				$.ajax({
 					url : "/studydata/create",
+/* 					beforeSend:function(xhr){
+						
+						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+					} */
 					data : {
 						"dirName" : $("input[name=dirName]").val(),
 						"curPath" : $("input[name=curPath]").val(),
-						"g_num" : $("input[name=g_num]").val()
+						"g_num" : $("input[name=g_num]").val(),
+						"'${_csrf.parameterName}'":"${_csrf.token}"
 					},
 					type : 'POST',
-					success : function(data) {
+					//dataType:'json',
+					success : function() {
 						$("input[name=dirName]").val('');
 
 						showUploadedFile();
 						//$('.filebox').append(str);if문 안에서 대체
-					}//end of success
+					},
+					error:function(xhr,status,error){
+						console.log("1"+csrfHeaderName);
+						console.log("2토큰"+csrfTokenValue);
+						console.log('error:'+error);
+						console.log('status:'+status);
+					}
 
 				});
 
