@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	public void memberSignup(MemberVO member) {
 		log.info("[member signUp]" + member);
 		mapper.memberInsert(member);
-		//mapper.memberAuth(member.getM_id());
+		mapper.memberAuth(member.getM_id()); // 가입과 동시에 권한 추가
 	}
 
 	@Override
@@ -34,9 +34,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean memberRemove(MemberVO member) {
-		log.info("[member Remove]" + member);
-		return mapper.memberDelete(member) == 1;
+	public boolean memberRemove(String id) {
+		log.info("[member Remove]" + id);
+		return mapper.memberDelete(id) == 1;
 	}
 
 	@Override

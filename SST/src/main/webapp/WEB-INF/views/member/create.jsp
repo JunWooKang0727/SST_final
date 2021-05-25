@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script src="../../resources/js/member_create.js"></script>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +17,7 @@
         rel="stylesheet">
 
     <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
-	<link href="../../resources/css/member.css" rel="stylesheet">
+	<link href="/../../resources/css/member.css" rel="stylesheet">
 </head>
 
 <body class="main-bg memback">
@@ -40,8 +39,8 @@
                                     </div>
                                     <div class="col-sm-3">
                                     	<!-- submit 방지를 위해 type="button" 설정 -->
-                                        <button id="duplicate_id" type="button" class="btn btn-success btn-user btn-block">
-                                    		중복체크
+                                    	<button id="duplicate_id" type="button" class="btn btn-success btn-user btn-block">
+                                    	중복체크
                                 		</button>
                                     </div>
                                 </div>
@@ -51,7 +50,7 @@
                                 </div>
                                 <div class="form-group">
                                     <input name="m_name" type="text" class="form-control form-control-user"
-                                        placeholder="이름을 입력하세요 ex) study@study.com">
+                                        placeholder="이름을 입력하세요 ex) name">
                                 </div>
                                 <div class="form-group">
                                     <input name="m_email" type="email" class="form-control form-control-user"
@@ -74,14 +73,9 @@
                                 <a href="index.html" class="btn btn-warning btn-user btn-block">
                                     <i class="fab fa-fw"></i> 카카오톡으로 회원가입
                                 </a> -->
+                                <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
                             </form>
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">아이디 찾기</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">비밀번호 찾기</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,10 +86,9 @@
 
     <script src="../../resources/vendor/jquery/jquery.min.js"></script>
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
-
+    <script src="../../resources/js/member/member_create.js"></script>
 </body>
 
 </html>

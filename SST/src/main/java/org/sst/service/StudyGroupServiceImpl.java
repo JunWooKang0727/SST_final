@@ -1,6 +1,10 @@
 package org.sst.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+import org.sst.domain.Criteria2;
+import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 import org.sst.mapper.StudyGroupMapper;
 
@@ -14,10 +18,18 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 
 	private StudyGroupMapper mapper; 
 	
+	
 	@Override
-	public void groupCreate(StudyGroupVO group) {
+	public void groupCreate(StudyGroupVO group, String id) {
 		log.info("[group Create]");
-		mapper.groupInsert(group);
+		int result = mapper.groupInsert(group);
+		log.info("result");
+		GroupMemberVO gmem = new GroupMemberVO();
+		gmem.setG_num(group.getG_num());
+		gmem.setM_id(id);
+		gmem.setP_grant(1);
+		gmem.setGm_status("1");
+		mapper.insertGroupMember(gmem);
 	}
 
 	@Override
@@ -38,6 +50,53 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 		return mapper.groupDelete(gid) == 1;
 	}
 
-	
-	
+	@Override
+	public List<StudyGroupVO> myGroupGet(String id, String p_grant) {
+		List<StudyGroupVO> mygrouplist = mapper.groupRead(id, p_grant);
+		log.info("[get my group list]");
+		return mygrouplist;
+	}
+
+	@Override
+	public List<StudyGroupVO> totalGroupGet(Criteria2 cri) {
+		log.info("[get list with criteria : ");
+		return mapper.totalgroupList(cri);
+	}
+
+	@Override
+	public int getTotal(Criteria2 cri) {
+		log.info("[get total count]");	
+		return mapper.getTotalCount(cri);
+	}
+
+	@Override
+	public void joinGroup(GroupMemberVO gm) {
+		log.info("[join group]");
+		mapper.insertGroupMember(gm);
+	}
+
+	@Override
+	public List<GroupMemberVO> memberListGet(String g_num, String iswait) {
+		log.info("[waiting list]");
+		return mapper.groupMemberRead(g_num, iswait);
+	}
+
+	@Override
+	public boolean groupmemAccept(String g_num, String m_id) {
+		log.info("[accept]");
+		return mapper.acceptGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public boolean groupmemDeny(String g_num, String m_id) {
+		log.info("[deny]");
+		return mapper.denyGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public List<StudyGroupVO> attendGroupGet(String id) {
+		log.info("[attend]");
+		return null;
+	}
+
 }

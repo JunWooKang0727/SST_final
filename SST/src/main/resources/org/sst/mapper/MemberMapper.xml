@@ -6,18 +6,18 @@
  
  	<!-- 회원가입 -->
  	<insert id="memberInsert" parameterType="org.sst.domain.MemberVO">
-		insert into member(M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL)
-		values(#{m_id}, #{m_pw}, #{m_name}, #{m_phone}, #{m_birth}, #{m_email})
+		insert into member(M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL, ENABLED)
+		values(#{m_id}, #{m_pw}, #{m_name}, #{m_phone}, #{m_birth}, #{m_email}, '1')
 	</insert>
 	
 	<!-- 권한 추가 -->
 	<insert id="memberAuth" parameterType="String">
-		insert into memberauth (USERNAME, AUTH) values(#{id}, "Member_ROLE")
+		insert into memberauth (M_ID, AUTH) values(#{id}, 'ROLE_MEMBER')
 	</insert>
 	
 	<!-- 회원정보 조회 -->
 	<select id="memberRead" resultType="org.sst.domain.MemberVO">
-		select M_ID, M_NAME, M_PHONE, M_BIRTH, M_EMAIL from member where M_ID = #{id}
+		select M_ID, M_PW, M_NAME, M_PHONE, M_BIRTH, M_EMAIL from member where M_ID = #{id}
 	</select>
 	
 	<!-- 회원정보 수정 -->
@@ -26,10 +26,10 @@
 		M_EMAIL = #{m_email} where M_ID = #{m_id}
 	</update>
 	
-	<!-- 회원탈퇴 -->
-	<delete id="memberDelete" parameterType="org.sst.domain.MemberVO">
-		delete from member where M_ID = #{m_id} and M_PW = #{m_pw}
-	</delete>
+	<!-- 회원탈퇴 : 삭제가 아닌 비활성화 처리 -->
+ 	<update id="memberDelete" parameterType="String">
+		update member set enabled = '0' where M_ID = #{id}
+	</update>
 	
 	<!-- 아이디 중복 체크 -->
 	<select id="memberIdCheck" resultType="int">
@@ -37,6 +37,25 @@
 	</select>
 	
 	<resultMap type="org.sst.domain.MemberVO" id="memberMap">
-		
+		<id property="m_id" column="m_id"/>
+		<result property="m_id" column="m_id"/>
+		<result property="m_pw" column="m_pw"/>
+		<result property="m_name" column="m_name"/>
+		<result property="m_phone" column="m_phone"/>
+		<result property="m_birth" column="m_birth"/>
+		<result property="m_email" column="m_email"/>
+ 		<!-- <result property="enabled" column="enabled"/> -->
+		<collection property="authList" resultMap="authMap"></collection>
 	</resultMap>
+	
+	<resultMap type="org.sst.domain.MemberAuthVO" id="authMap">
+		<result property="m_id" column="m_id"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="MemberloginRead" resultMap="memberMap">
+		select mem.m_id, m_pw, m_name, m_phone, m_birth, m_email, enabled, auth
+		from member mem LEFT OUTER JOIN memberauth auth on mem.m_id = auth.m_id
+		where mem.m_id = #{id}
+	</select>
  </mapper>

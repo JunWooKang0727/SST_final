@@ -10,7 +10,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js">
+	
+</script>
 <meta charset="utf-8">
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,15 +31,15 @@
 <!-- Custom styles for this template-->
 <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
 <style>
-#startbtn,#stopbtn,.studydone {
-	margin-top : 10px;
+#startbtn, #stopbtn, .studydone {
+	margin-top: 10px;
 	background-color: #2c3e50;
 	border-radius: 3px;
 	color: white;
 }
 
-#studyhour,#studymilisec,#studymin,#studysec{
-	margin-top : 10px;
+#studyhour, #studymilisec, #studymin, #studysec {
+	margin-top: 10px;
 	color: #1a252f;
 	font-size: 30px;
 	font-weight: bold;
@@ -48,11 +50,11 @@
 	font-size: 15px;
 	font-weight: bold;
 }
-.inputStudy{
 
-	float:left;
-	color : #1a252f;
-	font-size:  15px;
+.inputStudy {
+	float: left;
+	color: #1a252f;
+	font-size: 15px;
 	font-weight: bold;
 }
 </style>
@@ -79,57 +81,141 @@
 					</div>
 					<!-- Content Row -->
 					<div class="row">
-						<form action="/personalstudy/create" method="post">
-							<div class = "inputStudy">분류 :  </div>
-							<select name="ps_category"
-	                                    	placeholder="카테고리를 선택하세요">
-	                                    		<option selected>선택</option>
-	                                    		<option value="certificate">자격증</option>
-	                                    		<option value="language">어학</option>
-	                                    		<option value="schoolexam">학교시험</option>
-	                                    		<option value="etc">기타</option>
-	                       </select>
-	                       <br>
-	                       <div class = "inputStudy">장소 :  </div>
-							<select name="ps_place"
-	                                    	placeholder="카테고리를 선택하세요">
-	                                    		<option selected>선택</option>
-	                                    		<option value="cafe">카페</option>
-	                                    		<option value="house">집</option>
-	                                    		<option value="reading room">독서실</option>
-	                                    		<option value="library">도서관</option>
-	                                    		<option value="etc">기타</option>
-	                       </select>
-	                       <br>                      
-							<div>
+						<div class="col1">
+							<form action="/personalstudy/create" method="post">
+								<div class="inputStudy">분류 :</div>
+								<select name="ps_category" placeholder="카테고리를 선택하세요">
+									<option selected>선택</option>
+									<option value="certificate">자격증</option>
+									<option value="language">어학</option>
+									<option value="schoolexam">학교시험</option>
+									<option value="etc">기타</option>
+								</select> <br>
+								<div class="inputStudy">장소 :</div>
+								<select name="ps_place" placeholder="카테고리를 선택하세요">
+									<option selected>선택</option>
+									<option value="cafe">카페</option>
+									<option value="house">집</option>
+									<option value="reading room">독서실</option>
+									<option value="library">도서관</option>
+									<option value="etc">기타</option>
+								</select> <br>
 								<div>
-									<span id="studyhour">00</span> 
-									<!-- 시 -->
-									<span>:</span><span id="studymin">00</span>
-									<!-- 분 -->
-									<span>:</span> <span id="studysec">00</span>
-									<!--초-->
-									<span>.</span> <span id="studymilisec">00</span>
-									<!--밀리초-->
+									<div>
+										<span id="studyhour">00</span>
+										<!-- 시 -->
+										<span>:</span>
+										<span id="studymin">00</span>
+										<!-- 분 -->
+										<span>:</span> 
+										<span id="studysec">00</span>
+										<!--초-->
+										<span>.</span> 
+										<span id="studymilisec">00</span>
+										<!--밀리초-->
 
-								</div>
-								<input type="hidden" name="ps_time" id="inputTime">
-								<div>
-									<ul id="recordlist">
+									</div>
+									<input type="hidden" name="ps_time" id="inputTime">
+									<div>
+										<ul id="recordlist">
 
-									</ul>
-									<!--중간 기록할 리스트-->
+										</ul>
+										<!--중간 기록할 리스트-->
+									</div>
+									<div>
+										<button type="button" id="startbtn">START</button>
+										<!--시작/재시작/기록 버튼-->
+										<button type="button" id="stopbtn">STOP</button>
+										<!--스톱 버튼-->
+									</div>
 								</div>
-								<div>
-									<button type="button" id="startbtn">START</button>
-									<!--시작/재시작/기록 버튼-->
-									<button type="button" id="stopbtn">STOP</button>
-									<!--스톱 버튼-->
-								</div>
+								<input type="submit" value="공부완료" class="studydone"> <br>
+								<br>
+								</form>
+						</div>
+						
+						
+						
+						<div class="col">
+							
+							<form method="post" action="/personalcrawlmake/create">
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "Path"></label>
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "path"></label>
 							</div>
-							<input type="submit" value="공부완료" class = "studydone">
-						</form>
+							<div class = "storeFile">
+							<label>저장될 파일명 : <input type="text" name = "exFileName"></label>
+							</div>
+							<div class = "searchT">
+							<label>검색할 문제 : <input type="text" name = "searchT"></label>
+							</div>
+							</div>
+							<div class="inputSubject">과목 :
+								<label><input type="radio" name="Subject" value="1">국어</label> 
+								<label><input type="radio" name="Subject"value="2"> 수학</label> 
+								<label><input type="radio" name="Subject" value="3"> 영어</label> 
+								<label><input type="radio" name="Subject" value="4"> 사회탐구</label> 
+								<label><input type="radio" name="Subject" value="5"> 과학탐구</label>
+								<label><input type="radio" name="Subject" value="6"> 직업탐구</label>
+								<label><input type="radio" name="Subject" value="7"> 제2외국어</label>
+								
+							</div>
+							
+							<br>
+
+							<div class="selectYear">
+							시작년도 :
+							<select name="StartYear">
+								<option selected>선택</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+							</select> 
+			
+						<br>
+						끝년도 :
+							<select name="EndYear">
+								<option selected>선택</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+							</select> 
+						</div>
+						
+						<br>
+							<div>
+								<fieldset>
+									<legend>월선택</legend>
+									3월 <input type="checkbox" name="MonthList" value="03" checked />
+									4월 <input type="checkbox" name="MonthList" value="04" /> 
+									5월 <input type="checkbox" name="MonthList" value="05" /> 
+									6월 <input type="checkbox" name="MonthList" value="06" /> 
+									7월 <input type="checkbox" name="MonthList" value="07" /> 
+									9월 <input type="checkbox" name="MonthList" value="09" /> 
+									10월 <input type="checkbox" name="MonthList" value="10" /> 
+									11월 <input type="checkbox" name="MonthList" value="11" /> 
+									12월 <input type="checkbox" name="MonthList" value="12" />
+								</fieldset>
+
+							</div>
+							<br>
+								<div>
+								<input type="submit" value="문제만들기"> 
+								<input type="reset" value="설정초기화">
+								</div>
+							</form>
+						</div>
 					</div>
+
 					<!-- /.container-fluid -->
 
 				</div>
@@ -143,98 +229,102 @@
 
 		</div>
 		<!-- End of Page Wrapper -->
-</div>
-		<!-- Scroll to Top Button-->
-		<a class="scroll-to-top rounded" href="#page-top"> <i
-			class="fas fa-angle-up"></i>
-		</a>
+	</div>
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
 
-		<!-- Bootstrap core JavaScript-->
-		<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
-		<script src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<!-- Core plugin JavaScript-->
-		<script src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<!-- Custom scripts for all pages-->
-		<script src="../../../resources/js/sb-admin-2.min.js"></script>
-<script type="text/javascript">
-	var stTime = 0
-	var endTime = 0
-	var timerStart
-	var hour
-	var min
-	var sec
-	var milisec
-	var startBtn = document.getElementById('startbtn')
-	var stopBtn = document.getElementById('stopbtn')
-	var recordList = document.getElementById('recordlist')
-	startBtn.addEventListener('click', function() {
-		
-		// RECORD
-		if (this.innerText == 'RECORD' && milisec) {
-			//console.log(hour,min, sec, milisec)
-			var li = document.createElement('li')
-			li.style.color = "black"
-			li.innerText =hour +' : ' +min + ' : ' + sec + ' : ' + milisec
-			if (!recordList.firstChild) {
-				recordList.append(li)
+	<!-- Bootstrap core JavaScript-->
+	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script
+		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="../../../resources/js/sb-admin-2.min.js"></script>
+	<script type="text/javascript">
+		var stTime = 0
+		var endTime = 0
+		var timerStart
+		var hour
+		var min
+		var sec
+		var milisec
+		var startBtn = document.getElementById('startbtn')
+		var stopBtn = document.getElementById('stopbtn')
+		var recordList = document.getElementById('recordlist')
+		startBtn.addEventListener('click', function() {
+
+			// RECORD
+			if (this.innerText == 'RECORD' && milisec) {
+				//console.log(hour,min, sec, milisec)
+				var li = document.createElement('li')
+				li.style.color = "black"
+				li.innerText = hour + ' : ' + min + ' : ' + sec + ' : '
+						+ milisec
+				if (!recordList.firstChild) {
+					recordList.append(li)
+				} else {
+					recordList.insertBefore(li, recordList.firstChild)
+				}
+				return false
+			}
+			this.innerText = 'RECORD'
+			if (!stTime) {
+				stTime = Date.now() // 최초 START
 			} else {
-				recordList.insertBefore(li, recordList.firstChild)
+				stopBtn.innerText = 'STOP'
+				stTime += (Date.now() - endTime) // RESTART
 			}
-			return false
-		}
-		this.innerText = 'RECORD'
-		if (!stTime) {
-			stTime = Date.now() // 최초 START
-		} else {
-			stopBtn.innerText = 'STOP'
-			stTime += (Date.now() - endTime) // RESTART
-		}
-		timerStart = setInterval(function() {
-			var nowTime = new Date(Date.now() - stTime)
-			
-			hour = addZero(nowTime.getHours()-9)//기본초기값이 대한민국 표준이 9시로 맞춰져 있음
-			min = addZero(nowTime.getMinutes())
-			sec = addZero(nowTime.getSeconds())
-			milisec = addZero(Math.floor(nowTime.getMilliseconds() / 10))
-			document.getElementById('studyhour').innerText = hour
-			document.getElementById('studymin').innerText = min
-			document.getElementById('studysec').innerText = sec
-			document.getElementById('studymilisec').innerText = milisec
-		}, 1)
-	})
-	stopBtn.addEventListener('click', function() {
-		var hour = $('#studyhour').text();
-		var min = $('#studymin').text();
-		var sec = $('#studysec').text();
-		var milisec = $('#studymilisec').text();
-		alert(hour+':'+min+' : '+sec+' : '+milisec+$(".input_contents")	);
-		$('#inputTime').val(hour+":"+min+":"+sec+":"+milisec);
-		if (timerStart) {
-			clearInterval(timerStart) // STOP
-			if (this.innerText == 'STOP') {
-				endTime = Date.now()
-				this.innerText = 'RESET'
-				startBtn.innerText = 'RESTART'
-			} else { // RESET
-				stTime = 0
-				hour = 0
-				min = 0
-				sec = 0
-				milisec = 0
-				document.getElementById('studyhour').innerText = '00'
-				document.getElementById('studymin').innerText = '00'
-				document.getElementById('studysec').innerText = '00'
-				document.getElementById('studymilisec').innerText = '00'
-				startBtn.innerText = 'START'
-				this.innerText = 'STOP'
-				timerStart = null
-				recordList.innerHTML = ''
+			timerStart = setInterval(function() {
+				var nowTime = new Date(Date.now() - stTime)
+
+				hour = addZero(nowTime.getHours() - 9)//기본초기값이 대한민국 표준이 9시로 맞춰져 있음
+				min = addZero(nowTime.getMinutes())
+				sec = addZero(nowTime.getSeconds())
+				milisec = addZero(Math.floor(nowTime.getMilliseconds() / 10))
+				document.getElementById('studyhour').innerText = hour
+				document.getElementById('studymin').innerText = min
+				document.getElementById('studysec').innerText = sec
+				document.getElementById('studymilisec').innerText = milisec
+			}, 1)
+		})
+		stopBtn.addEventListener('click', function() {
+			var hour = $('#studyhour').text();
+			var min = $('#studymin').text();
+			var sec = $('#studysec').text();
+			var milisec = $('#studymilisec').text();
+			alert(hour + ':' + min + ' : ' + sec + ' : ' + milisec
+					+ $(".input_contents"));
+			$('#inputTime').val(hour + ":" + min + ":" + sec + ":" + milisec);
+			if (timerStart) {
+				clearInterval(timerStart) // STOP
+				if (this.innerText == 'STOP') {
+					endTime = Date.now()
+					this.innerText = 'RESET'
+					startBtn.innerText = 'RESTART'
+				} else { // RESET
+					stTime = 0
+					hour = 0
+					min = 0
+					sec = 0
+					milisec = 0
+					document.getElementById('studyhour').innerText = '00'
+					document.getElementById('studymin').innerText = '00'
+					document.getElementById('studysec').innerText = '00'
+					document.getElementById('studymilisec').innerText = '00'
+					startBtn.innerText = 'START'
+					this.innerText = 'STOP'
+					timerStart = null
+					recordList.innerHTML = ''
+				}
 			}
+		})
+		function addZero(num) {
+			return (num < 10 ? '0' + num : '' + num)
 		}
-	})
-	function addZero(num) {
-		return (num < 10 ? '0' + num : '' + num)
-	}
-</script>
+	</script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>회원가입 완료</h1>
-	<a href="">메인으로</a>
-	<a href="">로그인</a>
+	<a href="/member/main">메인으로</a>
+	<a href="/member/login">로그인</a>
 </body>
 </html>

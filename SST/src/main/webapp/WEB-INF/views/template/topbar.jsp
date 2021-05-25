@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<!-- <script src="../../resources/js/member/member_logout.js"></script> -->
+
     <!-- Custom fonts for this template-->
-<link href="/sst/resources/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
+<!-- <link href="/sst/resources/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css"> -->
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="/sst/resources/css/sb-admin-2.min.css" rel="stylesheet">
+<!-- <link href="/sst/resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
+
 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -112,7 +116,11 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
+
+                                        <img class="rounded-circle" src="../../resources/img/undraw_profile_1.svg">
+
                                         <img class="rounded-circle" src="/sst/resources/img/undraw_profile_1.svg"
+
                                             alt="">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
@@ -124,7 +132,8 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/sst/resources/img/undraw_profile_2.svg"
+
+                                        <img class="rounded-circle" src="../../resources/img/undraw_profile_2.svg"
                                             alt="">
                                         <div class="status-indicator"></div>
                                     </div>
@@ -136,7 +145,8 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/sst/resources/img/undraw_profile_3.svg"
+
+                                        <img class="rounded-circle" src="../../resources/img/undraw_profile_3.svg"
                                             alt="">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
@@ -171,31 +181,36 @@
                                 aria-haspopup="true" aria-expanded="true"
                                 aria-controls="collapsePages">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-								${sessionScope.loginsession.id }
+									<security:authentication property="principal.username"/>
 								</span>
                                 <img class="img-profile rounded-circle"
-                                    src="/sst/resources/img/undraw_profile.svg">
+
+                                    src="../../../resources/img/undraw_profile.svg">
+
                             </a>
                             <!-- Dropdown - User Information -->
                             <div id="topbars" class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="ml-4 collapse-item" href="#">
+                                <a class="ml-4 collapse-item" href="/member/read">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    마이페이지
+                                    	마이페이지
                                 </a><br>
                                 <a class="ml-4 collapse-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                   		Settings
                                 </a><br>
                                 <a class="ml-4 collapse-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    	Activity Log
                                 </a><br>
                                 <div class="ml-4 dropdown-divider"></div>
-                                <a class="ml-4 collapse-item" href="logout.do">
+                                <a id="logout" class="ml-4 collapse-item" href="#">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    로그아웃
+                                   	 로그아웃
                                 </a>
+                                <form id="logoutform" action="/member/logout" method="post">
+									<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
+								</form>	
                             </div>
                         </li>
 

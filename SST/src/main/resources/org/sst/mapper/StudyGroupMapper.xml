@@ -3,16 +3,58 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="org.sst.mapper.StudyGroupMapper">
- 	
- 	<!-- 그룹 생성 -->
- 	<insert id="groupInsert" parameterType="org.sst.domain.StudyGroupVO">
+ 
+ 	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							g_name like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							g_content like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+ 	<!-- 그룹 생성 & 그룹생성과 동시에 멤버추가는 동시에(?) 실행되어야함. -->
+ 	<insert id="groupInsert" parameterType="org.sst.domain.StudyGroupVO"
+ 	useGeneratedKeys="true" keyColumn="g_num" keyProperty="g_num">
  		insert into studygroup(G_NUM, G_NAME, G_CONTENT, G_SECREAT, G_PASSWD, G_CATEGORY, G_MEMNUM)
-		values('gn'||to_char(group_num_seq.nextval), #{g_name}, #{g_content}, #{g_secreat}, #{g_passwd}, #{g_category}, #{g_memnum})
+		values('gn'||to_char(group_num_seq.nextval), #{g_name}, #{g_content}, 
+		#{g_secreat}, #{g_passwd}, #{g_category}, #{g_memnum})
  	</insert>
  	
+ 	<!-- 그룹 생성과 동시에 그룹에 멤버 추가 -->
+ 	<insert id="insertGroupMember" parameterType="org.sst.domain.GroupMemberVO">
+			insert into groupmember(GM_NUM, G_NUM, GM_INDEX, P_GRANT, M_ID, GM_STATUS)
+			values('gm'||to_char(groupmem_num_seq.nextval), #{g_num}, GROUP_MEM_SEQ.NEXTVAL, #{p_grant}, #{m_id},
+			#{gm_status})
+	</insert>
+	
+	<!-- 회원이 생성한 그룹 조회 -->
+	<select id="groupRead" resultType="org.sst.domain.StudyGroupVO" parameterType="String">
+		<![CDATA[
+			select * from studygroup s where s.G_NUM IN 
+			(select gm.G_NUM from groupmember gm where gm.m_id = #{id} and gm.p_grant = #{p_grant})
+		]]>
+	</select>
+	
+	<select id="groupAttendRead" resultType="org.sst.domain.StudyGroupVO" parameterType="String">
+		<![CDATA[
+			select * from studygroup s where s.G_NUM IN 
+			(select gm.G_NUM from groupmember gm where gm.m_id = #{id} and (gm.p_grant = '3' or
+			gm.p_grant = '2'))
+		]]>
+	</select>
+	
  	<!-- 그룹 상세 조회 (그룹 수정)-->
 	<select id="groupDetailRead" resultType="org.sst.domain.StudyGroupVO">
-		select * from studygroup where G_NUM = #{gnum}
+		select * from studygroup where G_NUM = #{g_num}
 	</select>
 	
 	<!-- 그룹 정보 수정 -->
@@ -24,5 +66,47 @@
 	<!-- 그룹 삭제 -->
 	<delete id="groupDelete">
 		delete from studygroup where G_NUM = #{gnum}
+	</delete>
+	
+	<select id="totalgroupList" resultType="org.sst.domain.StudyGroupVO">
+		<![CDATA[
+			select * from
+			(
+				select /*+INDEX_DESC(studygroup pk_studygroup)*/
+				rownum rn, g_num, g_name, g_content, g_secreat,
+				g_passwd, g_category, g_memnum
+				from studygroup
+				where
+		]]>
+		<include refid="criteria"></include>
+		
+		<![CDATA[
+			rownum <= #{pageNum} * #{amount}
+			)
+			where rn > (#{pageNum}-1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int" >
+		select count(*) from studygroup where
+		<include refid="criteria"></include>
+		g_num LIKE 'gn%'
+	</select>
+	
+	<select id="groupMemberRead" resultType="org.sst.domain.GroupMemberVO">
+		select * from groupmember where gm_status = #{iswait} and
+		g_num = #{g_num}
+	</select>
+	
+	<!-- 대기멤버 승인 0 -> 1-->
+	<update id="acceptGroupMember" parameterType="String" >
+		update groupmember set gm_status = '1' where g_num = #{g_num}
+		and m_id = #{m_id}
+	</update>
+	
+	<!-- 대기멤버 거절 delete -->
+	<delete id="denyGroupMember" parameterType="String">
+		delete from groupmember where g_num = #{g_num} and m_id = #{m_id} and
+		gm_status = '0'
 	</delete>
  </mapper>
