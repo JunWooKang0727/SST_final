@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<!-- spring security tag-lib 사용을 위해 use-expression="true" 설정을 해야한다 -->
-	
-
-	
-	
-	<!-- 암호화를 위한 security api -->
-	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	
-	<!-- jsp에서 security jstl 사용하려면 use-expression="ture" 설정을 해야한다. -->
-	<security:http use-expressions="true">
-	
-		<!-- 권한 없을 시 페이지 이동처리 --> 
-		<security:access-denied-handler ref="MemberAccessDeny"/>
-		
-		<!-- Custom 로그인 페이지 : /member/login || 인증 성공시 memberloginsuccess 핸들러 호출-->
-		<security:form-login login-page="/member/login" authentication-success-handler-ref="MemberLoginSuccess"/>
-		
-		<!-- 로그아웃 -->
-		<security:logout logout-url="/member/logout" invalidate-session="true"
-		delete-cookies="true" logout-success-url="/member/main"/>
-		
-		<!-- 메인 페이지 모두허용 / 로그인 후 페이지 MEMBER_ROLE 만 허용 -->
-		<!-- 먼저 설정한 접근 권한이 우선순위를 갖는다 해결필요-->
-		<!-- 허용할 범위 > 금지된 범위 -->
-		<security:intercept-url pattern="/member/main" access="permitAll"/>
-		<security:intercept-url pattern="/member/joinFin" access="permitAll"/>
-		<security:intercept-url pattern="/member/login" access="isAnonymous()"/>
-		<security:intercept-url pattern="/member/create" access="isAnonymous()"/>
-		<security:intercept-url pattern="/member/checkId" access="isAnonymous()"/>
-		<security:intercept-url pattern="/member/home" access="hasRole('ROLE_MEMBER')"/>
-		<security:intercept-url pattern="/member/read" access="hasRole('ROLE_MEMBER')"/>
-		<security:intercept-url pattern="/member/delete" access="hasRole('ROLE_MEMBER')"/>
-		<!-- /group 하위에 있는 모든 페이지에 ROLE_MEMBER을 갖고있는 사람만 접근 가능 -->
-		<security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
-	</security:http>
-	
-	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="MemberDetailService">
-			<security:password-encoder ref="bcryptPasswordEncoder"/>
-		</security:authentication-provider>
-	</security:authentication-manager>
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:security="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+   <!-- spring security tag-lib 사용을 위해 use-expression="true" 설정을 해야한다 -->
+   
+   <!-- MemberAccessDeny : 권한 없을 때 페이지 리다이렉트 시키는 핸들러 -->
+   <bean id="MemberAccessDeny" class="org.sst.security.MemberDenyHandler"></bean>
+   
+   <!-- MemberLoginSuccess : 로그인 성공 시 페이지 리다이렉트 시키는 핸들러 -->
+   <bean id="MemberLoginSuccess" class="org.sst.security.MemberSuccessHandler"></bean>
+   
+   <!-- MemberDetailService : 로그인 처리 -->
+   <bean id="MemberDetailService" class="org.sst.security.MemberDetailService"></bean>
+   
+   <!-- 암호화를 위한 security api -->
+   <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+   
+   <!-- jsp에서 security jstl 사용하려면 use-expression="ture" 설정을 해야한다. -->
+   <security:http use-expressions="true">
+   
+      <!-- 권한 없을 시 페이지 이동처리 --> 
+      <security:access-denied-handler ref="MemberAccessDeny"/>
+      
+      <!-- Custom 로그인 페이지 : /member/login || 인증 성공시 memberloginsuccess 핸들러 호출-->
+      <security:form-login login-page="/member/login" authentication-success-handler-ref="MemberLoginSuccess"/>
+      
+      <!-- 로그아웃 -->
+      <security:logout logout-url="/member/logout" invalidate-session="true"
+      delete-cookies="true" logout-success-url="/member/main"/>
+      
+      <!-- 메인 페이지 모두허용 / 로그인 후 페이지 MEMBER_ROLE 만 허용 -->
+      <!-- 먼저 설정한 접근 권한이 우선순위를 갖는다 해결필요-->
+      <!-- 허용할 범위 > 금지된 범위 -->
+      <security:intercept-url pattern="/member/main" access="permitAll"/>
+      <security:intercept-url pattern="/member/joinFin" access="permitAll"/>
+      <security:intercept-url pattern="/member/login" access="isAnonymous()"/>
+      <security:intercept-url pattern="/member/create" access="isAnonymous()"/>
+      <security:intercept-url pattern="/member/checkId" access="isAnonymous()"/>
+      <security:intercept-url pattern="/member/home" access="hasRole('ROLE_MEMBER')"/>
+      <security:intercept-url pattern="/member/read" access="hasRole('ROLE_MEMBER')"/>
+      <security:intercept-url pattern="/member/delete" access="hasRole('ROLE_MEMBER')"/>
+      <!-- /group 하위에 있는 모든 페이지에 ROLE_MEMBER을 갖고있는 사람만 접근 가능 -->
+      <security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
+   </security:http>
+   
+   <security:authentication-manager>
+      <security:authentication-provider user-service-ref="MemberDetailService">
+         <security:password-encoder ref="bcryptPasswordEncoder"/>
+      </security:authentication-provider>
+   </security:authentication-manager>
 </beans>
