@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.sst.domain.StudyDataListVO;
 import org.sst.domain.StudyDataVO;
 import org.sst.mapper.StudyDataMapper;
 
@@ -16,15 +17,21 @@ public class StudyDataServiceImpl implements StudyDataService {
 	private StudyDataMapper mapper;
 	
 	@Override
-	public List<StudyDataVO> getList(String g_num, String curFolder) {
+	public List<StudyDataVO> getList(StudyDataListVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.findByG_num(g_num);
+		return mapper.findByG_num(vo);
 	}
 
 	@Override
 	public int upload(StudyDataVO vo) {
 		
 		return mapper.insert(vo);
+	}
+
+	@Override
+	public int delete(String uuid) {
+		// TODO Auto-generated method stub
+		return mapper.delete(uuid);
 	}
 
 }
