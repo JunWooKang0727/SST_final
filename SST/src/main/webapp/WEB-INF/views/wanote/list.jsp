@@ -41,30 +41,57 @@
 						<div class="col-lg-12">
 
 							<div class="card shadow mb-4">
-								<div class="card-header py-3">
-									<h5 class="m-0 font-weight-bold text-color-sst">나의 오답노트</h5>
-								</div>
-								<div class="card-body">
-									
+
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a class="nav-link active" href="/sst/wanote/list" id='allWanote'>전체 오답노트</a>
+									</li>
+									<li class="nav-item"><a class="nav-link" href="/sst/wanote/mylist?m_id=ggy">나의 오답노트</a>
+									</li>
+								</ul>
+
+							<div class="card-body">
+
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Board List Page
-				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
-					New Board</button>
+				<form id='searchForm' action="/sst/wanote/list" method='get'
+						class="float-right">
+						 <div class="input-group">
+							<select name='type' class="form-control">
+								<option value=""
+									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+								<option value="T"
+									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+								<option value="C"
+									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+								<option value="TC"
+									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
+									or 내용</option>
+								<option value="Tag"
+									<c:out value="${pageMaker.cri.type eq 'Tag'?'selected':''}"/>>태그</option>
+							</select> 
+							<input type='text' name='keyword' class="form-control" placeholder="검색어 입력"
+								value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+								<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+								<input	type='hidden' name='amount'	value='<c:out value="${pageMaker.cri.amount}"/>' />
+								 <div class="input-group-append">
+                                <button class='btn btn-default'>Search</button>
+                            </div>
+								</div>
+						</form>
 			</div>
-
+				
 			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>#번호</th>
+							<th>글번호</th>
 							<th>제목</th>
+							<th>과목</th>
 							<th>작성자</th>
 							<th>작성일</th>
-							<th>수정일</th>
 						</tr>
 					</thead>
 
@@ -75,70 +102,44 @@
                   <a class='move' href='<c:out value="${wanote.w_num}"/>'>
                   <c:out value="${wanote.w_title}" />
                   </a>
+                  <td><c:out value="${wanote.w_subject}" /></td>
               <td><c:out value="${wanote.m_id}" /></td>
-              <td></td>
-              <td></td>
+              <td><c:out value="${wanote.w_date}" /></td>
             </tr>
           </c:forEach>
 
 				</table>
-
-				<div class='row'>
-					<div class="col-lg-12">
-
-						<form id='searchForm' action="/sst/wanote/list" method='get'>
-						<input type='hidden' name='m_id' value='ggy' /> 
-							<select name='type'>
-								<option value=""
-									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
-								<option value="T"
-									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
-								<option value="C"
-									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
-								<option value="TC"
-									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
-									or 내용</option>
-							</select> 
-							<input type='text' name='keyword'
-								value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
-								type='hidden' name='pageNum'
-								value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
-								type='hidden' name='amount'
-								value='<c:out value="${pageMaker.cri.amount}"/>' />
-							<button class='btn btn-default'>Search</button>
-						</form>
-					</div>
-				</div>
-
-
-				<div class='pull-right'>
+				<div class='d-flex justify-content-center'>
 					<ul class="pagination">
 
 						<c:if test="${pageMaker.prev}">
-							<li class="paginate_button previous"><a
-								href="${pageMaker.startPage -1}">Previous</a></li>
+							<li class="page-item previous"><a 
+								href="${pageMaker.startPage -1}" class="page-link"> &lt; </a></li>
 						</c:if>
 
 						<c:forEach var="num" begin="${pageMaker.startPage}"
 							end="${pageMaker.endPage}">
-							<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
-								<a href="${num}">${num}</a>
+							<li class="page-item  ${pageMaker.cri.pageNum == num ? "active":""} ">
+								<a href="${num}" class="page-link">${num}</a>
 							</li>
 						</c:forEach>
 
 						<c:if test="${pageMaker.next}">
-							<li class="paginate_button next"><a
-								href="${pageMaker.endPage +1 }">Next</a></li>
+							<li class="page-item next"><a
+								href="${pageMaker.endPage +1 }" class="page-link">&gt; </a></li>
 						</c:if>
 
 
 					</ul>
 				</div>
 				<!--  end Pagination -->
+				<div class="raw">
+				<a href="/sst/wanote/create" class="btn btn-info float-right">작성하기</a>
+				</div>
+				
 			</div>
 
 			<form id='actionForm' action="/sst/wanote/list" method='get'>
-			<input type='hidden' name='m_id' value='ggy' /> 
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 
@@ -149,6 +150,8 @@
 
 
 			</form>
+
+			
 
 
 			<!-- Modal  추가 -->
@@ -207,7 +210,6 @@
 	$(document)
 			.ready(
 					function() {
-
 						var result = '<c:out value="${result}"/>';
 
 						checkModal(result);
@@ -229,15 +231,11 @@
 							$("#myModal").modal("show");
 						}
 
-						$("#regBtn").on("click", function() {
 
-							self.location = "/05/board/register";
-
-						});
 
 						var actionForm = $("#actionForm");
 
-						$(".paginate_button a").on(
+						$(".page-item a").on(
 								"click",
 								function(e) {
 
@@ -262,7 +260,7 @@
 																	"href")
 															+ "'>");
 											actionForm.attr("action",
-													"/sst/wanote/get");
+													"/sst/wanote/read");
 											actionForm.submit();
 
 										});
@@ -273,7 +271,7 @@
 								"click",
 								function(e) {
 
-									if (!searchForm.find("option:selected")
+									/* if (!searchForm.find("option:selected")
 											.val()) {
 										alert("검색종류를 선택하세요");
 										return false;
@@ -283,7 +281,7 @@
 											"input[name='keyword']").val()) {
 										alert("키워드를 입력하세요");
 										return false;
-									}
+									} */
 
 									searchForm.find("input[name='pageNum']")
 											.val("1");

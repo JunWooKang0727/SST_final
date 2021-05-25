@@ -33,8 +33,12 @@ public class ReportCardController {
 
 	// ReportCard
 	@GetMapping("/list")
-	public void list(@RequestParam("m_id") String m_id, Model model) {
+	public String list(@RequestParam("m_id") String m_id, Model model) {
+		if(service.listReportCard(m_id).size()==0){	
+			return "/reportcard/create";
+		}
 		model.addAttribute("reportcardList", service.listReportCard(m_id));
+		return "/reportcard/list";
 	}
 
 	@GetMapping("/read")
@@ -57,7 +61,7 @@ public class ReportCardController {
 			} else {
 				model.addAttribute("licenseTestList", list);
 				log.info(service.listLicenseTest(rc_num));
-				return "/reportcard/readLicenseReportCard";
+				return "/sreportcard/readLicenseReportCard";
 			}
 		}
 	}

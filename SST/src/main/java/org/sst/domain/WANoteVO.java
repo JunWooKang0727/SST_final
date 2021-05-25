@@ -11,10 +11,11 @@ public class WANoteVO {
 	private String w_question;
 	private String w_answer;
 	private String w_reason;
-	private String w_tag1;
-	private String w_tag2;
+	private String w_subject;
+	private String w_date;
 	private String m_id;
 	
-	private List<WANoteAttachFile> files;
+	private List<WAtagVO> taglist;
+	private List<WanoteAttachVO> attachList;
 	
 }

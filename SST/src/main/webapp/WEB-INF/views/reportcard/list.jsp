@@ -58,7 +58,7 @@
 							</div>
 						</c:forEach>
 						<div>
-						<a class="btn btn-success btn-circle" href="/reportcard/create">
+						<a class="btn btn-success btn-circle" href="/sst/reportcard/create">
                                         <i class="fas fa-plus"></i>
                                     </a>
 						</div>
