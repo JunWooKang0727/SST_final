@@ -52,14 +52,8 @@ public class WANoteReplyServiceImpl implements WANoteReplyService{
 	@Override
 	public int countWANoteReply(String w_num) {
 		// TODO Auto-generated method stub
-		log.info("0000000000000000000000000000000000000000000000000000000000000000000000");
 		return mapper.countWANoteReply(w_num);
 	}
 
-	@Override
-	public String sb() {
-		return "##########################################################################################";
-		
-	}
 
 }

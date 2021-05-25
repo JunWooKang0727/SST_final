@@ -19,5 +19,4 @@ public interface WANoteReplyService {
 
 	int countWANoteReply(String w_num);
 
-	String sb();
 }

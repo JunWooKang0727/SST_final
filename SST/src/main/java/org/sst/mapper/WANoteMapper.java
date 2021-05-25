@@ -27,6 +27,7 @@ public interface WANoteMapper {
 	
 	int createWATag(HashMap map);
 	List<WAtagVO> listWATag(String w_num);
+	int deleteAllWaTag(String w_num);
 	
 	List<HashMap> countTagChart(String m_id);
 	List<HashMap> countReasonChart(String m_id);

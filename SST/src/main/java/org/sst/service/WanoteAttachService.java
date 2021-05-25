@@ -8,5 +8,5 @@ public interface WanoteAttachService {
 	public boolean insert(WanoteAttachVO vo);
 	public List<WanoteAttachVO> list(String w_num);
 	public boolean delete(String uuid);
-	public int deleteAll(String uuid);
+	public int deleteAll(String w_num);
 }

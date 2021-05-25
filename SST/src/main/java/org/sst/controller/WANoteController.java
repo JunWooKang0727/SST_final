@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,34 +39,75 @@ public class WANoteController {
 	@GetMapping("/create")
 	public void create() {
 	}
-
+	
+	@Transactional
 	@PostMapping("/create")
 	public String create(WANoteVO vo, RedirectAttributes rttr) {
 		String w_num = service.createWANote(vo);
-		vo.getAttachList().forEach(file -> {
-			file.setW_num(w_num);
-			attachService.insert(file);
-		});
-		;
-		vo.getTaglist().forEach(tag -> {
-			if (service.readTag(tag) == null) {
-				String tg_num = service.createTag(tag);
-				HashMap map = new HashMap();
-				map.put("w_num", w_num);
-				map.put("tg_num", tg_num);
-				log.info("result(없을때)--------------------------------" + service.createWATag(map));
-			} else {
-				WAtagVO vo1 = service.readTag(tag);
-				HashMap map = new HashMap();
-				map.put("w_num", w_num);
-				map.put("tg_num", vo1.getTg_num());
-				log.info("result(있을때)--------------------------------" + service.createWATag(map));
-				log.info(tag.getTg_num());
-			}
-		});
+
+		if (vo.getAttachList() != null) {
+			vo.getAttachList().forEach(file -> {
+				file.setW_num(w_num);
+				attachService.insert(file);
+			});
+		}
+		if (vo.getTaglist() != null) {
+			vo.getTaglist().forEach(tag -> {
+				if (service.readTag(tag) == null) {
+					String tg_num = service.createTag(tag);
+					HashMap map = new HashMap();
+					map.put("w_num", w_num);
+					map.put("tg_num", tg_num);
+					log.info("result(없을때)--------------------------------" + service.createWATag(map));
+				} else {
+					WAtagVO vo1 = service.readTag(tag);
+					HashMap map = new HashMap();
+					map.put("w_num", w_num);
+					map.put("tg_num", vo1.getTg_num());
+					log.info("result(있을때)--------------------------------" + service.createWATag(map));
+					log.info(tag.getTg_num());
+				}
+			});
+		}
 
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/wanote/list?m_id=" + vo.getM_id();
+	}
+	
+	@Transactional
+	@PostMapping("/update")
+	public String update(WANoteVO vo, RedirectAttributes rttr) {
+		String w_num = vo.getW_num();
+		service.deleteAllWaTag(w_num);
+		attachService.deleteAll(w_num);
+		service.updateWANote(vo);
+		if (vo.getAttachList() != null) {
+			vo.getAttachList().forEach(file -> {
+				file.setW_num(w_num);
+				attachService.insert(file);
+			});
+		}
+		if (vo.getTaglist() != null) {
+			vo.getTaglist().forEach(tag -> {
+				if (service.readTag(tag) == null) {
+					String tg_num = service.createTag(tag);
+					HashMap map = new HashMap();
+					map.put("w_num", w_num);
+					map.put("tg_num", tg_num);
+					log.info("result(없을때)--------------------------------" + service.createWATag(map));
+				} else {
+					WAtagVO vo1 = service.readTag(tag);
+					HashMap map = new HashMap();
+					map.put("w_num", w_num);
+					map.put("tg_num", vo1.getTg_num());
+					log.info("result(있을때)--------------------------------" + service.createWATag(map));
+					log.info(tag.getTg_num());
+				}
+			});
+		}
+
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/wanote/read?w_num=" + vo.getW_num();
 	}
 
 	@GetMapping("/mylist")
@@ -75,14 +117,14 @@ public class WANoteController {
 			if (cri.getType().equals("Tag")) {
 				model.addAttribute("list", service.listWithTagWANote(cri));
 				total = service.getTotalCountTag(cri);
-			}else{
-				model.addAttribute("list", service.listWithPagingWANote(cri));
-				total = service.getTotalCount(cri);
-			}}else{
+			} else {
 				model.addAttribute("list", service.listWithPagingWANote(cri));
 				total = service.getTotalCount(cri);
 			}
-		
+		} else {
+			model.addAttribute("list", service.listWithPagingWANote(cri));
+			total = service.getTotalCount(cri);
+		}
 
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
@@ -94,7 +136,7 @@ public class WANoteController {
 			if (cri.getType().equals("Tag")) {
 				model.addAttribute("list", service.listWithTagWANote(cri));
 				total = service.getTotalCountTag(cri);
-			}else{
+			} else {
 				model.addAttribute("list", service.listWithPagingWANote(cri));
 				total = service.getTotalCount(cri);
 			}

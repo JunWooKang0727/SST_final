@@ -32,9 +32,9 @@ public class WanoteAttachServiceImpl implements WanoteAttachService {
 	}
 
 	@Override
-	public int deleteAll(String uuid) {
+	public int deleteAll(String w_num) {
 		// TODO Auto-generated method stub
-		return mapper.deleteAll(uuid);
+		return mapper.deleteAll(w_num);
 	}
 
 }

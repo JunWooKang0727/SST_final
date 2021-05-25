@@ -127,10 +127,10 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 		UPDATE WAnote
 		SET w_title= #{w_title},w_question= #{w_question},w_answer=
 		#{w_answer}
-		,w_reason= #{w_reason}, w_tag1= #{w_tag1},w_tag2=#{w_tag2}
+		,w_reason= #{w_reason}, w_subject=#{w_subject}
 		WHERE w_num=#{w_num}
 	</update>
-	
+
 	
 	
 	
@@ -152,6 +152,9 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 	select * from watag where w_num=#{w_num}
 	</select>
 
+	<delete id="deleteAllWaTag">
+	delete from watag where w_num=#{w_num}
+	</delete>
 
 	<select id="countTagChart" resultType="java.util.HashMap"
 		parameterType="String">

@@ -45,9 +45,10 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/sst/wanote/create" method="post"
+									<form action="/sst/wanote/update" method="post"
 										class="centerform">
 										<input type="hidden" name="m_id" value="ggy">
+										<input type="hidden" name="w_num" value="${wanote.w_num}">
 										제목: <input type="text" name="w_title" value="${wanote.w_title}" class="form-control" required><br>
 										문제:
 										<textarea class="form-control" rows="3" name="w_question" required>${wanote.w_question}</textarea>  
@@ -57,11 +58,11 @@
 										<hr>
 										틀린 이유: 
 											<select class="form-control " name="w_reason" id="w_reason" required>
-											<option value="문제 파악 미흡">문제 파악 미흡</option>
-											<option value="해당내용에 대한 이해 부족">해당내용에 대한 이해 부족</option>
-											<option value="예상치 못한 문제">예상치 못한 문제</option>
-											<option value="계산 실수">계산 실수</option>
-											<option value="단순 실수">단순 실수</option>
+											<option value="문제 파악 미흡" <c:out value="${wanote.w_reason eq '문제 파악 미흡'?'selected':''}"/> >문제 파악 미흡</option>
+											<option value="해당내용에 대한 이해 부족" <c:out value="${wanote.w_reason eq '해당내용에 대한 이해 부족'?'selected':''}"/>  >해당내용에 대한 이해 부족</option>
+											<option value="예상치 못한 문제" <c:out value="${wanote.w_reason eq '예상치 못한 문제'?'selected':''}"/> >예상치 못한 문제</option>
+											<option value="계산 실수" <c:out value="${wanote.w_reason eq '계산 실수'?'selected':''}"/> >계산 실수</option>
+											<option value="단순 실수" <c:out value="${wanote.w_reason eq '단순 실수'?'selected':''}"/> >단순 실수</option>
 										</select><br> 
 										과목: <input type="text" name="w_subject" value="${wanote.w_subject}" class="form-control" required><br>
 										해시태그:<br> <input type="text" name="tag" placeholder="EX) 도형넓이" class="form-control d-inline" id="tag-name" style="width:auto">
@@ -73,10 +74,16 @@
 										</div>
 										
 										<hr>
-                                    <button type="button" class="btn btn-info float-right" id="submit-btn">등록</button><br>
+										<div class="float-right">
+
+										 <button type="button" class="btn btn-info" id="submit-btn">수정</button>
+										  <button type="button" class="btn btn-danger" id="submit-btn">삭제</button>
+										
+										</div>
+                                   
 										
 									</form>
-
+									<br><br>
 									<div class="row">
 										<div class="col-lg-12">
 											<div class="panel panel-default">
@@ -209,131 +216,167 @@
 			minLength : 1
 		})
 
-		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-		var maxSize = 5242880; //5MB
+$(document).ready(function() {
+  (function(){
+    
+    var w_num = '<c:out value="${wanote.w_num}"/>';
+    
+    $.getJSON("/sst/wanote/getAttachList", {w_num: w_num}, function(arr){
+    
+      console.log(arr);
+      
+      var str = "";
 
-		function checkExtension(fileName, fileSize) {
 
-			if (fileSize >= maxSize) {
-				alert("파일 사이즈 초과");
-				return false;
-			}
+      $(arr).each(function(i, attach){
+          
+          //image type
+          if(attach.fileType){
+            var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
+            console.log("dkdkdkdkdkd"+fileCallPath);
+            str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
+            str +=" data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+            str += "<span> "+ attach.fileName+"</span>";
+            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' "
+            str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+            str += "<img height='250' src='/sst/wanoteAttach/display?fileName="+fileCallPath+"'>";
+            str += "</div>";
+            str +"</li>";
+          }else{
+              
+            str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
+            str += "data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
+            str += "<span> "+ attach.fileName+"</span><br/>";
+            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
+            str += " class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+            str += "<img src='/sst/resources/img/attach.png'></a>";
+            str += "</div>";
+            str +"</li>";
+          }
+       });
 
-			if (regex.test(fileName)) {
-				alert("해당 종류의 파일은 업로드할 수 없습니다.");
-				return false;
-			}
-			return true;
-		}
+      
+      $(".uploadResult ul").html(str);
+      
+    });//end getjson
+  })();//end function
+  
+  
+  
+  var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+  var maxSize = 5242880; //5MB
+  
+  function checkExtension(fileName, fileSize){
+    
+    if(fileSize >= maxSize){
+      alert("파일 사이즈 초과");
+      return false;
+    }
+    
+    if(regex.test(fileName)){
+      alert("해당 종류의 파일은 업로드할 수 없습니다.");
+      return false;
+    }
+    return true;
+  }
+  
+  $("input[type='file']").change(function(e){
 
-		$("input[type='file']").change(function(e) {
-			console.log('개시발시발');
-			var formData = new FormData();
+    var formData = new FormData();
+    
+    var inputFile = $("input[name='uploadFile']");
+    
+    var files = inputFile[0].files;
+    
+    for(var i = 0; i < files.length; i++){
 
-			var inputFile = $("input[name='uploadFile']");
+      if(!checkExtension(files[i].name, files[i].size) ){
+        return false;
+      }
+      formData.append("uploadFile", files[i]);
+      
+    }
+    
+    $.ajax({
+      url: '/sst/wanoteAttach/uploadAjaxAction',
+      processData: false, 
+      contentType: false,data: 
+      formData,type: 'POST',
+      dataType:'json',
+        success: function(result){
+          console.log(result); 
+		  showUploadResult(result); //업로드 결과 처리 함수 
 
-			var files = inputFile[0].files;
+      }
+    }); //$.ajax
+    
+  });    
 
-			for (var i = 0; i < files.length; i++) {
-
-				if (!checkExtension(files[i].name, files[i].size)) {
-					return false;
-				}
-				formData.append("uploadFile", files[i]);
-			}
-
-			$.ajax({
-				url : '/sst/wanoteAttach/uploadAjaxAction',
-				processData : false,
-				contentType : false,
-				data : formData,
-				type : 'POST',
-				dataType : 'json',
-				success : function(result) {
-					console.log(result);
-					showUploadResult(result); //업로드 결과 처리 함수 
-
-				}
-			}); //$.ajax
-
-		});
-
-		function showUploadResult(uploadResultArr) {
-
-			if (!uploadResultArr || uploadResultArr.length == 0) {
-				return;
-			}
-
-			var uploadUL = $(".uploadResult ul");
-
-			var str = "";
-
-			$(uploadResultArr)
-					.each(
-							function(i, obj) {
-console.log(obj.image);
-								if (obj.image) {
-									var fileCallPath = encodeURIComponent(obj.uploadPath
-											+ "/"
-											+ obj.uuid
-											+ "_"
-											+ obj.fileName);
-									str += "<li data-path='"+obj.uploadPath+"'";
+  function showUploadResult(uploadResultArr){
+	    
+    if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+    
+    var uploadUL = $(".uploadResult ul");
+    
+    var str ="";
+    
+    $(uploadResultArr).each(function(i, obj){
+		
+		if(obj.image){
+			var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+			str += "<li data-path='"+obj.uploadPath+"'";
 			str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 			str +" ><div>";
-									str += "<span> " + obj.fileName + "</span>";
-									str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+			str += "<span> "+ obj.fileName+"</span>";
+			str += "<button type='button' data-file=\'"+fileCallPath+"\' "
 			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-									str += "<img class='img-thumbnail' src='/sst/wanoteAttach/display?fileName="
-											+ fileCallPath + "'>";
-									str += "</div>";
-									str + "</li>";
-								} else {
-									var fileCallPath = encodeURIComponent(obj.uploadPath
-											+ "/"
-											+ obj.uuid
-											+ "_"
-											+ obj.fileName);
-									var fileLink = fileCallPath.replace(
-											new RegExp(/\\/g), "/");
-
-									str += "<li "
+			str += "<img src='/sst/wanoteAttach/display?fileName="+fileCallPath+"'>";
+			str += "</div>";
+			str +"</li>";
+		}else{
+			var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
+		    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
+		      
+			str += "<li "
 			str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-									str += "<span> " + obj.fileName + "</span>";
-									str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+			str += "<span> "+ obj.fileName+"</span>";
+			str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
 			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-									str += "<img src='/resources/img/attach.png'></a>";
-									str += "</div>";
-									str + "</li>";
-								}
-
-							});
-
-			uploadUL.append(str);
+			str += "<img src='/sst/resources/img/attach.png'></a>";
+			str += "</div>";
+			str +"</li>";
 		}
 
-		$(".uploadResult").on("click", "button", function(e) {
+    });
+    
+    uploadUL.append(str);
+  }
+  
+  $(".uploadResult").on("click", "button", function(e) {
 
-			console.log("delete file");
+		console.log("delete file");
 
-			var targetFile = $(this).data("file");
+		var targetFile = $(this).data("file");
 
-			var targetLi = $(this).closest("li");
+		var targetLi = $(this).closest("li");
 
-			$.ajax({
-				url : '/sst/wanoteAttach/deleteFile',
-				data : {
-					fileName : targetFile,
-				},
-				dataType : 'text',
-				type : 'POST',
-				success : function(result) {
-					alert(result);
+		$.ajax({
+			url : '/sst/wanoteAttach/deleteFile',
+			data : {
+				fileName : targetFile,
+			},
+			dataType : 'text',
+			type : 'POST',
+			success : function(result) {
+				alert(result);
 
-					targetLi.remove();
-				}
-			}); //$.ajax
-		});
+				targetLi.remove();
+			}
+		}); //$.ajax
+	});
+  
+});
+
 	</script>
 
 </body>

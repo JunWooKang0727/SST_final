@@ -86,6 +86,8 @@ public class WANoteServiceImpl implements WANoteService{
 		// TODO Auto-generated method stub
 		return mapper.listWATag(w_num);
 	}
+	
+	
 
 	@Override
 	public List<HashMap> countTagChart(String m_id) {
@@ -109,6 +111,12 @@ public class WANoteServiceImpl implements WANoteService{
 	public int getTotalCountTag(Criteria cri) {
 		// TODO Auto-generated method stub
 		return mapper.getTotalCountTag(cri);
+	}
+
+	@Override
+	public int deleteAllWaTag(String w_num) {
+		// TODO Auto-generated method stub
+		return mapper.deleteAllWaTag(w_num);
 	}
 
 }
