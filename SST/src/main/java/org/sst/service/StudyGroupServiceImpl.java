@@ -28,6 +28,7 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 		gmem.setG_num(group.getG_num());
 		gmem.setM_id(id);
 		gmem.setP_grant(1);
+		gmem.setGm_status("1");
 		mapper.insertGroupMember(gmem);
 	}
 
@@ -50,8 +51,8 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 	}
 
 	@Override
-	public List<StudyGroupVO> myGroupGet(String id) {
-		List<StudyGroupVO> mygrouplist = mapper.groupMakeRead(id);
+	public List<StudyGroupVO> myGroupGet(String id, String p_grant) {
+		List<StudyGroupVO> mygrouplist = mapper.groupRead(id, p_grant);
 		log.info("[get my group list]");
 		return mygrouplist;
 	}
@@ -68,14 +69,34 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 		return mapper.getTotalCount(cri);
 	}
 
-	/*@Override
-	public List<StudyGroupVO> totalGroupGet() {
-		log.info("[get total group list");
-		List<StudyGroupVO> totallist = mapper.totalgroupList();
-		return totallist;
+	@Override
+	public void joinGroup(GroupMemberVO gm) {
+		log.info("[join group]");
+		mapper.insertGroupMember(gm);
 	}
-	 */
-	
-	
-	
+
+	@Override
+	public List<GroupMemberVO> memberListGet(String g_num, String iswait) {
+		log.info("[waiting list]");
+		return mapper.groupMemberRead(g_num, iswait);
+	}
+
+	@Override
+	public boolean groupmemAccept(String g_num, String m_id) {
+		log.info("[accept]");
+		return mapper.acceptGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public boolean groupmemDeny(String g_num, String m_id) {
+		log.info("[deny]");
+		return mapper.denyGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public List<StudyGroupVO> attendGroupGet(String id) {
+		log.info("[attend]");
+		return null;
+	}
+
 }

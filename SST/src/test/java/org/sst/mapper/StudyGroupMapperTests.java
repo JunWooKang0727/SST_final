@@ -62,7 +62,12 @@ public class StudyGroupMapperTests {
 	
 	/*@Test
 	public void testMyGroupRead(){
-		mapper.groupMakeRead("study0516").forEach(groups -> log.info(groups));
+		mapper.groupRead("sleep", "1").forEach(groups -> log.info(groups));
+	}*/
+	
+	/*@Test
+	public void testAttendGroupRead(){
+		mapper.groupRead("kosta", "3").forEach(groups -> log.info(groups));
 	}*/
 	
 	/*@Test
@@ -79,7 +84,7 @@ public class StudyGroupMapperTests {
 		list.forEach(groups -> log.info(groups));
 	}*/
 	
-	@Test
+	/*@Test
 	public void searchTest(){
 		Criteria2 cri = new Criteria2();
 		cri.setKeyword("편입영어");
@@ -87,7 +92,7 @@ public class StudyGroupMapperTests {
 		
 		List<StudyGroupVO> grouplist = mapper.totalgroupList(cri);
 		grouplist.forEach(groups->log.info(groups));
-	}
+	}*/
 	
 	/*@Test
 	public void totalCountTest(){
@@ -97,6 +102,27 @@ public class StudyGroupMapperTests {
 		cri.setType("T");
 		
 		log.info(mapper.getTotalCount(cri));
+	}*/
+	
+	/*@Test
+	public void watingGroupList(){
+		List<GroupMemberVO> gm = mapper.groupMemberRead("gn9", "0");
+		gm.forEach(groupmems -> log.info(groupmems));
+		List<GroupMemberVO> gm2 = mapper.groupMemberRead("gn9", "1");
+	}*/
+	
+	/*@Test
+	public void acceptGroupMemTest(){
+		mapper.acceptGroupMember("gn9", "kosta");
+	}*/
+	
+	/*@Test
+	public void denyGroupMemTest(){
+		mapper.denyGroupMember("gn9", "kakaocon");
+	}*/
+	/*@Test
+	public void groupAttendReadTest(){
+		mapper.groupAttendRead("mygroup");
 	}*/
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.sst.domain.Criteria;
 import org.sst.domain.Criteria2;
+import org.sst.domain.GroupMemberVO;
 import org.sst.domain.PageDTO;
 import org.sst.domain.PageDTO2;
 import org.sst.domain.StudyGroupVO;
@@ -27,12 +28,12 @@ public class StudyGroupController {
 	
 	private StudyGroupService service;
 	
-	// 메인 페이지에서 회원이 생성한 그룹, 참여중인 그룹, 
+	// 메인 페이지에서 회원이 생성한 그룹, 참여중인 그룹, 신청 대기중 그룹
 	@GetMapping("/main")
 	public void groupMainPage(Principal principal, Model model){
 		log.info("[Group Home Page]");
 		log.info("[get my group list]");
-		model.addAttribute("mygrouplist", service.myGroupGet(principal.getName()));
+		model.addAttribute("mygrouplist", service.myGroupGet(principal.getName(), "1"));
 	}
 	
 	@GetMapping("/create")
@@ -50,7 +51,10 @@ public class StudyGroupController {
 	public void groupDetailRead(@RequestParam("g_num") String g_num, Model model){
 		log.info("[Group Read / Update Page]");
 		model.addAttribute("group", service.groupDetailGet(g_num));
+		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
+		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
 		log.info(service.groupDetailGet(g_num));
+		log.info(service.memberListGet(g_num, "0"));
 	}
 	
 	@GetMapping("/selectdetail")
@@ -58,6 +62,7 @@ public class StudyGroupController {
 			@ModelAttribute("cri") Criteria2 cri, Model model) {
 		log.info("[Group search detail read]");
 		model.addAttribute("group", service.groupDetailGet(g_num));
+		
 	}
 	
 	@PostMapping("/update")
@@ -87,5 +92,29 @@ public class StudyGroupController {
 		log.info("[Group Total Read]");
 		model.addAttribute("totalgroup", service.totalGroupGet(cri));
 		model.addAttribute("pageMaker", new PageDTO2(cri, service.getTotal(cri)));
+	}
+	
+	@PostMapping("/join")
+	public String joinGroup(Principal principal, @RequestParam("g_num") String g_num){
+		log.info("[Group Join]");
+		GroupMemberVO gm = new GroupMemberVO();
+		gm.setG_num(g_num);
+		gm.setM_id(principal.getName());
+		gm.setP_grant(3);
+		gm.setGm_status("0");
+		service.joinGroup(gm);
+		return "redirect:/group/search";
+	}
+	
+	@PostMapping("/accept")
+	public void joinGroup(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
+		log.info("[Group member Accept]");
+		service.groupmemAccept(g_num, m_id);
+	}
+	
+	@PostMapping("/deny")
+	public void denyGroup(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
+		log.info("[Group member Deny]");
+		service.groupmemDeny(g_num, m_id);
 	}
 }

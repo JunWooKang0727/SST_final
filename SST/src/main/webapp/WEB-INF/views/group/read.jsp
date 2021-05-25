@@ -57,10 +57,123 @@
                     	<div class="col-lg-5">
                     		<h1 class="h5 ml-4 mt-1 mb-0 text-gray-800">스터디 그룹원 관리</h1>
                     	</div>
-                    	<div class="col-lg-5">
-                    		<h1 class="h5 ml-4 mt-1 mb-0 text-gray-800">가입신청 대기자</h1>
+                    	<div class="row col-lg-5">
+                    		<div>
+								<h1 class="h5 ml-4 mt-1 mb-0 text-gray-800">가입신청 대기자</h1><br>
+                    		</div>
                     	</div>
                     	<div class="col-lg-1"></div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-lg-1"></div>
+                    	<div class="col-lg-5 ml-5">
+                   			<span class="ml-5 mr-5">아이디</span>
+                    		<span class="ml-5 mr-5">권한</span>
+                    		<span class="ml-5 mr-5">회원관리</span>
+                    	</div>
+                    	<div class="row col-lg-5">
+                    		<span class="ml-5 mr-5">아이디</span>
+                    		<span class="ml-5 mr-5"></span>
+                    		<span class="ml-5 mr-5">수락/거절</span>
+                    	</div>
+                    	<div class="col-lg-1"></div>
+                    </div>
+                    
+                    <div class="row">
+                    	<div class="col-lg-6">
+                    		<c:forEach items="${memberlist }" var="member" varStatus="status">
+                    			<div class="mt-3 mb-3">
+                    				<div class="row">
+                    					<div class="col-lg-2"></div>
+                    					<div class="col-lg-3">
+                    						<span class="ml-3 mr-5">${status.count }</span>
+		                    				<span class="ml-4 text-center">${member.m_id }</span>
+                    					</div>
+                    					<div class="col-lg-2 ml-4 mr-3">
+                    						<select class="form-control form-control-sm">
+											  <option 
+											  	<c:if test="${member.p_grant eq 1}">selected</c:if>
+											  >그룹장</option>
+											  <option
+											  	<c:if test="${member.p_grant eq 2}">selected</c:if>
+											  >그룹매니저</option>
+											  <option
+											  	<c:if test="${member.p_grant eq 3}">selected</c:if>
+											  >일반</option>
+											</select>
+                    					</div>
+                    					<div class="col-lg-2 ml-4">
+                    						<button type="button" class="btn btn-primary btn-sm" id="mem_modify">수정</button>
+		                    				<button type="button" class="btn btn-danger btn-sm" id="mem_delete">삭제</button>
+                    					</div>
+                    				</div>
+	                    		</div>
+                    		</c:forEach>
+                    	</div>
+                    	<div class="col-lg-6">
+                    		<c:forEach items="${waitmember }" var="member" varStatus="status">
+                    			<div class="mt-3 mb-3">
+						          <div class="row">
+						               <div class="col-lg-5">
+						                  <span class="ml-3 mr-5">${status.count }</span>
+								          <span class="text-center">${member.m_id }</span>
+						               </div>
+						               <div class="col-lg-2">
+						                  <button data-toggle="modal" data-target="#exampleModal2" type="button" 
+						                  class="btn btn-primary btn-sm" 
+						                  data-mid="${member.m_id }" data-gnum="${group.g_num }">수락</button>
+								          
+								          <button data-toggle="modal" data-target="#exampleModal" type="button" 
+								          data-mid="${member.m_id }" data-gnum="${group.g_num }" 
+								          class="btn btn-danger btn-sm" >거절</button>
+								          
+						               </div>
+						          </div>
+								</div>
+                    		</c:forEach>
+                    	</div>
+                    	
+                    	<!-- 승인 Modal -->
+                    	<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">스터디 가입</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        스터디 가입을 승인하시겠습니까?
+						      </div>
+						      <div class="modal-footer">
+						      	<button type="button" class="btn btn-primary" id="mem_accepts">승인</button>
+						       	<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+                    	<!-- 거절 Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">스터디 가입</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        스터디 가입을 거절겠습니까?
+						      </div>
+						      <div class="modal-footer">
+						      	<button type="button" class="btn btn-primary" id="mem_deny">거절</button>
+						       	<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
                     </div>
                 </div>
 
@@ -85,5 +198,6 @@
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
     <script src="../../resources/js/group/group_create.js"></script>
+    <script type="../../resources/js/group/group_read.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package org.sst.service;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.sst.domain.Criteria;
 import org.sst.domain.Criteria2;
+import org.sst.domain.GroupMemberVO;
 import org.sst.domain.StudyGroupVO;
 
 import lombok.Setter;
@@ -59,13 +62,39 @@ public class StudyGroupServiceTests {
 		service.totalGroupGet().forEach(groups -> log.info(groups));
 	}*/
 	
-	@Test
+	/*@Test
 	public void testGetList(){
 		Criteria2 cri = new Criteria2();
 		cri.setKeyword("영어");
 		cri.setType("T");
 		cri.setPageNum(1);
 		service.totalGroupGet(cri).forEach(groups -> log.info(groups));
-	}
+	}*/
 	
+	/*@Test
+	public void joinGroupoTest(){
+		GroupMemberVO gm = new GroupMemberVO();
+		gm.setG_num("gn9");
+		gm.setP_grant(3);
+		gm.setGm_status("0");
+		gm.setM_id("kakaocon");
+		service.joinGroup(gm);
+	}*/
+	
+	/*@Test
+	public void waitinglistTest(){
+		List<GroupMemberVO> list = service.memberListGet("gn9", "0");
+		list.forEach(group -> log.info(group));
+	}*/
+
+	/*@Test
+	public void accgroupmemTest(){
+		service.groupmemAccept("gn9", "sleep");
+	}*/
+	
+	@Test
+	
+	public void denyGroupmemTest(){
+		service.groupmemDeny("gn9", "javastudy");
+	}
 }

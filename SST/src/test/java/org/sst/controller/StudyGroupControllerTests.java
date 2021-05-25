@@ -107,12 +107,39 @@ public class StudyGroupControllerTests {
 		log.info(resultPage);
 	}*/
 	
-	@Test
+	/*@Test
 	public void totalListGet() throws Exception {
 		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/group/search")
 				.param("pageNum", "2")
 				.param("amount", "12"))
 				.andReturn()
 				.getModelAndView().getModelMap());
+	}*/
+	
+	/*@Test
+	public void joinGroup() throws Exception {
+		Principal principal = new Principal() {
+			@Override
+			public String getName() {
+				return "kosta";
+			}
+		};
+		
+		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/group/join")
+				.principal(principal)
+				.param("g_num", "gn9")
+				.param("iswait", "0"))
+				.andReturn().getModelAndView().getViewName();
+	
+		log.info(resultPage);
+	}*/
+	
+	@Test
+	public void acceptMem() throws Exception {
+		log.info(mockMvc.perform(MockMvcRequestBuilders.post("/group/accept")
+				.param("g_num", "gn9")
+				.param("m_id", "study555"))
+				.andReturn().getModelAndView().getModelMap());
+		
 	}
 }

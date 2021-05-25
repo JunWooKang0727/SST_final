@@ -42,34 +42,18 @@
                     </div>
                     <!-- 페이지 본문 -->
                     <div class="row">
-                    	<div class="col-lg-1"></div>
-	                    <div class="col-lg-10">
+                    	<div class="col-lg-3"></div>
+	                    <div class="col-lg-6">
 	                    <h1 class="h3 mb-2 text-gray-800"><c:out value="${group.g_name }"/> </h1>
 	                    <h1 class="h5 ml-4 mt-1 mb-3 text-gray-800">그룹 설명 : <c:out value="${group.g_content }"/></h1>
+	                    <br><br>
+	                    <button data-oper='join' class="btn btn-info btn-block">Join</button>
+						<button data-oper='list' class="btn btn-info btn-block">List</button>
 	                    </div>
-	                    <div class="col-lg-1"></div>
+	                    <div class="col-lg-3"></div>
 						<br> 
                     </div>
                     
-                    <div class="row">
-                    	<div class="col-lg-1"></div>
-                    	<div class="col-lg-5">
-                    		<h1 class="h5 ml-4 mt-1 mb-0 text-gray-800">그룹신청</h1>
-                    	</div>
-                    	<div class="col-lg-5">
-                    		<h1 class="h5 ml-4 mt-1 mb-0 text-gray-800">가입신청 대기자</h1>
-                    	</div>
-                    	<div class="col-lg-1"></div>
-                    </div>
-                    
-                    <div class="row justify-content-center">
-                    	<div class="col-lg-4 "></div>
-                    	<div class="col-lg-4">
-                    		<button data-oper='join' class="btn btn-info">Join</button>
-							<button data-oper='list' class="btn btn-info">List</button>
-                    	</div>
-                    	<div class="col-lg-4"></div>
-                    </div>
                     
                     <form id="operForm" action="/group/search" method="get">
                     	<input type='hidden' name="pageNum" value="<c:out value="${cri.pageNum }" />"> 
@@ -77,6 +61,10 @@
                     	<input type='hidden' name="keyword" value="<c:out value="${cri.keyword }" />">
                     	<input type='hidden' name="type" value="<c:out value="${cri.type }" />">
                     	<input type='hidden' name="category" value="<c:out value="${cri.category }" />">
+                    </form>
+                    <form id="operJoin" action="/group/join" method="post">
+                    	<input type='hidden' name="g_num" value="<c:out value="${group.g_num }" />">
+                    	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }" />
                     </form>
                 </div>
 

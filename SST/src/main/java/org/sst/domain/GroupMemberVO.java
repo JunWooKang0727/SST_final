@@ -13,4 +13,5 @@ public class GroupMemberVO {
 	private int gm_index;
 	private int p_grant;
 	private String m_id;
+	private String gm_status;
 }

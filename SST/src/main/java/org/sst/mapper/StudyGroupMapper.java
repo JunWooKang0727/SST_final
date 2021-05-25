@@ -2,6 +2,7 @@ package org.sst.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.sst.domain.Criteria;
 import org.sst.domain.Criteria2;
 import org.sst.domain.GroupMemberVO;
@@ -19,13 +20,20 @@ public interface StudyGroupMapper {
 
 	public int groupDelete(String gnum);
 	
-	public List<StudyGroupVO> groupMakeRead(String id);
+	public List<StudyGroupVO> groupRead(@Param("id") String id, @Param("p_grant") String p_grant);
 	
-	//public List<StudyGroupVO> totalgroupList();
-	
+	public List<StudyGroupVO> groupAttendRead(String id);
+
 	public List<StudyGroupVO> totalgroupList(Criteria2 cri);
 	
 	public int getTotalCount(Criteria2 cri);
 	
-//	public List<StudyGroupVO> searchGroup(Criteria2 cri);
+//	public List<GroupMemberVO> groupWaiting(String g_num);
+//	
+	public List<GroupMemberVO> groupMemberRead(@Param("g_num") String g_num, 
+			@Param("iswait") String iswait);
+	
+	public int acceptGroupMember(@Param("g_num") String g_num, @Param("m_id") String m_id);
+	public int denyGroupMember(@Param("g_num") String g_num, @Param("m_id") String m_id);
+
 }
