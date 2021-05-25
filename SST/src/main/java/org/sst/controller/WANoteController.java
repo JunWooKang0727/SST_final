@@ -58,7 +58,7 @@ public class WANoteController {
 					HashMap map = new HashMap();
 					map.put("w_num", w_num);
 					map.put("tg_num", tg_num);
-					log.info("result(없을때)--------------------------------" + service.createWATag(map));
+					log.info("result(없을때)-----------d---------------------" + service.createWATag(map));
 				} else {
 					WAtagVO vo1 = service.readTag(tag);
 					HashMap map = new HashMap();

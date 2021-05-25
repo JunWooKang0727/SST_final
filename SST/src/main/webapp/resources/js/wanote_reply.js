@@ -6,7 +6,7 @@ var replyService = (function() {
 
 		$.ajax({
 			type : 'post',
-			url : '/sst/wanotereply/create',
+			url : '/wanotereply/create',
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -27,7 +27,7 @@ var replyService = (function() {
 		var w_num = param.w_num;
 		var page = param.page || 1;
 
-		$.getJSON("/sst/wanotereply/pages/" + w_num + "/" + page +".json",
+		$.getJSON("/wanotereply/pages/" + w_num + "/" + page +".json",
 				function(data) {
 
 					if (callback) {
@@ -70,7 +70,7 @@ var replyService = (function() {
 	function remove(wr_num, callback, error) {
 		$.ajax({
 			type : 'delete',
-			url : '/sst/wanotereply/' + wr_num,
+			url : '/wanotereply/' + wr_num,
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
 					callback(deleteResult);
@@ -89,7 +89,7 @@ var replyService = (function() {
 
 		$.ajax({
 			type : 'put',
-			url : '/sst/wanotereply/' + reply.wr_num,
+			url : '/wanotereply/' + reply.wr_num,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {

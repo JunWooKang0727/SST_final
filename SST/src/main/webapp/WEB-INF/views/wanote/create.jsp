@@ -14,7 +14,7 @@
 <meta name="author" content="">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
-<link href="/sst/resources/css/wanote.css" rel="stylesheet">
+<link href="/resources/css/wanote.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -45,7 +45,7 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/sst/wanote/create" method="post"
+									<form action="/wanote/create" method="post"
 										class="centerform">
 										<input type="hidden" name="m_id" value="ggy">
 										제목: <input type="text" name="w_title" placeholder="노트제목 입력해주세요." class="form-control" required><br>
@@ -188,7 +188,7 @@
 		$('#tag-name').autocomplete({
 			source : function(request, response) {
 				$.ajax({
-					url : '/sst/watag/listAllTag/' + request.term,
+					url : '/watag/listAllTag/' + request.term,
 					dataType : "json",
 					type : 'GET',
 					success : function(data) {
@@ -239,7 +239,7 @@
 			}
 
 			$.ajax({
-				url : '/sst/wanoteAttach/uploadAjaxAction',
+				url : '/wanoteAttach/uploadAjaxAction',
 				processData : false,
 				contentType : false,
 				data : formData,
@@ -280,7 +280,7 @@ console.log(obj.image);
 									str += "<span> " + obj.fileName + "</span>";
 									str += "<button type='button' data-file=\'"+fileCallPath+"\' "
 			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-									str += "<img class='img-thumbnail' src='/sst/wanoteAttach/display?fileName="
+									str += "<img class='img-thumbnail' src='/wanoteAttach/display?fileName="
 											+ fileCallPath + "'>";
 									str += "</div>";
 									str + "</li>";
@@ -317,7 +317,7 @@ console.log(obj.image);
 			var targetLi = $(this).closest("li");
 
 			$.ajax({
-				url : '/sst/wanoteAttach/deleteFile',
+				url : '/wanoteAttach/deleteFile',
 				data : {
 					fileName : targetFile,
 				},

@@ -14,7 +14,7 @@
 <meta name="author" content="">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
-<link href="/sst/resources/css/wanote.css" rel="stylesheet">
+<link href="/resources/css/wanote.css" rel="stylesheet">
 <style type="text/css">
 .chat>ul{
 	list-style:none;
@@ -63,7 +63,7 @@
 
 									<div class="tag-list">
 								<c:forEach items="${wanote.taglist}" var="tag">
-								<a href="/sst/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
+								<a href="/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
 								</div>
 								<c:if test="${wanote.m_id eq 'ggy'}">
@@ -114,7 +114,7 @@
 
 									</ul>
 
-									<form action="/sst/wanotereply/create" method="post"
+									<form action="/wanotereply/create" method="post"
 										class="centerform">
 										<input type="hidden" name="m_id" value="ggy" id="m_idValue">
 										<textarea class="form-control" rows="3" name="wr_contents" placeholder="댓글을 입력해주세요."
@@ -135,7 +135,7 @@
 					</div>
 				</div>
 				
-				<form id='operForm' action="/sst/wanote/update" method="get">
+				<form id='operForm' action="/wanote/update" method="get">
   <input type='hidden' id='w_num' name='w_num' value='<c:out value="${wanote.w_num}"/>'>
   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
   <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -164,7 +164,7 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- Custom scripts for all pages-->
-<script type="text/javascript" src="/sst/resources/js/wanote_reply.js"></script>
+<script type="text/javascript" src="/resources/js/wanote_reply.js"></script>
 	<script type="text/javascript">
 	
 	//태그검색
@@ -180,7 +180,7 @@
 
 			$("button[data-oper='update']").on("click", function(e) {
 
-				operForm.attr("action", "/sst/wanote/update").submit();
+				operForm.attr("action", "/wanote/update").submit();
 
 			});
 
@@ -404,7 +404,7 @@
 					});
 
 			//첨부파일
-			$.getJSON("/sst/wanote/getAttachList",{w_num : w_numValue},
+			$.getJSON("/wanote/getAttachList",{w_num : w_numValue},
 							function(arr) {
 								console.log(arr);
 
@@ -424,7 +424,7 @@
 																+ attach.fileName);
 
 														str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-														str += "<img height='250' src='/sst/wanoteAttach/display?fileName="
+														str += "<img height='250' src='/wanoteAttach/display?fileName="
 																+ fileCallPath
 																+ "'>";
 														str += "</div>";
@@ -435,7 +435,7 @@
 														str += "<span> "
 																+ attach.fileName
 																+ "</span><br/>";
-														str += "<img src='/sst/resources/img/attach.png'></a>";
+														str += "<img src='/resources/img/attach.png'></a>";
 														str += "</div>";
 														str + "</li><hr>";
 													}
@@ -491,7 +491,7 @@
 											"/"));
 								} else {
 									//download 
-									self.location = "/sst/wanoteAttach/download?fileName="
+									self.location = "/wanoteAttach/download?fileName="
 											+ path
 								}
 

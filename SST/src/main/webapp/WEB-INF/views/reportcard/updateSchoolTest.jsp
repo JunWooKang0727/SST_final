@@ -15,7 +15,7 @@
 
 <title>SST</title>
 <!-- Custom styles for this template-->
-<link href="/sst/resources/css/personalstudy.css" rel="stylesheet">
+<link href="/resources/css/personalstudy.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -44,7 +44,7 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">시험 정보 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/sst/reportcard/schooltest/update" method="post"
+									<form action="/reportcard/schooltest/update" method="post"
 										class="centerform">
 										<input type="hidden" name="rc_num" value="${st.rc_num}">
 										<input type="hidden" name="st_num" value="${st.st_num}">
@@ -58,7 +58,7 @@
 										과목${status.count } : <input type="text" name="scorelist[${status.count-1 }].ss_name" value="${score.ss_name}"  class="form-control" required><br>
 										점수 : <input type="number" name="scorelist[${status.count-1 }].ss_score" value="${score.ss_score}" class="form-control "  min="1" max="100" required>
 										<br>
-										<a class="float-right text-danger" href="/sst/reportcard/schoolscore/delete?st_num=${st.st_num}&ss_num=${score.ss_num}">삭제</a>
+										<a class="float-right text-danger" href="/reportcard/schoolscore/delete?st_num=${st.st_num}&ss_num=${score.ss_num}">삭제</a>
 										<br>
 										</c:forEach>
 										<a class="btn btn-success btn-circle" id="plus_score" data-toggle="modal" data-target="#exampleModal"> <i
@@ -66,7 +66,7 @@
 										</a> 과목 점수 추가하기 <br><hr>
 										<input class="btn btn-info" type="submit" value="수정">
 										<button type="button" class="btn btn-danger"
-													onclick="location.href='/sst/reportcard/schooltest/delete?rc_num=${st.rc_num}&st_num=${st.st_num}'">삭제</button>
+													onclick="location.href='/reportcard/schooltest/delete?rc_num=${st.rc_num}&st_num=${st.st_num}'">삭제</button>
 									</form>
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 						aria-label="Close">
 					</button>
 				</div>
-				<form action="/sst/reportcard/schoolscore/create" method="post">
+				<form action="/reportcard/schoolscore/create" method="post">
 				<div class="modal-body">
 						<input type="hidden" name="st_num" value="${st.st_num}">
 						과목 : <input type="text" name="ss_name" placeholder="과목명 입력해주세요." class="form-control" required><br> 
