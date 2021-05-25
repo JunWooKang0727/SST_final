@@ -46,7 +46,7 @@
 .dir{
 	font-size: 15px;
 	width: 160px;
-	height: 40px;
+	height: 48px;
 	text-align: left;
 	background: white;
 }
@@ -120,6 +120,8 @@
 
 .header{
 	display: inline-block;
+	font-weight: bold;
+	font-size: 18px;
 }
 
 .boxheader{

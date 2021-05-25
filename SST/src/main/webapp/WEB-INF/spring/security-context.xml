@@ -44,6 +44,8 @@
       <security:intercept-url pattern="/member/delete" access="hasRole('ROLE_MEMBER')"/>
       <!-- /group 하위에 있는 모든 페이지에 ROLE_MEMBER을 갖고있는 사람만 접근 가능 -->
       <security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
+      
+      <security:intercept-url pattern="/studydata/**" access="permitAll"/>
    </security:http>
    
    <security:authentication-manager>

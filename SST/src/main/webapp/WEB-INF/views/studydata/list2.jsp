@@ -152,11 +152,16 @@
 						return;
 					}
 				}
+				var csrfHeaderName = "${_csrf.headerName} ";
+				var csrfTokenValue = "${_csrf.token}";
+				
+				console.log("1"+csrfHeaderName);
+				console.log("2토큰"+csrfTokenValue);
 				
 				var targetFile = $(this).data("file");
 				//var type = $(this).data("type");
 				var uuid = $(this).data("uuid");
-				console.log(targetFile);
+				//console.log(targetFile);
 				var ftype = $(this).data("ftype");
 				var fname = $(this).data("fname");
 				var fpath = $(this).data("path");
@@ -164,6 +169,11 @@
 				$.ajax({
 
 					url : '/studydata/deleteFile',
+					beforeSend:function(xhr){
+						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+						console.log("1"+csrfHeaderName);
+						console.log("2토큰"+csrfTokenValue);
+					},
 					data : {
 						fileCallPath : targetFile,
 						uuid : uuid,
@@ -216,7 +226,8 @@
 			console.log(files);
 
 			var formData = new FormData();
-
+			var csrfHeaderName = "${_csrf.headerName} ";
+			var csrfTokenValue = "${_csrf.token}";
 			for (var i = 0; i < files.length; i++) {
 				formData.append("uploadFile", files[i]);
 			}
@@ -229,6 +240,10 @@
 					url : '/studydata/uploadAjax',
 					processData : false,
 					contentType : false,
+					beforeSend:function(xhr){
+						
+						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+					},
 					data : formData,
 					type : 'POST',
 
@@ -300,7 +315,7 @@
 									str = "";
 								}//end of if
 
-								console.log(fileCallPath);
+								//console.log(fileCallPath);
 							});//end of each (data)
 
 						
