@@ -114,9 +114,9 @@ public class WanoteUploadController {
 				attachDTO.setUuid(uuid.toString());
 				
 				//이미지 파일인지 검사해서 이미지 파일이면 섬네일 생성
-//				if(checkImageType(saveFile)){
-//					attachDTO.setImage(true);
-//				}
+				if(checkImageType(saveFile)){
+					attachDTO.setImage(true);;
+				}
 				
 				list.add(attachDTO);
 			} catch (Exception e) {

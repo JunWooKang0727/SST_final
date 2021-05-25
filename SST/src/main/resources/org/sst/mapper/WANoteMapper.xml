@@ -83,7 +83,32 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 		w_num>0 
 	</select>
 
-
+	<select id="listWithTagWANote" resultMap="wanoteMap"
+		parameterType="org.sst.domain.Criteria">
+		  <![CDATA[   
+select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
+			(select  /*+ INDEX_DESC(wanote pk_wanote) */ 
+				rownum rn ,wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
+		w_date
+			 from wanote,watag,tag  where wanote.w_num=watag.w_num and watag.tg_num=tag.tg_num and tg_name=#{keyword} and
+			 ]]>
+		<if test="m_id != null">
+			m_id=#{m_id} and
+		</if>
+  		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+  		where rn > (#{pageNum} -1) * #{amount}   
+  	]]>
+	</select>
+		<select id="getTotalCountTag" resultType="int">
+		select count(*) from wanote,watag,tag  where wanote.w_num=watag.w_num and watag.tg_num=tag.tg_num and tg_name=#{keyword} and
+		<include refid="criteria"></include>
+		<if test="m_id != null">
+			 m_id=#{m_id} and
+		</if>
+		wanote.w_num>0 
+	</select>
 
 	<select id="readWANote" parameterType="String" resultMap="wanoteMap">
 		select wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as

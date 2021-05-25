@@ -17,6 +17,9 @@ public interface WANoteMapper {
 	List<WANoteVO> listWithPagingWANote(Criteria cri);
 	int getTotalCount(Criteria cri);
 	
+	List<WANoteVO> listWithTagWANote(Criteria cri);
+	int getTotalCountTag(Criteria cri);
+	
 	List<WAtagVO> listAllTag(String keyword);
 	
 	int createTag(WAtagVO vo);

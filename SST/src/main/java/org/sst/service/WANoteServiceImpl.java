@@ -99,4 +99,16 @@ public class WANoteServiceImpl implements WANoteService{
 		return mapper.countReasonChart(m_id);
 	}
 
+	@Override
+	public List<WANoteVO> listWithTagWANote(Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.listWithTagWANote(cri);
+	}
+
+	@Override
+	public int getTotalCountTag(Criteria cri) {
+		// TODO Auto-generated method stub
+		return mapper.getTotalCountTag(cri);
+	}
+
 }

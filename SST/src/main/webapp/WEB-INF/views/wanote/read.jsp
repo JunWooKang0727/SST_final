@@ -63,7 +63,7 @@
 
 									<div class="tag-list">
 								<c:forEach items="${wanote.taglist}" var="tag">
-								<a><c:out value="${tag.tg_name}" /></a>
+								<a href="/sst/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
 								</div>
 								</div>

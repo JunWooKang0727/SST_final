@@ -26,4 +26,7 @@ public interface WANoteService {
 	
 	List<HashMap> countTagChart(String m_id);
 	List<HashMap> countReasonChart(String m_id);
+	
+	List<WANoteVO> listWithTagWANote(Criteria cri);
+	int getTotalCountTag(Criteria cri);
 }

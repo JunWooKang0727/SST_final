@@ -119,9 +119,17 @@ public class WANoteMapperTests {
 //			log.info("result(있을때)--------------------------------"+mapper.createWATag(map));
 //		}
 //	}
+//	@Test
+//	public void testCountChart() {
+//
+//		log.info(mapper.countTagChart("ggy"));
+//	}
+	
 	@Test
-	public void testCountChart() {
-
-		log.info(mapper.countTagChart("ggy"));
+	public void testListWithTag() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("파이썬");
+		log.info(mapper.listWithTagWANote(cri));
+		log.info(mapper.getTotalCountTag(cri));
 	}
 }

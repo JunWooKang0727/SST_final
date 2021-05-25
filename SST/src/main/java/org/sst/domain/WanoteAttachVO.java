@@ -8,6 +8,6 @@ public class WanoteAttachVO {
 	private String uploadPath;
 	private String fileName;
 	private String fileType;
-	
+	private boolean image;
 	private String w_num;
 }

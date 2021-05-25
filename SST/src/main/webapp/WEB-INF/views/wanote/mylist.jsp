@@ -80,6 +80,8 @@
 																<option value="TC"
 																	<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
 																	or 내용</option>
+																	<option value="Tag"
+									<c:out value="${pageMaker.cri.type eq 'Tag'?'selected':''}"/>>태그</option>
 															</select> <input type='text' name='keyword' class="form-control"
 																placeholder="검색어 입력"
 																value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
@@ -235,7 +237,7 @@
 					<div class="col-lg-12">
 						<div class="card shadow  mb-4">
 							<div class="card-header py-3">
-								<h5 class="m-0 font-weight-bold">자주 틀리는 키워드 TOP6</h5>
+								<h5 class="m-0 font-weight-bold">스터디 그룹추천</h5>
 							</div>
 							<div class="card-body"><div id="chartdiv"></div></div>
 						</div>

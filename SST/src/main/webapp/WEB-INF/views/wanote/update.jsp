@@ -48,11 +48,11 @@
 									<form action="/sst/wanote/create" method="post"
 										class="centerform">
 										<input type="hidden" name="m_id" value="ggy">
-										제목: <input type="text" name="w_title" placeholder="노트제목 입력해주세요." class="form-control" required><br>
+										제목: <input type="text" name="w_title" value="${wanote.w_title}" class="form-control" required><br>
 										문제:
-										<textarea class="form-control" rows="3" name="w_question" placeholder="문제를 입력해주세요." required></textarea>  
+										<textarea class="form-control" rows="3" name="w_question" required>${wanote.w_question}</textarea>  
 										정답과 풀이:
-										<textarea class="form-control" rows="3" name="w_answer" placeholder="정답과 풀이를 입력해주세요." required></textarea>  
+										<textarea class="form-control" rows="3" name="w_answer" required>${wanote.w_answer}</textarea>  
 										
 										<hr>
 										틀린 이유: 
@@ -63,10 +63,14 @@
 											<option value="계산 실수">계산 실수</option>
 											<option value="단순 실수">단순 실수</option>
 										</select><br> 
-										과목: <input type="text" name="w_subject" placeholder="과목명을 입력해주세요." class="form-control" required><br>
+										과목: <input type="text" name="w_subject" value="${wanote.w_subject}" class="form-control" required><br>
 										해시태그:<br> <input type="text" name="tag" placeholder="EX) 도형넓이" class="form-control d-inline" id="tag-name" style="width:auto">
 										<button type="button" class="btn btn-info d-inline" id="add-tag">추가</button><br>
-										<div class="tag-list"></div>
+										<div class="tag-list">
+										<c:forEach items="${wanote.taglist}" var="tag">
+								<a><c:out value="${tag.tg_name}" /></a>
+								</c:forEach>
+										</div>
 										
 										<hr>
                                     <button type="button" class="btn btn-info float-right" id="submit-btn">등록</button><br>

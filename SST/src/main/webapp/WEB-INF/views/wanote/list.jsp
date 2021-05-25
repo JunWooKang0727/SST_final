@@ -68,6 +68,8 @@
 								<option value="TC"
 									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
 									or 내용</option>
+								<option value="Tag"
+									<c:out value="${pageMaker.cri.type eq 'Tag'?'selected':''}"/>>태그</option>
 							</select> 
 							<input type='text' name='keyword' class="form-control" placeholder="검색어 입력"
 								value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
