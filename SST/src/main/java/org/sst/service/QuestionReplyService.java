@@ -22,5 +22,8 @@ public interface QuestionReplyService {
 	
 	public QuestionReplyPageVO getListPage(Criteria cri, String q_num);
 	
-	
+	//댓글추천
+	public int updateLike(String rno) throws Exception;
+	 
+	public int updateHate(String rno) throws Exception;
 }

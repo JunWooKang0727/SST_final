@@ -171,14 +171,17 @@
 							<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
 						</div>
 						<div class="modal-body">
-							<div class="form-group">
-								<label>Reply</label> <input class="form-control" name='reply'
-									value='New Reply!!!!'>
-							</div>
+							
 							<div class="form-group">
 								<label>Replyer</label> <input class="form-control"
 									name='replyer' value='replyer'>
 							</div>
+							
+							<div class="form-group">
+								<label>Reply</label> <input class="form-control" name='reply'
+									value='New Reply!!!!'>
+							</div>
+							
 							<div class="form-group">
 								<label>Reply Date</label> <input class="form-control"
 									name='replyDate' value='2018-01-01 13:13'>
@@ -198,11 +201,7 @@
 				<!-- /.modal-dialog -->
 			</div>
 			<!-- /.modal -->
-			<!-- 여기부터 스크립트 -->
-			<!-- 여기부터 스크립트 -->
-			<!-- 여기부터 스크립트 -->
-			<!-- 여기부터 스크립트 -->
-			<!-- 여기부터 스크립트 -->
+	
 
 			<script type="text/javascript" src="../../../resources/js/reply.js"></script>
 			<!-- Bootstrap core JavaScript-->
@@ -263,6 +262,19 @@
 																		+ replyService
 																				.displayTime(list[i].replyDate)
 																		+ "</small></div>";
+																
+																		//좋아요 추가입니다.		
+																str += "   <td><button type='button' id='likeBtn ' class='btn btn-info likeBtn' onclick='updateLike(this)'>"  
+														       +'추천 : '        +list[i].faqrp_likeCnt+"</button></td>";
+														
+														       str += " ";
+																		//싫어요
+																str+="<td><button type='button' id='hateBtn' class='btn btn-info hateBtn' onclick='updateHate(this)+'>"   
+														       + '비추: '  +list[i].faqrp_hateCnt+" </button></td>";
+																		
+																		
+																		
+																//			
 																str += "    <p>"
 																		+ list[i].reply
 																		+ "</p></div></li>";
@@ -276,6 +288,102 @@
 
 									}//end showList
 
+									//댓글 좋아요 추천 기능!!
+									//댓글 좋아요 추천 기능!!
+									//댓글 좋아요 추천 기능!!
+									//댓글 좋아요 추천 기능!!
+									
+									//var bnoValue = '<c:out value="${question.q_num}"/>';
+									
+									var lcnt = 0;
+									var hcnt = 0;
+									var faq_idx ='0';
+									var faqrp_idx ='0'; 
+									var me_id = '0';
+									var alreadyLikeClick = false;
+									var alreadyHateClick = false;
+									 
+									function updateLike(ths){
+									        
+									    var idx = $("button.likeBtn").index(ths); 
+									    faqrp_idx = $("input[name='rno']").eq(idx).val(); 
+									    
+									 
+									    if(!alreadyLikeClick){
+									        lcnt = parseInt(lcnt)+1;
+									        alreadyLikeClick = true;
+									        alreadyHateClick = true;
+									    }
+									    
+									    
+									    var submitObj = new Object();
+									    submitObj.q_num = faq_idx;
+									    submitObj.rno = faqrp_idx;
+									    submitObj.replyer = me_id;
+									    submitObj.faqrp_likeCnt= lcnt;
+									    
+									    
+									    $.ajax({ 
+									            url: path+"/likeCnt/{rno}", 
+									            type: "POST", 
+									            contentType: "application/json;charset=UTF-8",
+									            data:JSON.stringify(submitObj),
+									            dataType : "json",
+									            async: false,
+									           })
+									          .done(function(resMap) {
+									              alert("추천하였습니다.");
+									              location.reload();
+									           }) 
+									           .fail(function(e) {  
+									               alert("한개의 글에 한번만 클릭이 가능합니다.");
+									           }) 
+									           .always(function() { 
+									           }); 
+									    
+									}
+									    
+									function updateHate(ths){
+									    var idx = $("button.hateBtn").index(ths); 
+									    faqrp_idx = $("input[name='faqrp_idx']").eq(idx).val();
+									    if(!alreadyHateClick){
+									        hcnt = parseInt(hcnt)+1;
+									        alreadyLikeClick = true;
+									        alreadyHateClick = true;
+									    }
+									    
+									    var submitObj = new Object();
+									    submitObj.q_num = faq_idx;
+									    submitObj.rno = faqrp_idx;
+									    submitObj.replyer = me_id;
+									    submitObj.faqrp_hateCnt=  hcnt;
+									    
+									    $.ajax({ 
+									            url: path+"/hateCnt/{rno}", 
+									            type: "POST", 
+									            contentType: "application/json;charset=UTF-8",
+									            data:JSON.stringify(submitObj),
+									            dataType : "json",
+									            async: false,
+									           })
+									          .done(function(resMap) {
+									              alert("비추천하였습니다.");
+									              location.reload();
+									           }) 
+									           .fail(function(e) {  
+									               alert("한개의 글에 한번만 클릭이 가능합니다.");
+									           }) 
+									           .always(function() { 
+									           }); 
+									}
+
+									
+								
+							
+									
+									
+									
+									// 페이징 처리 
 									var pageNum = 1;
 									var replyPageFooter = $(".panel-footer");
 
@@ -416,7 +524,8 @@
 
 													});
 
-									//댓글 조회 클릭 이벤트 처리 
+									//댓글 조회 클릭 이벤트 처리  댓글 수정및 삭제 처리  
+									/*
 									$(".chat")
 											.on(
 													"click",
@@ -497,6 +606,8 @@
 										});
 
 									});
+									
+									*/
 								});
 			</script>
 

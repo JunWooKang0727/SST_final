@@ -20,4 +20,6 @@ public interface QuestionService {
 	
 	public int getTotal(Criteria cri);
 	
+	
+
 }

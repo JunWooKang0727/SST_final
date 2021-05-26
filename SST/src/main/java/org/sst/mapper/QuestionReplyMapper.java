@@ -20,4 +20,9 @@ public interface QuestionReplyMapper {
 	public List<QuestionReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("q_num") String q_num);
 	
 	public int getCountByBno(String q_num);
+	
+	//
+	
+	public int updateLike(String rno);
+	public int updateHate(String rno);
 }

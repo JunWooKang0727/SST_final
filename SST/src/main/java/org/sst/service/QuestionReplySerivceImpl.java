@@ -24,6 +24,7 @@ public class QuestionReplySerivceImpl implements QuestionReplyService {
 	
 	@Setter(onMethod_= @Autowired)
 	private QuestionMapper questionMapper;
+
 	
 	@Transactional
 	@Override
@@ -69,5 +70,16 @@ public class QuestionReplySerivceImpl implements QuestionReplyService {
 	}
 	
 	
+	
+	//댓 글 추천
+	@Override
+	public int updateLike(String rno) throws Exception {
+	    return mapper.updateLike(rno);
+	}
+	 
+	@Override
+	public int updateHate(String rno) throws Exception {
+	    return mapper.updateHate(rno);
+	};
 
 }
