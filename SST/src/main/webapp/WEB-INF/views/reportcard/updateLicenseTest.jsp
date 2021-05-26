@@ -47,6 +47,7 @@
 								<div class="card-body">
 									<form action="/reportcard/licensetest/update" method="post"
 										class="centerform">
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 										<input type="hidden" name="rc_num" value="${test.rc_num}">
 										<input type="hidden" name="lt_num" value="${test.lt_num}">
 										시험명: <input type="text" name="lt_test" value="${test.lt_test}" class="form-control" required><br>
@@ -106,6 +107,7 @@
 				</div>
 				<form action="/reportcard/licensescore/create" method="post">
 				<div class="modal-body">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 						<input type="hidden" name="lt_num" value="${test.lt_num}">
 						과목 : <input type="text" name="ls_name" placeholder="과목명 입력해주세요." class="form-control" required><br> 
 						취득점수 : <input type="number" name="ls_score" placeholder="점수를 입력해주세요." 

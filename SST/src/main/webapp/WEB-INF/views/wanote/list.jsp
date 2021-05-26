@@ -45,7 +45,7 @@
 								<ul class="nav nav-tabs">
 									<li class="nav-item"><a class="nav-link active" href="/wanote/list" id='allWanote'>전체 오답노트</a>
 									</li>
-									<li class="nav-item"><a class="nav-link" href="/wanote/mylist?m_id=ggy">나의 오답노트</a>
+									<li class="nav-item"><a class="nav-link" href="/wanote/mylist?m_id=<security:authentication property="principal.username"/>">나의 오답노트</a>
 									</li>
 								</ul>
 
@@ -76,6 +76,7 @@
 								<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
 								<input	type='hidden' name='amount'	value='<c:out value="${pageMaker.cri.amount}"/>' />
 								 <div class="input-group-append">
+								 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
                                 <button class='btn btn-default'>Search</button>
                             </div>
 								</div>
@@ -147,7 +148,7 @@
 					value='<c:out value="${ pageMaker.cri.type }"/>'> <input
 					type='hidden' name='keyword'
 					value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-
+ <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 
 			</form>
 

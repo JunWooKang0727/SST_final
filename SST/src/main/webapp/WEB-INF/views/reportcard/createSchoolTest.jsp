@@ -48,6 +48,7 @@
 								<div class="card-body">
 									<form action="/reportcard/schooltest/create" method="post"
 										class="centerform">
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 										<input type="hidden" name="rc_num" value="${rc_num}">
 										학년: <input type="number" name="st_year" placeholder="학년을 입력해주세요." class="form-control"  min="1" max="10" required><br> 
 										학기: <input type="number" name="st_semester" placeholder="학기를 입력해주세요." class="form-control"   min="1" max="10" required><br> 

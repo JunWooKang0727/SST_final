@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,7 @@
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">오답노트 입력</h1>
+						<h1 class="h3 mb-0 text-gray-800">오답노트 수정</h1>
 					</div>
 					<!-- Content Row -->
 					<div class="row">
@@ -42,12 +43,14 @@
 
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 입력하기</h5>
+									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 수정하기</h5>
 								</div>
 								<div class="card-body">
 									<form action="/wanote/update" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy">
+										 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+										
+										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>">
 										<input type="hidden" name="w_num" value="${wanote.w_num}">
 										제목: <input type="text" name="w_title" value="${wanote.w_title}" class="form-control" required><br>
 										문제:
@@ -69,7 +72,7 @@
 										<button type="button" class="btn btn-info d-inline" id="add-tag">추가</button><br>
 										<div class="tag-list">
 										<c:forEach items="${wanote.taglist}" var="tag">
-								<a><c:out value="${tag.tg_name}" /></a>
+								<a class="del-tag"><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
 										</div>
 										
@@ -77,7 +80,7 @@
 										<div class="float-right">
 
 										 <button type="button" class="btn btn-info" id="submit-btn">수정</button>
-										  <button type="button" class="btn btn-danger" id="submit-btn">삭제</button>
+										  <button type="button" class="btn btn-danger" id="delete-btn">삭제</button>
 										
 										</div>
                                    
@@ -148,7 +151,11 @@
 					$('#tag-name').val('');
 				}
 			})
-			
+		$('#delete-btn').click(
+				function() {
+					$('form').attr("action", "/wanote/delete").submit();
+					
+				});	
 
 		
 		$(document).on("click", ".del-tag", function(e) {
@@ -172,9 +179,6 @@
 
 								var jobj = $(obj);
 
-								console.dir(jobj);
-								console.log("-------------------------");
-								console.log(jobj.data("filename"));
 
 								str += "<input type='hidden' name='attachList["
 										+ i + "].fileName' value='"
@@ -190,8 +194,6 @@
 										+ jobj.data("type") + "'>";
 
 							});
-
-					console.log(str);
 
 					$('form').append(html).append(str).submit();
 				})
@@ -222,18 +224,13 @@ $(document).ready(function() {
     var w_num = '<c:out value="${wanote.w_num}"/>';
     
     $.getJSON("/wanote/getAttachList", {w_num: w_num}, function(arr){
-    
-      console.log(arr);
-      
       var str = "";
-
 
       $(arr).each(function(i, attach){
           
           //image type
           if(attach.fileType){
             var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName);
-            console.log("dkdkdkdkdkd"+fileCallPath);
             str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
             str +=" data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
             str += "<span> "+ attach.fileName+"</span>";
@@ -304,7 +301,6 @@ $(document).ready(function() {
       formData,type: 'POST',
       dataType:'json',
         success: function(result){
-          console.log(result); 
 		  showUploadResult(result); //업로드 결과 처리 함수 
 
       }

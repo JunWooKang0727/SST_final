@@ -43,8 +43,9 @@ public class WANoteController {
 	@Transactional
 	@PostMapping("/create")
 	public String create(WANoteVO vo, RedirectAttributes rttr) {
+		vo.setW_question(vo.getW_question().replace("\r\n","<br>"));
+		vo.setW_answer(vo.getW_answer().replace("\r\n","<br>"));
 		String w_num = service.createWANote(vo);
-
 		if (vo.getAttachList() != null) {
 			vo.getAttachList().forEach(file -> {
 				file.setW_num(w_num);
@@ -71,12 +72,15 @@ public class WANoteController {
 		}
 
 		rttr.addFlashAttribute("result", "success");
-		return "redirect:/wanote/list?m_id=" + vo.getM_id();
+		return "redirect:/wanote/mylist?m_id=" + vo.getM_id();
 	}
 	
 	@Transactional
 	@PostMapping("/update")
 	public String update(WANoteVO vo, RedirectAttributes rttr) {
+		vo.setW_question(vo.getW_question().replace("\r\n","<br>"));
+		vo.setW_answer(vo.getW_answer().replace("\r\n","<br>"));
+		
 		String w_num = vo.getW_num();
 		service.deleteAllWaTag(w_num);
 		attachService.deleteAll(w_num);
@@ -108,6 +112,16 @@ public class WANoteController {
 
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/wanote/read?w_num=" + vo.getW_num();
+	}
+	
+	@Transactional
+	@PostMapping("/delete")
+	public String delete(@RequestParam("w_num") String w_num,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+		service.deleteAllWaTag(w_num);
+		attachService.deleteAll(w_num);
+		service.deleteWANote(w_num);
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/wanote/mylist"+ cri.getListLink2();
 	}
 
 	@GetMapping("/mylist")
@@ -148,11 +162,18 @@ public class WANoteController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 
-	@GetMapping({ "/read", "/update" })
+	@GetMapping("/read")
 	public void get(@RequestParam("w_num") String w_num, @ModelAttribute("cri") Criteria cri, Model model) {
-
-		log.info("/get or modify");
+		WANoteVO vo = service.readWANote(w_num);
 		model.addAttribute("wanote", service.readWANote(w_num));
+	}
+	
+	@GetMapping("/update" )
+	public void update(@RequestParam("w_num") String w_num, @ModelAttribute("cri") Criteria cri, Model model) {
+		WANoteVO vo = service.readWANote(w_num);
+		vo.setW_question(vo.getW_question().replace("<br>","\r\n"));
+		vo.setW_answer(vo.getW_answer().replace("<br>","\r\n"));
+		model.addAttribute("wanote", vo);
 	}
 
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

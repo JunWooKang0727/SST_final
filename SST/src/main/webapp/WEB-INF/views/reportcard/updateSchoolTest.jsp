@@ -46,6 +46,7 @@
 								<div class="card-body">
 									<form action="/reportcard/schooltest/update" method="post"
 										class="centerform">
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 										<input type="hidden" name="rc_num" value="${st.rc_num}">
 										<input type="hidden" name="st_num" value="${st.st_num}">
 										학년: <input type="number" name="st_year" value="${st.st_year}" class="form-control"  min="1" max="10" required><br> 
@@ -100,6 +101,7 @@
 				</div>
 				<form action="/reportcard/schoolscore/create" method="post">
 				<div class="modal-body">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 						<input type="hidden" name="st_num" value="${st.st_num}">
 						과목 : <input type="text" name="ss_name" placeholder="과목명 입력해주세요." class="form-control" required><br> 
 						점수 : <input type="number" name="ss_score" placeholder="점수를 입력해주세요." 

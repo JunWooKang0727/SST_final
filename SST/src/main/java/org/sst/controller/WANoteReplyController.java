@@ -31,13 +31,13 @@ public class WANoteReplyController {
 	@GetMapping(value = "/pages/{w_num}/{page}", produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("w_num") String w_num) {
 		Criteria cri = new Criteria(page, 10);
-		log.info("111111111111111111"+service.listWANoteReply(cri, w_num));
 		ReplyPageDTO dto = new ReplyPageDTO(service.countWANoteReply(w_num), service.listWANoteReply(cri, w_num));
 		return new ResponseEntity<ReplyPageDTO>(dto, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/create", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> create(@RequestBody WANoteReplyVO vo) {
+//		vo.setWr_contents(vo.getWr_contents().replace("\r\n","<br>"));
 		return service.createWANoteReply(vo) ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

@@ -18,7 +18,7 @@
   height: 450px;
 }
 #chartdiv2 {
-  width: 100%;
+	width: 100%;
   height: 450px;
 }
 </style>
@@ -169,7 +169,7 @@
 														value='<c:out value="${ pageMaker.cri.type }"/>'>
 													<input type='hidden' name='keyword'
 														value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-
+								<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 
 												</form>
 
@@ -217,7 +217,7 @@
 					<div class="col-lg-6">
 						<div class="card shadow  mb-4">
 							<div class="card-header py-3">
-								<h5 class="m-0 font-weight-bold">자주 틀리는 키워드 TOP9</h5>
+								<h5 class="m-0 font-weight-bold">자주 틀리는 키워드 TOP6</h5>
 							</div>
 							<div class="card-body"><div id="chartdiv"></div></div>
 						</div>

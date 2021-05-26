@@ -38,6 +38,7 @@
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">성적 관리</h1>
+						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 						<input type="hidden" id="rc-num" value="${rc_num}">
 					</div>
 					<!-- Content Row -->

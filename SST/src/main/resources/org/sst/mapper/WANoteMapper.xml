@@ -135,7 +135,8 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 	
 	
 	<select id="listAllTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
-	select * from tag where tg_name LIKE  '%'||#{keyword}||'%'
+	select tag.tg_num,tg_name,count(*) as count from tag,watag  where tg_name LIKE  '%'||#{keyword}||'%' 
+	and watag.tg_num=tag.tg_num group by tag.tg_num,tg_name
 	</select>
 	<select id="readTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
 	select * from tag where tg_name =#{tg_name}
@@ -161,7 +162,7 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 		 <![CDATA[   
 		select * from (select tg_name,count(*) as count from tag,watag,wanote
 		where tag.tg_num=watag.tg_num and wanote.w_num = watag.w_num and m_id=#{m_id}
-		group by tg_name order by count(*) desc) where rownum<10
+		group by tg_name order by count(*) desc) where rownum<7
 				]]>
 	</select>
 

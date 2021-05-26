@@ -45,7 +45,8 @@
 								</div>
 								<div class="card-body">
 									<form action="/reportcard/update" method="post" class="centerform">
-										
+									<input type="hidden" name="m_id" value="${reportcard.m_id}">
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 										타이틀: <input type="text" name="rc_title" placeholder="입력해주세요." class="form-control" 
 											value="${reportcard.rc_title}" required><br> 
 											성적 유형: ${reportcard.rc_type} / ${reportcard.rc_subtype}

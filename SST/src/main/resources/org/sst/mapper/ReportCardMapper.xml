@@ -22,6 +22,9 @@
 		delete from
 		reportcard where rc_num=#{rc_num}
 	</delete>
+	<update id="updateReportCard" >
+	 update  reportcard set rc_title=#{rc_title} where rc_num=#{rc_num}
+	</update>
 
 
 	<resultMap type="org.sst.domain.SchoolTestVO" id="schooltestMap">

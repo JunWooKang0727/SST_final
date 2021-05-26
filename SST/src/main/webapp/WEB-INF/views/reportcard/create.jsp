@@ -46,7 +46,8 @@
 								<div class="card-body">
 									<form action="/reportcard/create" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy">
+										 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>">
 										타이틀: <input type="text" name="rc_title" placeholder="입력해주세요." class="form-control" required><br> 
 											성적 유형: 
 											<select class="form-control " name="rc_type" id="rc_type" required>
