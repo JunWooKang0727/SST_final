@@ -5,3 +5,26 @@
 .text-color-sst{
 	color:#007965;
 }
+
+.downArea{
+	width: 1000px;
+	height: 200px;
+	border: 1px solid black;
+	margin-top: 20px;
+}
+
+
+.fileItem{
+	
+	display: inline-block;
+	width: 120px;
+	height: 80px;
+	border: 1px solid black;
+	margin-right: 20px;
+}
+
+.pdficon{
+	width: 100px;
+	height: 60px;
+	
+}

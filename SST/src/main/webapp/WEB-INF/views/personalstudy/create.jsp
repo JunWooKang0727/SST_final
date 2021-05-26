@@ -30,6 +30,7 @@
 
 <!-- Custom styles for this template-->
 <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="../../../resources/css/personalstudy.css" rel="stylesheet">
 <style>
 #startbtn, #stopbtn, .studydone {
 	margin-top: 10px;
@@ -138,7 +139,10 @@
 						
 						<div class="col">
 							
-							<form method="post" action="/personalcrawlmake/create">
+							<form id="createForm" method="post" action="/personalcrawlmake/create">
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"
+/>
+							
 							<div class = "inputPath">
 							<label>경로 : <input type="text" name = "Path"></label>
 							<div class = "inputPath">
@@ -209,13 +213,20 @@
 							</div>
 							<br>
 								<div>
+								<div class="createBtn btn btn-secondary">야얄야얆ㅁㅈㄷㄹ</div>
 								<input type="submit" value="문제만들기"> 
 								<input type="reset" value="설정초기화">
 								</div>
 							</form>
 						</div>
 					</div>
-
+					
+					<div class="row">
+						<div class="downArea">
+							
+						</div>
+					
+					</div>
 					<!-- /.container-fluid -->
 
 				</div>
@@ -325,6 +336,47 @@
 		function addZero(num) {
 			return (num < 10 ? '0' + num : '' + num)
 		}
+		
+		$(function(){
+			
+			$('.createBtn').click(function(){
+				
+				var fdata = $('#createForm').serialize();
+				
+				$.ajax({
+					url:'/personalcrawlmake/create',
+					type:'GET',
+					data : fdata,
+					dataType:'json',
+					success : function(data){
+						$('.downArea').empty();
+						var str="";
+						
+						$(data).each(function(i, obj) {
+							
+							str += '<div class="fileItem">'
+								
+							+ '<img class="pdficon" src="../../../resources/img/pdf.png">'
+							+ '<a class="downlink" href="/personalcrawlmake/download?fileName='+ obj +'">'
+							+ obj + '</a>'
+							+ '</div>';
+							$('.downArea').append(str);
+							str='';
+						});
+						
+						$('#createForm')[0].reset();
+					}
+					
+					
+					
+				});
+				
+				
+			});
+			
+			
+			
+		});
 	</script>
 </body>
 </html>

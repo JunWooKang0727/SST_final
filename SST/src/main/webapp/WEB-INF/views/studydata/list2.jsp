@@ -66,11 +66,11 @@
 
 						<div class="modal">
 							<div class="modal_content" title="클릭하면 창이 닫힙니다.">새 폴더 만들기</div>
-							<form class="dirNameForm" action="/studydata/create"
-								method="POST">
+							<!-- <form class="dirNameForm" action="/studydata/create"
+								method="POST"> -->
 								<input type="text" name="dirName">
 
-							</form>
+							<!-- </form> -->
 							<div class="btnArea">
 								<a href="" class="create">만들기</a><a href="" class="cancel">취소</a>
 							</div>
@@ -134,6 +134,8 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 	<script type="text/javascript">
+	
+		
 		$(function() {
 
 			showUploadedFile();
@@ -156,8 +158,8 @@
 				var csrfHeaderName = "${_csrf.headerName}";
 				var csrfTokenValue = "${_csrf.token}";
 				
-				console.log("1"+csrfHeaderName);
-				console.log("2토큰"+csrfTokenValue);
+				console.log("헤더이름 : "+csrfHeaderName);
+				console.log("토큰 : "+csrfTokenValue);
 				
 				var targetFile = $(this).data("file");
 				//var type = $(this).data("type");
@@ -172,8 +174,6 @@
 					url : '/studydata/deleteFile',
 					beforeSend:function(xhr){
 						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-						console.log("1"+csrfHeaderName);
-						console.log("2토큰"+csrfTokenValue);
 					},
 					data : {
 						fileCallPath : targetFile,
@@ -183,10 +183,11 @@
 						uploadPath : fpath,
 						g_num : g_num
 					},
-					//dataType : 'text',
+					dataType : 'text',
 					type : 'POST',
-					success : function() {
-						//alert(result);
+					success : function(result) {
+						console.log("삭제완료");
+						alert(result);
 						showUploadedFile();
 					},
 					error:function(xhr,status,error){
@@ -230,15 +231,18 @@
 			console.log(files);
 
 			var formData = new FormData();
-			var csrfHeaderName = "${_csrf.headerName} ";
-			var csrfTokenValue = "${_csrf.token}";
+			
 			for (var i = 0; i < files.length; i++) {
 				formData.append("uploadFile", files[i]);
 			}
 			formData.append("g_num", $("input[name=g_num]").val());
 			formData.append("curPath", $("input[name=curPath]").val());
-			formData.append("${_csrf.parameterName}","${_csrf.token}");
-
+		//	formData.append("${_csrf.parameterName}","${_csrf.token}");
+			var csrfHeaderName = "${_csrf.headerName}";
+			var csrfTokenValue = "${_csrf.token}";
+			console.log("${_csrf.parameterName}");
+			console.log("${_csrf.token}");
+			
 			if (confirm("파일을 등록할까요")) {
 				$.ajax({
 					url : '/studydata/uploadAjax',
@@ -248,14 +252,14 @@
 					
 					data : formData,
 					type : 'POST',
-/* 					beforeSend:function(xhr){
+ 					beforeSend:function(xhr){
 						
 						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-					}, */
+					}, 
 					//dataType:'json',
 					success : function() {
 						alert("Uploaded");
-						console.log("ehla");
+						console.log("업로드 완료");
 						showUploadedFile();
 					},
 					error:function(xhr,status,error){
@@ -338,8 +342,7 @@
 
 		//새폴더 모달창 관련
 		$(function() {
-			var csrfHeaderName = "${_csrf.headerName} ";
-			var csrfTokenValue = "${_csrf.token}";
+			
 			
 			$(".createDirBtn").click(
 					function() {
@@ -356,58 +359,64 @@
 								+ "px");
 						div.fadeIn();
 					});
-			$(".modal_content").click(function() {
-				$(".modal").fadeOut();
-			});
-
+			
+			$(".modal_content").click(
+				function(){
+					$('.modal').fadeOut();
+				}		
+			)
 			$(".create").click(function(e) {
 				e.preventDefault();
+				e.stopPropagation();
 
 				$(".modal").fadeOut();
-
+				/* var csrfHeaderName = "${_csrf.headerName} ";
+				var csrfTokenValue = "${_csrf.token}"; */
+				var csrfHeaderName = "${_csrf.headerName}";
+				var csrfTokenValue = "${_csrf.token}";
 				if ($("input[name=dirName]").val().trim() == "") {
 					alert("폴더명을 입력하세요");
 					$("input[name=dirName]").val('');
 					return;
 				}
-				$(".dirNameForm").append("<div class='gdd'></div>");
-
+				
+				
 				$.ajax({
 					url : "/studydata/create",
-/* 					beforeSend:function(xhr){
-						
+					beforeSend:function(xhr){
+						console.log('dfafsf');
 						xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
-					} */
+					},
 					data : {
 						"dirName" : $("input[name=dirName]").val(),
 						"curPath" : $("input[name=curPath]").val(),
 						"g_num" : $("input[name=g_num]").val(),
-						"'${_csrf.parameterName}'":"${_csrf.token}"
+						
 					},
 					type : 'POST',
-					//dataType:'json',
 					success : function() {
 						$("input[name=dirName]").val('');
-
+						console.log('성공');
 						showUploadedFile();
-						//$('.filebox').append(str);if문 안에서 대체
 					},
 					error:function(xhr,status,error){
-						console.log("1"+csrfHeaderName);
-						console.log("2토큰"+csrfTokenValue);
 						console.log('error:'+error);
 						console.log('status:'+status);
+						console.log("헤더이름 : "+csrfHeaderName);
+						console.log("토큰 : "+csrfTokenValue);
+						
 					}
 
-				});
+				});//end of ajax
 
-			});
+			});//end of create click event
 
 			$(".cancel").click(function(e) {
 				e.preventDefault();
 				$(".modal").fadeOut();
 			});
-		}); // end of $(function()
+			
+		}); // end of $(function())
 
 		//디렉토리 이동 관련
 		$(function() {
