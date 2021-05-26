@@ -45,6 +45,14 @@
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">노트 목록</h1>
+						<br>
+							<!-- 화상 스터디 접속 -->
+								<a id='abc'
+									class="btn btn-secondary btn-icon-split leftBtn"
+									href="https://kangtaeksu.github.io/StudyVideo/examples/full/conferenceList.html"> 
+									<span class="icon text-white-50"> <i class="fas fa-pen"></i></span> 
+								<span class="text">화상 스터디 접속</span>
+								</a>
 					</div>
 
 					<!-- Content Row -->
@@ -151,12 +159,18 @@
 								value='<c:out value="${pageMaker.cri.amount}"/>' />
 							<button class='btn btn-default'>Search</button>
 							
-							<a id='regBtn'
+								<a id='regBtn'
 									class="btn btn-secondary btn-icon-split rightBtn"
-									href=""> <span
-									class="icon text-white-50"> <i class="fas fa-pen"></i>
-								</span> <span class="text">글쓰기</span>
+									href=""> 
+									<span class="icon text-white-50"> <i class="fas fa-pen"></i></span> 
+								<span class="text">글쓰기</span>
 								</a>
+								
+								
+							
+								
+								
+								
 						</form>
 
 						</div>

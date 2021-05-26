@@ -1,3 +1,4 @@
+<%@page isELIgnored="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -310,7 +311,7 @@
 									    
 									 
 									    if(!alreadyLikeClick){
-									        lcnt = parseInt(lcnt)+1;
+									        lcnt = lcnt+1;
 									        alreadyLikeClick = true;
 									        alreadyHateClick = true;
 									    }
@@ -347,7 +348,7 @@
 									    var idx = $("button.hateBtn").index(ths); 
 									    faqrp_idx = $("input[name='faqrp_idx']").eq(idx).val();
 									    if(!alreadyHateClick){
-									        hcnt = parseInt(hcnt)+1;
+									        hcnt = hcnt+1;
 									        alreadyLikeClick = true;
 									        alreadyHateClick = true;
 									    }
@@ -523,9 +524,9 @@
 																		});
 
 													});
-
+								});
 									//댓글 조회 클릭 이벤트 처리  댓글 수정및 삭제 처리  
-									/*
+									
 									$(".chat")
 											.on(
 													"click",
@@ -607,8 +608,9 @@
 
 									});
 									
-									*/
-								});
+									
+							
+				
 			</script>
 
 
