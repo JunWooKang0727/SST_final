@@ -18,7 +18,7 @@
   height: 450px;
 }
 #chartdiv2 {
-  width: 100%;
+	width: 100%;
   height: 450px;
 }
 </style>
@@ -54,9 +54,9 @@
 
 								<ul class="nav nav-tabs">
 									<li class="nav-item"><a class="nav-link"
-										href="/sst/wanote/list" id='allWanote'>전체 오답노트</a></li>
+										href="/wanote/list" id='allWanote'>전체 오답노트</a></li>
 									<li class="nav-item"><a class="nav-link active"
-										href="/sst/wanote/mylist?m_id=ggy">나의 오답노트</a></li>
+										href="/wanote/mylist?m_id=ggy">나의 오답노트</a></li>
 								</ul>
 
 								<div class="card-body">
@@ -65,7 +65,7 @@
 										<div class="col-lg-12">
 											<div class="panel panel-default">
 												<div class="panel-heading">
-													<form id='searchForm' action="/sst/wanote/mylist"
+													<form id='searchForm' action="/wanote/mylist"
 														method='get' class="float-right">
 														<div class="input-group">
 															<input type='hidden' name='m_id'
@@ -151,13 +151,13 @@
 													</div>
 													<!--  end Pagination -->
 													<div class="raw">
-														<a href="/sst/wanote/create"
+														<a href="/wanote/create"
 															class="btn btn-info float-right">작성하기</a>
 													</div>
 
 												</div>
 
-												<form id='actionForm' action="/sst/wanote/mylist"
+												<form id='actionForm' action="/wanote/mylist"
 													method='get'>
 													<input type='hidden' name='m_id' id='m_id'
 														value='${pageMaker.cri.m_id}'> <input
@@ -169,7 +169,7 @@
 														value='<c:out value="${ pageMaker.cri.type }"/>'>
 													<input type='hidden' name='keyword'
 														value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-
+								<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 
 												</form>
 
@@ -217,7 +217,7 @@
 					<div class="col-lg-6">
 						<div class="card shadow  mb-4">
 							<div class="card-header py-3">
-								<h5 class="m-0 font-weight-bold">자주 틀리는 키워드 TOP9</h5>
+								<h5 class="m-0 font-weight-bold">자주 틀리는 키워드 TOP6</h5>
 							</div>
 							<div class="card-body"><div id="chartdiv"></div></div>
 						</div>
@@ -266,7 +266,7 @@
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 	<!-- Custom scripts for all pages-->
-<script src="/sst/resources/js/wanote_chart.js"></script>
+<script src="/resources/js/wanote_chart.js"></script>
 <script type="text/javascript">
 	$(document)
 			.ready(
@@ -322,7 +322,7 @@
 																	"href")
 															+ "'>");
 											actionForm.attr("action",
-													"/sst/wanote/read");
+													"/wanote/read");
 											actionForm.submit();
 
 										});

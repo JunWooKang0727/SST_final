@@ -52,7 +52,7 @@ am4core.ready(function() {
 	var m_id=$('#m_id').val();
 	var result="";
 	$.ajax({
-		url : '/sst/wanote/countTagChart/' + m_id,
+		url : '/wanote/countTagChart/' + m_id,
 		type : 'GET',
 		dataType : 'json',
 		async:false,
@@ -80,7 +80,7 @@ am4core.ready(function() {
 	var m_id=$('#m_id').val();
 	var result2="";
 	$.ajax({
-		url : '/sst/wanote/countReasonChart/' + m_id,
+		url : '/wanote/countReasonChart/' + m_id,
 		type : 'GET',
 		dataType : 'json',
 		async:false,

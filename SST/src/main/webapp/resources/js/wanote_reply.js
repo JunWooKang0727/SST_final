@@ -1,12 +1,15 @@
 console.log("Reply Module........");
 
 var replyService = (function() {
-	function add(reply, callback, error) {
-		console.log("add reply...............");
+	
 
+	function add(reply,csrfHeaderName, csrfTokenValue,callback, error) {
 		$.ajax({
 			type : 'post',
-			url : '/sst/wanotereply/create',
+			url : '/wanotereply/create',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -27,7 +30,7 @@ var replyService = (function() {
 		var w_num = param.w_num;
 		var page = param.page || 1;
 
-		$.getJSON("/sst/wanotereply/pages/" + w_num + "/" + page +".json",
+		$.getJSON("/wanotereply/pages/" + w_num + "/" + page +".json",
 				function(data) {
 
 					if (callback) {
@@ -67,10 +70,13 @@ var replyService = (function() {
 					(dd > 9 ? '' : '0') + dd ].join('');
 		}
 	};
-	function remove(wr_num, callback, error) {
+	function remove(wr_num,csrfHeaderName, csrfTokenValue, callback, error) {
 		$.ajax({
 			type : 'delete',
-			url : '/sst/wanotereply/' + wr_num,
+			url : '/wanotereply/' + wr_num,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
 					callback(deleteResult);
@@ -84,12 +90,15 @@ var replyService = (function() {
 		});
 	}
 
-	function update(reply, callback, error) {
+	function update(reply,csrfHeaderName, csrfTokenValue, callback, error) {
 
 
 		$.ajax({
 			type : 'put',
-			url : '/sst/wanotereply/' + reply.wr_num,
+			url : '/wanotereply/' + reply.wr_num,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
@@ -105,10 +114,6 @@ var replyService = (function() {
 		});
 	}
 
-	
-	
-	
-	
 	return {
 		add : add,
 		getList : getList,

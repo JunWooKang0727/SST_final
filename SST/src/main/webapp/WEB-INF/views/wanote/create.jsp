@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
 <meta name="author" content="">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
-<link href="/sst/resources/css/wanote.css" rel="stylesheet">
+<link href="/resources/css/wanote.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -45,9 +46,9 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">오답노트 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/sst/wanote/create" method="post"
+									<form action="/wanote/create" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy">
+										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>">
 										제목: <input type="text" name="w_title" placeholder="노트제목 입력해주세요." class="form-control" required><br>
 										문제:
 										<textarea class="form-control" rows="3" name="w_question" placeholder="문제를 입력해주세요." required></textarea>  
@@ -69,6 +70,7 @@
 										<div class="tag-list"></div>
 										
 										<hr>
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
                                     <button type="button" class="btn btn-info float-right" id="submit-btn">등록</button><br>
 										
 									</form>
@@ -126,6 +128,8 @@
 	<!-- Custom scripts for all pages-->
 	<script type="text/javascript">
 			var tagList = {};
+			var csrfHeaderName = "${_csrf.headerName}";
+			var csrfTokenValue = "${_csrf.token}";
 
 			$('#add-tag').click(function() {
 				if($('#tag-name').val()==''){
@@ -188,13 +192,13 @@
 		$('#tag-name').autocomplete({
 			source : function(request, response) {
 				$.ajax({
-					url : '/sst/watag/listAllTag/' + request.term,
+					url : '/watag/listAllTag/' + request.term,
 					dataType : "json",
 					type : 'GET',
 					success : function(data) {
 						response($.map(data, function(item) {
 							return {
-								label : item.tg_name,
+								label : item.tg_name+"("+item.count+"개)",
 								value : item.tg_name
 							}
 						})) //end response 
@@ -207,6 +211,7 @@
 
 		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 		var maxSize = 5242880; //5MB
+		
 
 		function checkExtension(fileName, fileSize) {
 
@@ -237,11 +242,14 @@
 				}
 				formData.append("uploadFile", files[i]);
 			}
-
+			console.log("쟂재존나조아으ㅏ으ㅏ라ㅡㅇ낭나아아앙"+csrfHeaderName);
 			$.ajax({
-				url : '/sst/wanoteAttach/uploadAjaxAction',
+				url : '/wanoteAttach/uploadAjaxAction',
 				processData : false,
 				contentType : false,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+				},
 				data : formData,
 				type : 'POST',
 				dataType : 'json',
@@ -280,7 +288,7 @@ console.log(obj.image);
 									str += "<span> " + obj.fileName + "</span>";
 									str += "<button type='button' data-file=\'"+fileCallPath+"\' "
 			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-									str += "<img class='img-thumbnail' src='/sst/wanoteAttach/display?fileName="
+									str += "<img class='img-thumbnail' src='/wanoteAttach/display?fileName="
 											+ fileCallPath + "'>";
 									str += "</div>";
 									str + "</li>";
@@ -317,7 +325,10 @@ console.log(obj.image);
 			var targetLi = $(this).closest("li");
 
 			$.ajax({
-				url : '/sst/wanoteAttach/deleteFile',
+				url : '/wanoteAttach/deleteFile',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+					},
 				data : {
 					fileName : targetFile,
 				},

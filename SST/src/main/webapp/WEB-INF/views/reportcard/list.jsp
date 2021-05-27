@@ -46,9 +46,9 @@
 											</div>
 											<div class="col-auto">
 												<button type="button" class="btn btn-info"
-													onclick="location.href='/sst/reportcard/read?rc_num=${rc.rc_num}'">조회</button>
+													onclick="location.href='/reportcard/read?rc_num=${rc.rc_num}'">조회</button>
 											<button type="button" class="btn btn-danger"
-													onclick="location.href='/sst/reportcard/update?rc_num=${rc.rc_num}'">수정</button>
+													onclick="location.href='/reportcard/update?rc_num=${rc.rc_num}'">수정</button>
 											</div>
 										</div>
 										
@@ -58,7 +58,7 @@
 							</div>
 						</c:forEach>
 						<div>
-						<a class="btn btn-success btn-circle" href="/sst/reportcard/create">
+						<a class="btn btn-success btn-circle" href="/reportcard/create">
                                         <i class="fas fa-plus"></i>
                                     </a>
 						</div>

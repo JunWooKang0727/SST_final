@@ -47,7 +47,7 @@ public class WanoteUploadController {
 		log.info("uploadAjax");
 	}
 	
-	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model){
 		for(MultipartFile multipartFile: uploadFile){

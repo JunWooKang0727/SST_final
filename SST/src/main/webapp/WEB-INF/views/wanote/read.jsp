@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +15,7 @@
 <meta name="author" content="">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <title>SST</title>
-<link href="/sst/resources/css/wanote.css" rel="stylesheet">
+<link href="/resources/css/wanote.css" rel="stylesheet">
 <style type="text/css">
 .chat>ul{
 	list-style:none;
@@ -63,13 +64,11 @@
 
 									<div class="tag-list">
 								<c:forEach items="${wanote.taglist}" var="tag">
-								<a href="/sst/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
+								<a href="/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
 								</div>
-								<c:if test="${wanote.m_id eq 'ggy'}">
-									 <button type="button" class="btn btn-info float-right" data-oper="update">수정</button>
-								</c:if>
-								
+								<div id='update-btn-area'>
+								</div>
 								</div>
 							</div>
 						</div>
@@ -114,9 +113,9 @@
 
 									</ul>
 
-									<form action="/sst/wanotereply/create" method="post"
+									<form action="/wanotereply/create" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy" id="m_idValue">
+										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>" id="m_idValue">
 										<textarea class="form-control" rows="3" name="wr_contents" placeholder="댓글을 입력해주세요."
 										 id="wr_contentsValue"
 										 required></textarea>  
@@ -135,7 +134,9 @@
 					</div>
 				</div>
 				
-				<form id='operForm' action="/sst/wanote/update" method="get">
+				<form id='operForm' action="/wanote/update" method="get">
+				 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+				
   <input type='hidden' id='w_num' name='w_num' value='<c:out value="${wanote.w_num}"/>'>
   <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
   <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -164,9 +165,17 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<!-- Custom scripts for all pages-->
-<script type="text/javascript" src="/sst/resources/js/wanote_reply.js"></script>
+<script type="text/javascript" src="/resources/js/wanote_reply.js"></script>
 	<script type="text/javascript">
+	var csrfHeaderName = "${_csrf.headerName}";
+	var csrfTokenValue = "${_csrf.token}";
 	
+	var id = '<security:authentication property="principal.username"/>';
+	var m_id="${wanote.m_id}";
+
+	if(id==m_id){
+		$("#update-btn-area").append('<button type="button" class="btn btn-info float-right" data-oper="update">수정</button>');
+	}
 	//태그검색
 		$(document).on("click", ".del-tag", function (e) {
             $(this).remove();
@@ -180,7 +189,7 @@
 
 			$("button[data-oper='update']").on("click", function(e) {
 
-				operForm.attr("action", "/sst/wanote/update").submit();
+				operForm.attr("action", "/wanote/update").submit();
 
 			});
 
@@ -240,7 +249,7 @@
 												+ "</small></div>";
 										str += "<div class='contents'><p>"
 												+ list[i].wr_contents + "</p>";
-										if (list[i].m_id == 'ggy') {
+										if (list[i].m_id == id) {
 											str += "<div class='float-right updateForm'><a class='text-info' data-oper='updateReply'>수정</a> | <a class='text-danger' data-oper='deleteReply'>삭제</a></div></div>";
 										}
 
@@ -296,8 +305,6 @@
 
 				str += "</ul></div>";
 
-				console.log(str);
-
 				replyPageFooter.html(str);
 			}
 
@@ -317,11 +324,11 @@
 			$('#submit-btn').on("click", function(e) {
 
 				var reply = {
-					wr_contents : $('#wr_contentsValue').val(),
+					wr_contents : $('#wr_contentsValue').val().replace(/\n/g, '<br>'),
 					m_id : $('#m_idValue').val(),
 					w_num : w_numValue
 				};
-				replyService.add(reply, function(result) {
+				replyService.add(reply,csrfHeaderName,csrfTokenValue, function(result) {
 					alert(result);
 					$("#wr_contentsValue").val("");
 
@@ -351,16 +358,13 @@
 											.append(
 													"<div class='modifyReply'><textarea class='form-control' rows='3' name='wr_contents'" 
 			        			+" id='wr_contentsUpdate' required>"
-															+ $(this)
-																	.parents(
-																			'li')
-																	.find(
-																			'div.contents>p')
-																	.text()
+															+ $(this).parents('li').find('div.contents>p')
+																	.html()
+																	.replaceAll('<br>','\r\n')
 															+ "</textarea> "
 															+ "<div class='float-right updateReply'><a data-oper='cancel'>취소</a> | <a class='text-info' data-oper='update'>수정</a><br></div></div></div>");
 								} else {
-									replyService.remove(wr_num,
+									replyService.remove(wr_num,csrfHeaderName, csrfTokenValue, 
 											function(result) {
 												alert(result);
 												showList(pageNum);
@@ -376,12 +380,12 @@
 						var wr_num = $(this).parents('li').data("wrnum");
 						if ($(this).data('oper') == 'update') {
 							var wr_contents = $(this).parents('li').find(
-									'#wr_contentsUpdate').val();
+									'#wr_contentsUpdate').val().replace(/\n/g, '<br>');
 							var reply = {
 								wr_num : wr_num,
 								wr_contents : wr_contents
 							};
-							replyService.update(reply, function(result) {
+							replyService.update(reply,csrfHeaderName, csrfTokenValue,function(result) {
 								alert(result);
 								$(this).parents('li').find('div.contents>p')
 										.removeAttr('hidden');
@@ -404,7 +408,7 @@
 					});
 
 			//첨부파일
-			$.getJSON("/sst/wanote/getAttachList",{w_num : w_numValue},
+			$.getJSON("/wanote/getAttachList",{w_num : w_numValue},
 							function(arr) {
 								console.log(arr);
 
@@ -424,7 +428,7 @@
 																+ attach.fileName);
 
 														str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-														str += "<img height='250' src='/sst/wanoteAttach/display?fileName="
+														str += "<img height='250' src='/wanoteAttach/display?fileName="
 																+ fileCallPath
 																+ "'>";
 														str += "</div>";
@@ -435,7 +439,7 @@
 														str += "<span> "
 																+ attach.fileName
 																+ "</span><br/>";
-														str += "<img src='/sst/resources/img/attach.png'></a>";
+														str += "<img src='/resources/img/attach.png'></a>";
 														str += "</div>";
 														str + "</li><hr>";
 													}
@@ -491,7 +495,7 @@
 											"/"));
 								} else {
 									//download 
-									self.location = "/sst/wanoteAttach/download?fileName="
+									self.location = "/wanoteAttach/download?fileName="
 											+ path
 								}
 
