@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.sst.domain.StudyDataListVO;
 import org.sst.domain.StudyDataVO;
+import org.sst.service.MemberService;
 import org.sst.service.StudyDataService;
 
 import lombok.Setter;
@@ -38,6 +39,7 @@ public class StudyDataController {
 	
 	@Setter(onMethod_=@Autowired)
 	private StudyDataService service;
+	
 	
 	
 	@GetMapping("/list2")
@@ -55,9 +57,9 @@ public class StudyDataController {
 	//새 폴더 생성
 	@PostMapping("/create")
 	@ResponseBody
-	public String makeDir(StudyDataListVO listvo, String dirName){
+	public String makeDir(StudyDataListVO listvo, String dirName,Principal principal){
 		
-		String uploadFolder = "E:\\upload";
+		String uploadFolder = "D:\\upload";
 		log.info("create directory");
 //		if(dirName.equals("")){
 //			return "redirect:/studydata/list2";
@@ -79,8 +81,8 @@ public class StudyDataController {
 		vo.setFileName(dirName);
 		vo.setFileType(false);
 		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
-		vo.setUploader("solkang");
-		vo.setUploadPath(uploadFolder.replace("E:\\upload", ""));
+		vo.setUploader(principal.getName());
+		vo.setUploadPath(uploadFolder.replace("D:\\upload", ""));
 		vo.setUuid(uuid.toString());
 		//log.info(vo);
 		service.upload(vo);
@@ -96,7 +98,7 @@ public class StudyDataController {
 		
 		log.info("upate ajax post...........................");
 		
-		String uploadFolder = "E:\\upload";
+		String uploadFolder = "D:\\upload";
 		
 		String curPath = vo.getCurPath();
 		String id = principal.getName();
@@ -159,13 +161,18 @@ public class StudyDataController {
 //		if(vo.getCurPath() == null){
 //			vo.setCurPath("1");
 //		}
-		
+		log.info("==list ajax=="+vo);
 		String regPath = vo.getCurPath().replace("\\", "\\\\");
 		regPath = regPath + "$";
 		//vo.setCurPath("^1");
 		vo.setCurPath(regPath);
 		//vo2.setG_num("1");
 		//log.info("새로만든거"+vo.getCurPath());
+		List<StudyDataVO> list = service.getList(vo);
+		log.info("list : "+list);
+		for(int i=0;i<list.size();i++){
+			log.info("아이템"+list.get(i));
+		}
 		return new ResponseEntity<List<StudyDataVO>>(service.getList(vo), HttpStatus.OK);
 
 	}//end getFileList 123
@@ -175,7 +182,7 @@ public class StudyDataController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent")String userAgent,String fileName){
 		
-		Resource resource = new FileSystemResource("E:\\upload\\"+fileName);
+		Resource resource = new FileSystemResource("D:\\upload\\"+fileName);
 		
 		log.info(resource);
 		
@@ -224,7 +231,7 @@ public class StudyDataController {
 		if(vo.isFileType()){
 			try {
 				log.info("파일 타입 : ");
-				file = new File("E:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
+				file = new File("D:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
 				if(file.isDirectory()){
 					log.info("================ 디렉토리 입니다 =================");
 				}else{
@@ -239,7 +246,7 @@ public class StudyDataController {
 		}else if(!vo.isFileType()){
 			try {
 				log.info("디렉토리 타입 : ");
-				file = new File("E:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
+				file = new File("D:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
 				if(file.isDirectory()){
 					
 					StudyDataListVO listvo = new StudyDataListVO();
