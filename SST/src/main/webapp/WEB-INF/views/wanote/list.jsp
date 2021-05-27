@@ -41,18 +41,60 @@
 						<div class="col-lg-12">
 
 							<div class="card shadow mb-4">
+<<<<<<< HEAD
 								<div class="card-header py-3">
 									<h5 class="m-0 font-weight-bold text-color-sst">나의 오답노트</h5>
 								</div>
 								<div class="card-body">
 									
+=======
+
+								<ul class="nav nav-tabs">
+									<li class="nav-item"><a class="nav-link active" href="/wanote/list" id='allWanote'>전체 오답노트</a>
+									</li>
+									<li class="nav-item"><a class="nav-link" href="/wanote/mylist?m_id=<security:authentication property="principal.username"/>">나의 오답노트</a>
+									</li>
+								</ul>
+
+							<div class="card-body">
+
+>>>>>>> refs/remotes/origin/main
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
+<<<<<<< HEAD
 				Board List Page
 				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
 					New Board</button>
+=======
+				<form id='searchForm' action="/wanote/list" method='get'
+						class="float-right">
+						 <div class="input-group">
+							<select name='type' class="form-control">
+								<option value=""
+									<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+								<option value="T"
+									<c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+								<option value="C"
+									<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+								<option value="TC"
+									<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>제목
+									or 내용</option>
+								<option value="Tag"
+									<c:out value="${pageMaker.cri.type eq 'Tag'?'selected':''}"/>>태그</option>
+							</select> 
+							<input type='text' name='keyword' class="form-control" placeholder="검색어 입력"
+								value='<c:out value="${pageMaker.cri.keyword}"/>' /> 
+								<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' /> 
+								<input	type='hidden' name='amount'	value='<c:out value="${pageMaker.cri.amount}"/>' />
+								 <div class="input-group-append">
+								 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+                                <button class='btn btn-default'>Search</button>
+                            </div>
+								</div>
+						</form>
+>>>>>>> refs/remotes/origin/main
 			</div>
 
 			<!-- /.panel-heading -->
@@ -135,10 +177,21 @@
 					</ul>
 				</div>
 				<!--  end Pagination -->
+<<<<<<< HEAD
+=======
+				<div class="raw">
+				<a href="/wanote/create" class="btn btn-info float-right">작성하기</a>
+				</div>
+				
+>>>>>>> refs/remotes/origin/main
 			</div>
 
+<<<<<<< HEAD
 			<form id='actionForm' action="/sst/wanote/list" method='get'>
 			<input type='hidden' name='m_id' value='ggy' /> 
+=======
+			<form id='actionForm' action="/wanote/list" method='get'>
+>>>>>>> refs/remotes/origin/main
 				<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 				<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 
@@ -146,7 +199,7 @@
 					value='<c:out value="${ pageMaker.cri.type }"/>'> <input
 					type='hidden' name='keyword'
 					value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-
+ <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 
 			</form>
 
@@ -202,7 +255,7 @@
 		class="fas fa-angle-up"></i>
 	</a>
 	<!-- Custom scripts for all pages-->
-	<script src="/sst/resources/js/personalstudy.js"></script>
+	<script src="/resources/js/personalstudy.js"></script>
 <script type="text/javascript">
 	$(document)
 			.ready(
@@ -262,7 +315,11 @@
 																	"href")
 															+ "'>");
 											actionForm.attr("action",
+<<<<<<< HEAD
 													"/sst/wanote/get");
+=======
+													"/wanote/read");
+>>>>>>> refs/remotes/origin/main
 											actionForm.submit();
 
 										});

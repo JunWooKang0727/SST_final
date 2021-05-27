@@ -2,6 +2,7 @@ package org.sst.controller;
 
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,10 +39,48 @@ public class StudyDataController {
 	public void goList(){
 		log.info("r");
 	}
+
+	//새 폴더 생성
+	@PostMapping("/create")
+	@ResponseBody
+	public String makeDir(StudyDataListVO listvo, String dirName){
+		
+		String uploadFolder = "E:\\upload";
+		log.info("create directory");
+//		if(dirName.equals("")){
+//			return "redirect:/studydata/list2";
+//		}
+
+		if(listvo.getCurPath() == null){
+			listvo.setCurPath("\\"+listvo.getG_num());
+		}
+		
+		String curPath = listvo.getCurPath();
+		uploadFolder = uploadFolder + curPath;
+		UUID uuid = UUID.randomUUID();
+		String uuidFile =uuid.toString()+"_"+dirName;
+		File dir = new File(uploadFolder, dirName);
+		dir.mkdir();
+		
+		StudyDataVO vo = new StudyDataVO();
+		log.info("create folder "+dirName);
+		vo.setFileName(dirName);
+		vo.setFileType(false);
+		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
+		vo.setUploader("solkang");
+		vo.setUploadPath(uploadFolder.replace("E:\\upload", ""));
+		vo.setUuid(uuid.toString());
+		//log.info(vo);
+		service.upload(vo);
+		
+		return "redirect:/studydata/list2";
+	};
 	
+
 	
-	@PostMapping("/uploadAjax")
-	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile){
+	@ResponseBody
+	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile,StudyDataListVO vo){
+
 		
 		log.info("upate ajax post...........................");
 		
@@ -89,7 +128,20 @@ public class StudyDataController {
 	@ResponseBody
 	public ResponseEntity<List<StudyDataVO>> getFileList(String g_num){
 
+
 		return new ResponseEntity<List<StudyDataVO>>(service.getList(g_num, ""), HttpStatus.OK);
+
+//		if(vo.getCurPath() == null){
+//			vo.setCurPath("1");
+//		}
+		
+		String regPath = vo.getCurPath().replace("\\", "\\\\");
+		regPath = regPath + "$";
+		//vo.setCurPath("^1");
+		vo.setCurPath(regPath);
+		//vo2.setG_num("1");
+		//log.info("새로만든거"+vo.getCurPath());
+		return new ResponseEntity<List<StudyDataVO>>(service.getList(vo), HttpStatus.OK);
 
 	}//end getFileList
 	
@@ -115,5 +167,78 @@ public class StudyDataController {
 		return new ResponseEntity<Resource>(resource, headers,HttpStatus.OK);
 	}
 
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileCallPath, StudyDataVO vo){
+		
+		log.info("deleteFile: "+vo);
+		File file;
+		
+		if(vo.isFileType()){
+			try {
+				log.info("파일 타입 : ");
+				file = new File("E:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
+				if(file.isDirectory()){
+					log.info("================ 디렉토리 입니다 =================");
+				}else{
+					
+				}
+				file.delete();
+				service.delete(vo.getUuid());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}else if(!vo.isFileType()){
+			try {
+				log.info("디렉토리 타입 : ");
+				file = new File("E:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
+				if(file.isDirectory()){
+					
+					StudyDataListVO listvo = new StudyDataListVO();
+					listvo.setG_num(vo.getG_num());
+					String regExp = vo.getUploadPath()+"\\"+vo.getFileName();
+					regExp = regExp.replace("\\", "\\\\");
+					listvo.setCurPath(regExp);
+					
+					List<StudyDataVO> childFiles = service.getList(listvo);
+					
+					//경로안에 파일 모두 삭제
+					deleteFilesRecursively(file);
+					
+					//DB상의 로우 모두 삭제
+					for(StudyDataVO stddata : childFiles){
+						service.delete(stddata.getUuid());
+					}
+					
+				}else{
+					log.info("=======아닙니다");
+				}
+				
+				//file.delete();
+				service.delete(vo.getUuid());
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		
+		
+		
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
+	
+	
+    public boolean deleteFilesRecursively(File rootFile) {
+        File[] allFiles = rootFile.listFiles();
+        if (allFiles != null) {
+            for (File file : allFiles) {
+                deleteFilesRecursively(file);
+            }
+        }
+        System.out.println("Remove file: " + rootFile.getPath());
+        return rootFile.delete();
 
+    }
 }

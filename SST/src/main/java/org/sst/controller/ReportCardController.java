@@ -81,6 +81,13 @@ public class ReportCardController {
 		ReportCardVO vo = service.readReportCard(rc_num);
 		model.addAttribute("reportcard", vo);
 	}
+	
+	@PostMapping("/update")
+	public String update(ReportCardVO vo, RedirectAttributes rttr) {
+		service.updateReportCard(vo);
+		rttr.addFlashAttribute("result", "success");
+		return "redirect:/reportcard/list?m_id=" + vo.getM_id();
+	}
 
 	@PostMapping("/delete")
 	public String delete(@RequestParam("rc_num") String rc_num, @RequestParam("rc_subtype") String rc_subtype,

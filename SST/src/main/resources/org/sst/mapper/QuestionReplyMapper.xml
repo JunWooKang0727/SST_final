@@ -4,20 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sst.mapper.QuestionReplyMapper">
 	<insert id="insert">
-		insert into question_reply (rno,q_num,reply,replyer, replydate)
+		insert into questionreply (rno,q_num,reply,replyer, replydate)
 		values (seq_reply.nextval, #{q_num} , #{reply}, #{replyer}, sysdate)
 	</insert>
 	
 	<select id="read" resultType="org.sst.domain.QuestionReplyVO">
-		select * from question_reply where rno = #{rno}
+		select * from questionreply where rno = #{rno}
 	</select>
 	
 	<delete id="delete">
-		delete from question_reply where rno = #{rno}
+		delete from questionreply where rno = #{rno}
 	</delete>
 	
 	<update id="update">
-		update question_reply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
+		update questionreply set reply = #{reply}, updatedate = sysdate where rno = #{rno}
 	</update>
 	<!--
 	<select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
@@ -46,7 +46,7 @@
 
 <select id="getCountByBno" resultType="int">
 <![CDATA[
-select count(rno) from question_reply where q_num = #{q_num}
+select count(rno) from questionreply where q_num = #{q_num}
 ]]>
 </select>
 <!-- 댓글 추천기능 시작 -->
@@ -57,14 +57,14 @@ select count(rno) from question_reply where q_num = #{q_num}
 
 
 <update id="updateLike" parameterType="int">
-    update question_reply set
+    update questionreply set
         faqrp_likeCnt = faqrp_likeCnt +1
     where
         rno =#{rno}
 </update>
  
 <update id="updateHate" parameterType="int">
-    update question_reply set
+    update questionreply set
         faqrp_hateCnt = faqrp_hateCnt +1
     where
         rno =#{rno}

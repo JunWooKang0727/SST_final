@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,8 @@
 <meta name="author" content="">
 
 <title>SST</title>
+
+<link href="/resources/css/wanote.css" rel="stylesheet">
 
 </head>
 <body id="page-top">
@@ -47,10 +50,14 @@
 								<div class="card-body">
 									<form action="/wanote/create" method="post"
 										class="centerform">
-										<input type="hidden" name="m_id" value="ggy">
-										제목: <input type="text" name="w_title" placeholder="시험명을 입력해주세요." class="form-control" required><br>
-										문제: <input type="number" name="w_question" placeholder="시험 회차를 입력해주세요." class="form-control"  min="1" max="1000" required><br>  
-										정답과 풀이: <input type="text" name="w_answer" placeholder="정답과 문제 풀이를 입력해 주세요." class="form-control" required><br>
+
+				
+										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>">
+										제목: <input type="text" name="w_title" placeholder="노트제목 입력해주세요." class="form-control" required><br>
+										문제:
+										<textarea class="form-control" rows="3" name="w_question" placeholder="문제를 입력해주세요." required></textarea>  
+										정답과 풀이:
+										<textarea class="form-control" rows="3" name="w_answer" placeholder="정답과 풀이를 입력해주세요." required></textarea>  
 										<hr>
 										틀린 이유: 
 											<select class="form-control " name="w_reason" id="w_reason" required>
@@ -63,6 +70,10 @@
 										과목: <input type="text" name="w_subject" placeholder="시험명을 입력해주세요." class="form-control" required><br>
 										해시태그: <input type="text" name="tag" placeholder="시험명을 입력해주세요." class="form-control" required><br>
 										<hr>
+
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+                                    <button type="button" class="btn btn-info float-right" id="submit-btn">등록</button><br>
+
 										
 										<div id="plus_score_input">
 										</div>
@@ -93,6 +104,224 @@
 		class="fas fa-angle-up"></i>
 	</a>
 	<!-- Custom scripts for all pages-->
+
+	<script type="text/javascript">
+			var tagList = {};
+			var csrfHeaderName = "${_csrf.headerName}";
+			var csrfTokenValue = "${_csrf.token}";
+
+			$('#add-tag').click(function() {
+				if($('#tag-name').val()==''){
+					alert('값을 입력해주세요');
+				}else{
+					
+					var html="<a class='del-tag'>"+$('#tag-name').val()+"</a>";
+					$('.tag-list').append(html);
+					$('#tag-name').val('');
+				}
+			})
+			
+
+		
+		$(document).on("click", ".del-tag", function(e) {
+			$(this).remove();
+		});
+
+		$('#submit-btn').click(
+				function() {
+					var html = '';
+					$('.tag-list').children().each(
+							function(tag) {
+								html += '<input type="hidden" name="taglist['
+										+ $(this).index()
+										+ '].tg_name" value="' + $(this).text()
+										+ '">';
+							})
+					var str = "";
+
+					$(".uploadResult ul li").each(
+							function(i, obj) {
+
+								var jobj = $(obj);
+
+								console.dir(jobj);
+								console.log("-------------------------");
+								console.log(jobj.data("filename"));
+
+								str += "<input type='hidden' name='attachList["
+										+ i + "].fileName' value='"
+										+ jobj.data("filename") + "'>";
+								str += "<input type='hidden' name='attachList["
+										+ i + "].uuid' value='"
+										+ jobj.data("uuid") + "'>";
+								str += "<input type='hidden' name='attachList["
+										+ i + "].uploadPath' value='"
+										+ jobj.data("path") + "'>";
+								str += "<input type='hidden' name='attachList["
+										+ i + "].fileType' value='"
+										+ jobj.data("type") + "'>";
+
+							});
+
+					console.log(str);
+
+					$('form').append(html).append(str).submit();
+				})
+
+		$('#tag-name').autocomplete({
+			source : function(request, response) {
+				$.ajax({
+					url : '/watag/listAllTag/' + request.term,
+					dataType : "json",
+					type : 'GET',
+					success : function(data) {
+						response($.map(data, function(item) {
+							return {
+								label : item.tg_name+"("+item.count+"개)",
+								value : item.tg_name
+							}
+						})) //end response 
+
+					}
+				}); //$.ajax
+			}, //end source
+			minLength : 1
+		})
+
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		var maxSize = 5242880; //5MB
+		
+
+		function checkExtension(fileName, fileSize) {
+
+			if (fileSize >= maxSize) {
+				alert("파일 사이즈 초과");
+				return false;
+			}
+
+			if (regex.test(fileName)) {
+				alert("해당 종류의 파일은 업로드할 수 없습니다.");
+				return false;
+			}
+			return true;
+		}
+
+		$("input[type='file']").change(function(e) {
+			console.log('개시발시발');
+			var formData = new FormData();
+
+			var inputFile = $("input[name='uploadFile']");
+
+			var files = inputFile[0].files;
+
+			for (var i = 0; i < files.length; i++) {
+
+				if (!checkExtension(files[i].name, files[i].size)) {
+					return false;
+				}
+				formData.append("uploadFile", files[i]);
+			}
+			console.log("쟂재존나조아으ㅏ으ㅏ라ㅡㅇ낭나아아앙"+csrfHeaderName);
+			$.ajax({
+				url : '/wanoteAttach/uploadAjaxAction',
+				processData : false,
+				contentType : false,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+				},
+				data : formData,
+				type : 'POST',
+				dataType : 'json',
+				success : function(result) {
+					console.log(result);
+					showUploadResult(result); //업로드 결과 처리 함수 
+
+				}
+			}); //$.ajax
+
+		});
+
+		function showUploadResult(uploadResultArr) {
+
+			if (!uploadResultArr || uploadResultArr.length == 0) {
+				return;
+			}
+
+			var uploadUL = $(".uploadResult ul");
+
+			var str = "";
+
+			$(uploadResultArr)
+					.each(
+							function(i, obj) {
+console.log(obj.image);
+								if (obj.image) {
+									var fileCallPath = encodeURIComponent(obj.uploadPath
+											+ "/"
+											+ obj.uuid
+											+ "_"
+											+ obj.fileName);
+									str += "<li data-path='"+obj.uploadPath+"'";
+			str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+			str +" ><div>";
+									str += "<span> " + obj.fileName + "</span>";
+									str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+									str += "<img class='img-thumbnail' src='/wanoteAttach/display?fileName="
+											+ fileCallPath + "'>";
+									str += "</div>";
+									str + "</li>";
+								} else {
+									var fileCallPath = encodeURIComponent(obj.uploadPath
+											+ "/"
+											+ obj.uuid
+											+ "_"
+											+ obj.fileName);
+									var fileLink = fileCallPath.replace(
+											new RegExp(/\\/g), "/");
+
+									str += "<li "
+			str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
+									str += "<span> " + obj.fileName + "</span>";
+									str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
+			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+									str += "<img src='/resources/img/attach.png'></a>";
+									str += "</div>";
+									str + "</li>";
+								}
+
+							});
+
+			uploadUL.append(str);
+		}
+
+		$(".uploadResult").on("click", "button", function(e) {
+
+			console.log("delete file");
+
+			var targetFile = $(this).data("file");
+
+			var targetLi = $(this).closest("li");
+
+			$.ajax({
+				url : '/wanoteAttach/deleteFile',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+					},
+				data : {
+					fileName : targetFile,
+				},
+				dataType : 'text',
+				type : 'POST',
+				success : function(result) {
+					alert(result);
+
+					targetLi.remove();
+				}
+			}); //$.ajax
+		});
+	</script>
+
 
 </body>
 </html>

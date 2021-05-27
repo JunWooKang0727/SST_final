@@ -30,6 +30,7 @@
 
 <!-- Custom styles for this template-->
 <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="../../../resources/css/personalstudy.css" rel="stylesheet">
 <style>
 #startbtn, #stopbtn, .studydone {
 	margin-top: 10px;
@@ -132,6 +133,24 @@
 						<div class="col"/><div class="col"><div class="col"><div class="col"><div class="col">
 						<div class="col">
 
+							
+							<form id="createForm" method="post" action="/personalcrawlmake/create">
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"
+/>
+							
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "Path"></label>
+							<div class = "inputPath">
+							<label>경로 : <input type="text" name = "path"></label>
+							</div>
+							<div class = "storeFile">
+							<label>저장될 파일명 : <input type="text" name = "exFileName"></label>
+							</div>
+							<div class = "searchT">
+							<label>검색할 문제 : <input type="text" name = "searchT"></label>
+							</div>
+							</div>
+
 							<div class="inputSubject">과목 :
 
 							<form method="get" action="form-action.html">
@@ -175,16 +194,37 @@
 
 								</fieldset>
 
+<<<<<<< HEAD
 							</form><br>
 							<p>
 									<input type="submit" value="Submit"> <input
 										type="reset" value="Reset">
 								</p>
+=======
+							</div>
+							<br>
+								<div>
+								<div class="createBtn btn btn-secondary">야얄야얆ㅁㅈㄷㄹ</div>
+								<input type="submit" value="문제만들기"> 
+								<input type="reset" value="설정초기화">
+								</div>
+							</form>
+>>>>>>> refs/remotes/origin/main
 						</div>
 						</form>
 					</div>
+<<<<<<< HEAD
 
 
+=======
+					
+					<div class="row">
+						<div class="downArea">
+							
+						</div>
+					
+					</div>
+>>>>>>> refs/remotes/origin/main
 					<!-- /.container-fluid -->
 
 				</div>
@@ -294,6 +334,47 @@
 		function addZero(num) {
 			return (num < 10 ? '0' + num : '' + num)
 		}
+		
+		$(function(){
+			
+			$('.createBtn').click(function(){
+				
+				var fdata = $('#createForm').serialize();
+				
+				$.ajax({
+					url:'/personalcrawlmake/create',
+					type:'GET',
+					data : fdata,
+					dataType:'json',
+					success : function(data){
+						$('.downArea').empty();
+						var str="";
+						
+						$(data).each(function(i, obj) {
+							
+							str += '<div class="fileItem">'
+								
+							+ '<img class="pdficon" src="../../../resources/img/pdf.png">'
+							+ '<a class="downlink" href="/personalcrawlmake/download?fileName='+ obj +'">'
+							+ obj + '</a>'
+							+ '</div>';
+							$('.downArea').append(str);
+							str='';
+						});
+						
+						$('#createForm')[0].reset();
+					}
+					
+					
+					
+				});
+				
+				
+			});
+			
+			
+			
+		});
 	</script>
 </body>
 </html>

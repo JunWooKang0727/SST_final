@@ -42,4 +42,17 @@ public class Criteria {
 		return builder.toUriString();
 
 	}
+	
+	public String getListLink2() {
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.getAmount())
+				.queryParam("type", this.getType())
+				.queryParam("keyword", this.getKeyword())
+				.queryParam("m_id", this.getM_id());
+
+		return builder.toUriString();
+
+	}
 }

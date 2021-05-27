@@ -73,4 +73,49 @@
 		WHERE w_num=#{w_num}
 	</update>
 
+
+	
+	
+	
+	<select id="listAllTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select tag.tg_num,tg_name,count(*) as count from tag,watag  where tg_name LIKE  '%'||#{keyword}||'%' 
+	and watag.tg_num=tag.tg_num group by tag.tg_num,tg_name
+	</select>
+	<select id="readTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select * from tag where tg_name =#{tg_name}
+	</select>
+	<insert id="createTag" useGeneratedKeys="true" keyColumn="tg_num" keyProperty="tg_num"  parameterType="org.sst.domain.WAtagVO">
+	insert into tag(tg_num,tg_name) values(tag_seq.nextval,#{tg_name})
+	</insert>
+	
+	<insert id="createWATag" parameterType="java.util.HashMap">
+	insert into watag(w_num,tg_num) values(#{w_num},#{tg_num})
+	</insert>
+	
+	<select id="listWATag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select * from watag where w_num=#{w_num}
+	</select>
+
+	<delete id="deleteAllWaTag">
+	delete from watag where w_num=#{w_num}
+	</delete>
+
+	<select id="countTagChart" resultType="java.util.HashMap"
+		parameterType="String">
+		 <![CDATA[   
+		select * from (select tg_name,count(*) as count from tag,watag,wanote
+		where tag.tg_num=watag.tg_num and wanote.w_num = watag.w_num and m_id=#{m_id}
+		group by tg_name order by count(*) desc) where rownum<7
+				]]>
+	</select>
+
+	<select id="countReasonChart" resultType="java.util.HashMap"
+		parameterType="String">
+		select w_reason,count(*) as count from wanote
+		where m_id=#{m_id}
+		group by w_reason order by count(*) desc
+
+	</select>
+
+
 </mapper>

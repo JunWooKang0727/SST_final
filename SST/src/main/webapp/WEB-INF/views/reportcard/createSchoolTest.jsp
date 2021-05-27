@@ -16,7 +16,7 @@
 <title>SST</title>
 
 <!-- Custom styles for this template-->
-<link href="/sst/resources/css/personalstudy.css" rel="stylesheet">
+<link href="/resources/css/personalstudy.css" rel="stylesheet">
 </head>
 <body id="page-top">
 
@@ -46,8 +46,9 @@
 									<h5 class="m-0 font-weight-bold text-color-sst">시험 정보 입력하기</h5>
 								</div>
 								<div class="card-body">
-									<form action="/sst/reportcard/schooltest/create" method="post"
+									<form action="/reportcard/schooltest/create" method="post"
 										class="centerform">
+										<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 										<input type="hidden" name="rc_num" value="${rc_num}">
 										학년: <input type="number" name="st_year" placeholder="학년을 입력해주세요." class="form-control"  min="1" max="10" required><br> 
 										학기: <input type="number" name="st_semester" placeholder="학기를 입력해주세요." class="form-control"   min="1" max="10" required><br> 
@@ -89,6 +90,6 @@
 		class="fas fa-angle-up"></i>
 	</a>
 	<!-- Custom scripts for all pages-->
-	<script src="/sst/resources/js/personalstudy.js"></script>
+	<script src="/resources/js/personalstudy.js"></script>
 </body>
 </html>

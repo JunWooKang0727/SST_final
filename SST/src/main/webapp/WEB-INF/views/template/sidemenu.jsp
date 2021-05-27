@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  <%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -56,8 +58,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">공부 관리:</h6>
-                        <a class="collapse-item" href="utilities-color.html">성적관리</a>
-                        <a class="collapse-item" href="utilities-border.html">오답노트</a>
+
+                        <a class="collapse-item" href="/reportcard/list?m_id=<security:authentication property="principal.username"/>">성적관리</a>
+                        <a class="collapse-item" href="/wanote/list?m_id=ggy">오답노트</a>
+
 
                     </div>
                 </div>
