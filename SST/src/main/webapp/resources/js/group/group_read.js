@@ -34,10 +34,10 @@ $(document).ready(function(){
 		$(".modal").parent('#exampleModal2').modal("hide");
 	});
 	
-	$('#mem_deny').on("click", function(e){
+	/*$('#mem_deny').on("click", function(e){
 		memdeny(m_id, g_num);
 		$(".modal").modal("hide");
-	}); // 모달창 거절 버튼 클릭 이벤트
+	});*/ // 모달창 거절 버튼 클릭 이벤트
 
 	$('#mem_modify').on("click", function(e){
 		alert("ddd");
@@ -46,6 +46,14 @@ $(document).ready(function(){
 		console.log(gnum + " &&& " + mid);
 		var pgrant = $('#auth option:selected').val();
 		memmodify(gnum, mid, pgrant);
+	})
+	
+	$("button[name^='denybtn']").on("click", function(e){
+		var gnum = $(this).data("gnum");
+		var mid = $(this).data("mid");
+		var status = $(this).data("status");
+		console.log(gnum + " & " + mid);
+		memdeny(mid, gnum, status);
 	})
 	
 	$('#mem_delete').on("click", function(e){
@@ -100,12 +108,13 @@ $(document).ready(function(){
 		})
 	}
 	
-	function memdeny(m_id, g_num){
+	function memdeny(m_id, g_num, status){
 		alert(m_id);
+		var count = status;
 		$.ajax({
-			url : '/group/memdelete',
-			dataType : 'text',
+			url : '/group/deny',
 			type : 'post',
+			async : true,
 			data : {
 				"m_id" : m_id,
 				"g_num" : g_num
@@ -114,10 +123,15 @@ $(document).ready(function(){
 				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
 			},
 			success: function() {
+				var str = "waitmem" + status;
+				alert("부모클래스명" + str);
+				$(this).parent(str).empty();
+				// $('#exampleModal').modal('hide');
 				console.log("삭제완료");
 			},
 			error : function(xhr, status, error) {
-                alert("error. status : " + status + ", xhr : " + xhr + ", error : "+ error);
+                alert("error. status : " + status + ", xhr : " + xhr
+                		+ ", error : "+ error);
 			}
 			
 		})

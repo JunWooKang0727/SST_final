@@ -117,7 +117,7 @@
                     	</div>
                     	<div class="col-lg-6">
                     		<c:forEach items="${waitmember }" var="member" varStatus="status">
-                    			<div class="mt-3 mb-3">
+                    			<div class="mt-3 mb-3" id="waitmem${status.count }">
 						          <div class="row">
 						               <div class="col-lg-5">
 						                  <span class="ml-3 mr-5">${status.count }</span>
@@ -125,11 +125,12 @@
 						               </div>
 						               <div class="col-lg-2">
 						                  <button data-toggle="modal" data-target="#exampleModal2" type="button" 
-						                  class="btn btn-primary btn-sm" 
+						                  class="btn btn-primary btn-sm" data-status="${status.count }" 
 						                  data-mid="${member.m_id }" data-gnum="${group.g_num }">수락</button>
 								          
 								          <button data-toggle="modal" data-target="#exampleModal" type="button" 
-								          data-mid="${member.m_id }" data-gnum="${group.g_num }" 
+								          data-status = "${status.count }"
+								          data-mid="${member.m_id }" data-gnum="${group.g_num }" name="denybtn${status.count }"
 								          class="btn btn-danger btn-sm" >거절</button>
 								          
 						               </div>
@@ -159,7 +160,7 @@
 						  </div>
 						</div>
                     	<!-- 거절 Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -177,7 +178,7 @@
 						      </div>
 						    </div>
 						  </div>
-						</div>
+						</div> -->
                     </div>
                 </div>
 

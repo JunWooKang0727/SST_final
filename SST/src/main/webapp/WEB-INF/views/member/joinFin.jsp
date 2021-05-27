@@ -41,10 +41,10 @@
                                     <hr>
                                     <div class="row">
 			                            <div class="col-lg-6">
-			                                <button type="button" class="btn btn-info btn-block">메인</button>
+			                                <button type="button" id="mainpage" class="btn btn-info btn-block">메인</button>
 			                            </div>
 			                            <div class="col-lg-6">
-			                                <button type="button" class="btn btn-info btn-block">로그인</button>
+			                                <button type="button" id="loginpage" class="btn btn-info btn-block">로그인</button>
 			                            </div>
                         			</div>
                                 </div>
@@ -61,7 +61,7 @@
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
-
+	<script src="../../resources/js/member/member_joinfin.js"></script>
 </body>
 
 </html>
