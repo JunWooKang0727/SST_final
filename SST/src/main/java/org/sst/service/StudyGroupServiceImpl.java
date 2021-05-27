@@ -55,6 +55,68 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 		return mygrouplist;
 	}
 
-	
-	
+	@Override
+	public List<StudyGroupVO> totalGroupGet(Criteria2 cri) {
+		log.info("[get list with criteria : ");
+		return mapper.totalgroupList(cri);
+	}
+
+	@Override
+	public int getTotal(Criteria2 cri) {
+		log.info("[get total count]");	
+		return mapper.getTotalCount(cri);
+	}
+
+	@Override
+	public void joinGroup(GroupMemberVO gm) {
+		log.info("[join group]");
+		mapper.insertGroupMember(gm);
+	}
+
+	@Override
+	public List<GroupMemberVO> memberListGet(String g_num, String iswait) {
+		log.info("[waiting list]");
+		return mapper.groupMemberRead(g_num, iswait);
+	}
+
+	@Override
+	public boolean groupmemAccept(String g_num, String m_id) {
+		log.info("[accept]");
+		return mapper.acceptGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public boolean groupmemDeny(String g_num, String m_id) {
+		log.info("[deny]");
+		return mapper.denyGroupMember(g_num, m_id) == 1;
+	}
+
+	@Override
+	public List<StudyGroupVO> myAttendListGet(String id) {
+		log.info("[attend]");
+		return mapper.groupAttendRead(id);
+	}
+
+	@Override
+	public List<StudyGroupVO> myWaitListGet(String id) {
+		log.info("[wait]");
+		return mapper.groupStatusRead(id);
+	}
+
+	@Override
+	public int getMemTotal(String g_num) {
+		log.info("[count mem]");
+		return mapper.memberCount(g_num);
+	}
+
+	@Override
+	public boolean groupmemAuthUpdate(String p_grant, String g_num, String m_id) {
+		return mapper.updateGroupAuth(p_grant, g_num, m_id) == 1;
+	}
+
+	@Override
+	public boolean groupmemDel(String g_num, String m_id) {
+		return mapper.delGroupMember(g_num, m_id) == 1;
+	}
+
 }

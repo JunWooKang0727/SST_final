@@ -1,13 +1,24 @@
 package org.sst.controller;
 
 import java.security.Principal;
+import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.sst.domain.Criteria;
+import org.sst.domain.Criteria2;
+import org.sst.domain.GroupMemberVO;
+import org.sst.domain.PageDTO;
+import org.sst.domain.PageDTO2;
+>>>>>>> refs/remotes/origin/yhy2
 import org.sst.domain.StudyGroupVO;
 import org.sst.service.StudyGroupService;
 
@@ -27,7 +38,12 @@ public class StudyGroupController {
 	public void groupMainPage(Principal principal, Model model){
 		log.info("[Group Home Page]");
 		log.info("[get my group list]");
-		model.addAttribute("mygrouplist", service.myGroupGet(principal.getName()));
+
+		log.info(principal.getName());
+		model.addAttribute("mygrouplist", service.myGroupGet(principal.getName(), "1"));
+		model.addAttribute("attendgroup", service.myAttendListGet(principal.getName()));
+		model.addAttribute("waitlist", service.myWaitListGet(principal.getName()));
+
 	}
 	
 	@GetMapping("/create")
@@ -64,4 +80,63 @@ public class StudyGroupController {
 		return "redirect:/group/main";
 	}
 	
+                                                      
+	@GetMapping("/search")
+	public void totalgroupRead(Criteria2 cri, Model model){
+		log.info("[Group Total Read]");
+		model.addAttribute("totalgroup", service.totalGroupGet(cri));
+		model.addAttribute("pageMaker", new PageDTO2(cri, service.getTotal(cri)));
+	}
+	
+	@PostMapping("/join")
+	public String joinGroup(Principal principal, @RequestParam("g_num") String g_num){
+		log.info("[Group Join]");
+		GroupMemberVO gm = new GroupMemberVO();
+		gm.setG_num(g_num);
+		gm.setM_id(principal.getName());
+		gm.setP_grant(3);
+		gm.setGm_status("0");
+		service.joinGroup(gm);
+		return "redirect:/group/search";
+	}
+	
+	@ResponseBody
+	@PostMapping("/accept")
+	public void joinGroup(@RequestParam("g_num") String g_num, 
+			@RequestParam("m_id") String m_id, Model model){
+		log.info("[Group member Accept]");
+		service.groupmemAccept(g_num, m_id);
+		// model.addAttribute("group", service.groupDetailGet(g_num));
+		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
+		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
+	}
+	
+	@ResponseBody
+	@PostMapping("/deny")
+	public void denyGroup(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id,
+			Model model){
+		log.info("[Group member Deny]");
+		service.groupmemDeny(g_num, m_id);
+		// model.addAttribute("group", service.groupDetailGet(g_num));
+		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
+		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
+	}
+	
+	@ResponseBody
+	@PostMapping("/authupdate")
+	public void updateAuth(@RequestParam("g_num") String g_num, 
+			@RequestParam("m_id") String m_id, @RequestParam("p_grant") String p_grant
+			, Model model){
+		log.info("[Group member auth Update]");
+		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
+		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
+	}
+	
+	@ResponseBody
+	@PostMapping("/memdelete")
+	public void deleteMem(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
+		log.info("[Group member auth Update]");
+		
+	}
+
 }
