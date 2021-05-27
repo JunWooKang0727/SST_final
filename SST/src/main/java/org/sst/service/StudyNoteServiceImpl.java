@@ -35,7 +35,7 @@ public class StudyNoteServiceImpl implements StudyNoteService {
 
 	@Override
 	public List<StudyNoteVO> getList(Criteria cri) {
-		// TODO Auto-generated method stub
+		
 		return mapper.getStudyNoteList(cri);
 	}
 
