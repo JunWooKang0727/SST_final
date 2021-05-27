@@ -134,12 +134,12 @@ public class StudyGroupControllerTests {
 		log.info(resultPage);
 	}*/
 	
-	@Test
+	/*@Test
 	public void acceptMem() throws Exception {
 		log.info(mockMvc.perform(MockMvcRequestBuilders.post("/group/accept")
 				.param("g_num", "gn9")
 				.param("m_id", "study555"))
 				.andReturn().getModelAndView().getModelMap());
 		
-	}
+	}*/
 }

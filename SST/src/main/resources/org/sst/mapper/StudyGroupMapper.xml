@@ -44,12 +44,25 @@
 		]]>
 	</select>
 	
+	<!-- id가 일치하고 권한이 2아니면 3이어야하며,, 가입된상태여야한당-->
 	<select id="groupAttendRead" resultType="org.sst.domain.StudyGroupVO" parameterType="String">
 		<![CDATA[
 			select * from studygroup s where s.G_NUM IN 
-			(select gm.G_NUM from groupmember gm where gm.m_id = #{id} and (gm.p_grant = '3' or
-			gm.p_grant = '2'))
+			(select gm.G_NUM from groupmember gm where (gm.m_id = #{id} and (gm.p_grant = '3' or
+			gm.p_grant = '2') and gm.gm_status = '1'))
 		]]>
+	</select>
+	 
+	<select id="groupStatusRead" resultType="org.sst.domain.StudyGroupVO" parameterType="String">
+		<![CDATA[
+			select * from studygroup s where s.G_NUM IN 
+			(select gm.G_NUM from groupmember gm where gm.m_id = #{id} and gm.gm_status = '0')
+		]]>
+	</select>
+	
+	<!-- 그룹 멤버수 -->
+	<select id="memberCount" resultType="int">
+		select count(*) from groupmember where g_num = #{g_num} and gm_status = '1'
 	</select>
 	
  	<!-- 그룹 상세 조회 (그룹 수정)-->
@@ -108,5 +121,17 @@
 	<delete id="denyGroupMember" parameterType="String">
 		delete from groupmember where g_num = #{g_num} and m_id = #{m_id} and
 		gm_status = '0'
+	</delete>
+	
+	<!-- 멤버 그룹 권한 변경 -->
+	<update id="updateGroupAuth" parameterType="String">
+		update groupmember set p_grant = #{p_grant} where g_num = #{g_num}
+		and m_id = #{m_id}
+	</update>
+	
+	<!-- 멤버 삭제 -->
+	<delete id="delGroupMember" parameterType="String">
+		delete from groupmember where g_num = #{g_num} and m_id = #{m_id} and
+		gm_status = '1'
 	</delete>
  </mapper>

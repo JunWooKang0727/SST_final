@@ -66,8 +66,18 @@ public class StudyGroupMapperTests {
 	}*/
 	
 	/*@Test
-	public void testAttendGroupRead(){
-		mapper.groupRead("kosta", "3").forEach(groups -> log.info(groups));
+	public void groupStatusReadTest(){
+		mapper.groupStatusRead("sleep", "0");
+	}*/
+	
+	/*@Test
+	public void groupAttendReadTest(){
+		mapper.groupAttendRead("sleep");
+	}*/
+	
+	/*@Test
+	public void groupWaitReadTest(){
+		mapper.groupStatusRead("sleep");
 	}*/
 	
 	/*@Test
@@ -120,9 +130,20 @@ public class StudyGroupMapperTests {
 	public void denyGroupMemTest(){
 		mapper.denyGroupMember("gn9", "kakaocon");
 	}*/
+	
 	/*@Test
-	public void groupAttendReadTest(){
-		mapper.groupAttendRead("mygroup");
+	public void totalMemberTest(){
+		mapper.memberCount("gn9");
 	}*/
+	
+	/*@Test
+	public void updateAuthTest(){
+		mapper.updateGroupAuth("2", "gn9", "icecream");
+	}*/
+	
+	@Test
+	public void delMemTest(){
+		mapper.delGroupMember("gn9", "icecream");
+	}
 	
 }

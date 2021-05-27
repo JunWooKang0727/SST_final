@@ -118,17 +118,20 @@
 	                                        	<div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
 													카테고리 :<%--  <c:out value="${group.g_category }"/> --%>
 													<c:choose>
-	                                            		<c:when test="${group.g_category eq 'highschool' }">
-	                                            			고등학생
+	                                            		<c:when test="${group.g_category eq '초등학교' }">
+	                                            			초등학교
 	                                            		</c:when>
-	                                            		<c:when test="${group.g_category eq 'college' }">
-	                                            			대학생
+	                                            		<c:when test="${group.g_category eq '중학교' }">
+	                                            			중학교
 	                                            		</c:when>
-	                                            		<c:when test="${group.g_category eq 'employement' }">
-	                                            			취업
+	                                            		<c:when test="${group.g_category eq '고등학교' }">
+	                                            			고등학교
 	                                            		</c:when>
-	                                            		<c:when test="${group.g_category eq 'language' }">
-	                                            			어학
+	                                            		<c:when test="${group.g_category eq 'License' }">
+	                                            			자격증
+	                                            		</c:when>
+	                                            		<c:when test="${group.g_category eq 'Language' }">
+	                                            			어학시험
 	                                            		</c:when>
 	                                            		<c:when test="${group.g_category eq 'etc' }">
 	                                            			기타
