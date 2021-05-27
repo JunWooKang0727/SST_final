@@ -82,7 +82,7 @@ public class StudyDataController {
 		vo.setUploader("solkang");
 		vo.setUploadPath(uploadFolder.replace("E:\\upload", ""));
 		vo.setUuid(uuid.toString());
-		//log.info(vo);
+		//log.info(vo);1
 		service.upload(vo);
 		
 		return "redirect:/studydata/list2";
