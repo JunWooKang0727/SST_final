@@ -41,6 +41,9 @@ public class WANoteController {
 	@GetMapping("/create")
 	public void create() {
 	}
+	@GetMapping("/home2")
+	public void home2() {
+	}
 	
 	@Transactional
 	@PostMapping("/create")
@@ -79,7 +82,7 @@ public class WANoteController {
 	
 	@Transactional
 	@PostMapping("/update")
-	public String update(WANoteVO vo, RedirectAttributes rttr) {
+	public String update(WANoteVO vo,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		vo.setW_question(vo.getW_question().replace("\r\n","<br>"));
 		vo.setW_answer(vo.getW_answer().replace("\r\n","<br>"));
 		
@@ -111,7 +114,11 @@ public class WANoteController {
 				}
 			});
 		}
-
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/wanote/read?w_num=" + vo.getW_num();
 	}
