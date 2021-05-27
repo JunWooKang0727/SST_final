@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<!-- <script src="../../resources/js/member/member_logout.js"></script> -->
-
+<script src="../../resources/js/member/member_logout.js"></script>
     <!-- Custom fonts for this template-->
 <!-- <link href="/sst/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css"> -->

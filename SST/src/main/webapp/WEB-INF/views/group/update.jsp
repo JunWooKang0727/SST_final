@@ -62,10 +62,11 @@
 	                                    </div>
 	                                    <div class="col-sm-9">
 	                                    	<select name="g_category" class="form-control rounded-pill" >
-	                                    		<option value="highschool" <c:if test="${group.g_category eq 'highschool'}">selected</c:if>>고등학생</option>
-	                                    		<option value="college" <c:if test="${group.g_category eq 'college'}">selected</c:if>>대학생</option>
-	                                    		<option value="employement" <c:if test="${group.g_category eq 'employement'}">selected</c:if>>취업</option>
-	                                    		<option value="language" <c:if test="${group.g_category eq 'language'}">selected</c:if>>어학</option>
+	                                    		<option value="초등학교" <c:if test="${group.g_category eq '초등학교'}">selected</c:if>>초등학교</option>
+	                                    		<option value="중학교" <c:if test="${group.g_category eq '중학교'}">selected</c:if>>중학교</option>
+	                                    		<option value="고등학교" <c:if test="${group.g_category eq '고등학교'}">selected</c:if>>고등학교</option>
+	                                    		<option value="License" <c:if test="${group.g_category eq 'License'}">selected</c:if>>자격증</option>
+	                                    		<option value="Language" <c:if test="${group.g_category eq 'Language'}">selected</c:if>>어학시험</option>
 	                                    		<option value="etc" <c:if test="${group.g_category eq 'etc'}">selected</c:if>>기타</option>
 	                                    	</select>
 	                                    </div>

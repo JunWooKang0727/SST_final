@@ -94,9 +94,32 @@ public class StudyGroupServiceImpl implements StudyGroupService {
 	}
 
 	@Override
-	public List<StudyGroupVO> attendGroupGet(String id) {
+	public List<StudyGroupVO> myAttendListGet(String id) {
 		log.info("[attend]");
-		return null;
+		return mapper.groupAttendRead(id);
 	}
+
+	@Override
+	public List<StudyGroupVO> myWaitListGet(String id) {
+		log.info("[wait]");
+		return mapper.groupStatusRead(id);
+	}
+
+	@Override
+	public int getMemTotal(String g_num) {
+		log.info("[count mem]");
+		return mapper.memberCount(g_num);
+	}
+
+	@Override
+	public boolean groupmemAuthUpdate(String p_grant, String g_num, String m_id) {
+		return mapper.updateGroupAuth(p_grant, g_num, m_id) == 1;
+	}
+
+	@Override
+	public boolean groupmemDel(String g_num, String m_id) {
+		return mapper.delGroupMember(g_num, m_id) == 1;
+	}
+	
 
 }

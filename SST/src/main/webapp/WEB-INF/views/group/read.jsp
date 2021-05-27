@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+	<meta name="_csrf" content="${_csrf.token}">
+	<meta name="_csrf_header" content="${_csrf.headerName}">
     <title>SST</title>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     
@@ -81,7 +83,7 @@
                     </div>
                     
                     <div class="row">
-                    	<div class="col-lg-6">
+                    	<div class="col-lg-6 totalmem">
                     		<c:forEach items="${memberlist }" var="member" varStatus="status">
                     			<div class="mt-3 mb-3">
                     				<div class="row">
@@ -91,7 +93,7 @@
 		                    				<span class="ml-4 text-center">${member.m_id }</span>
                     					</div>
                     					<div class="col-lg-2 ml-4 mr-3">
-                    						<select class="form-control form-control-sm">
+                    						<select class="form-control form-control-sm" id="auth">
 											  <option 
 											  	<c:if test="${member.p_grant eq 1}">selected</c:if>
 											  >그룹장</option>
@@ -104,8 +106,10 @@
 											</select>
                     					</div>
                     					<div class="col-lg-2 ml-4">
-                    						<button type="button" class="btn btn-primary btn-sm" id="mem_modify">수정</button>
-		                    				<button type="button" class="btn btn-danger btn-sm" id="mem_delete">삭제</button>
+                    						<button type="button" class="btn btn-primary btn-sm" id="mem_modify"
+                    						data-gnum="${group.g_num }" data-mid="${member.m_id }">수정</button>
+		                    				<button type="button" class="btn btn-danger btn-sm" id="mem_delete"
+		                    				data-gnum="${group.g_num }" data-mid="${member.m_id }">삭제</button>
                     					</div>
                     				</div>
 	                    		</div>
@@ -197,7 +201,8 @@
     <script src="../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../../resources/js/sb-admin-2.min.js"></script>
+    <script src="../../resources/js/group/group_read.js"></script>
     <script src="../../resources/js/group/group_create.js"></script>
-    <script type="../../resources/js/group/group_read.js"></script>
+    
 </body>
 </html>

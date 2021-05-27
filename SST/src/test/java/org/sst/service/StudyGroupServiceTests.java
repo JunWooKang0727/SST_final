@@ -92,9 +92,34 @@ public class StudyGroupServiceTests {
 		service.groupmemAccept("gn9", "sleep");
 	}*/
 	
-	@Test
-	
+	/*@Test
 	public void denyGroupmemTest(){
 		service.groupmemDeny("gn9", "javastudy");
+	}*/
+	
+	/*@Test
+	public void groupAttendReadTest(){
+		service.myAttendListGet("sleep");
+	}*/
+	
+	/*@Test
+	public void groupWaitTest(){
+		service.myWaitListGet("sleep");
+	}*/
+	
+	/*@Test
+	public void grouptotal(){
+		service.getMemTotal("gn9");
+	}*/
+	
+	/*@Test
+	public void memAuthUpdateTest(){
+		service.groupmemAuthUpdate("2", "gn9", "BA01");
+	}*/
+	
+	@Test
+	public void memDelTest(){
+		service.groupmemDel("gn9", "BA01");
 	}
+
 }
