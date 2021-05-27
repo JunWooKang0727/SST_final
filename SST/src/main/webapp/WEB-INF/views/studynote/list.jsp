@@ -257,7 +257,7 @@
 						$("#regBtn").on("click", function(e) {
 							
 							e.preventDefault();
-							self.location = "/studynote/create";
+							self.location = "/studynote/create?g_num=${cri.g_num}";
 
 						});
 

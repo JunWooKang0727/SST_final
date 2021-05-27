@@ -51,7 +51,7 @@
 						    <a class="nav-link" href="#">출석체크</a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link" href="#">자료실</a>
+						    <a class="nav-link" href="/studydata/list2?g_num=${group.g_num}">자료실</a>
 						  </li>
 						  <li class="nav-item">
 						    <a class="nav-link" href="#">menu2</a>
