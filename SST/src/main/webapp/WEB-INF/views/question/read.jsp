@@ -195,6 +195,7 @@
 							<button id='modalRegisterBtn' type="button"
 								class="btn btn-primary">Register</button>
 							<button id='modalCloseBtn' type="button" class="btn btn-default">Close</button>
+							<button id='modalLikeBtn' type="button" class="btn btn-warning">Like</button>
 						</div>
 					</div>
 					<!-- /.modal-content -->
@@ -265,7 +266,7 @@
 																		+ "</small></div>";
 																
 																		//좋아요 추가입니다.		
-																str += "   <td><button type='button' id='likeBtn ' class='btn btn-info likeBtn' onclick='updateLike(this)'>"  
+																str += "   <td><button type='button' id='likeBtn' class='btn btn-info likeBtn'>"  
 														       +'추천 : '        +list[i].faqrp_likeCnt+"</button></td>";
 														
 														       str += " ";
@@ -295,7 +296,7 @@
 									//댓글 좋아요 추천 기능!!
 									
 									//var bnoValue = '<c:out value="${question.q_num}"/>';
-									
+								/*	
 									var lcnt = 0;
 									var hcnt = 0;
 									var faq_idx ='0';
@@ -378,7 +379,7 @@
 									           }); 
 									}
 
-									
+									*/
 								
 							
 									
@@ -461,7 +462,8 @@
 									var modalModBtn = $("#modalModBtn");
 									var modalRemoveBtn = $("#modalRemoveBtn");
 									var modalRegisterBtn = $("#modalRegisterBtn");
-
+									var modalLikeBtn = $("#modalLikeBtn");
+									
 									$("#modalCloseBtn").on("click",
 											function(e) {
 
@@ -523,8 +525,8 @@
 
 																		});
 
-													});
-								});
+												
+							});
 									//댓글 조회 클릭 이벤트 처리  댓글 수정및 삭제 처리  
 									
 									$(".chat")
@@ -579,7 +581,7 @@
 
 										var reply = {
 											rno : modal.data("rno"),
-											reply : modalInputReply.val()
+										reply : modalInputReply.val()
 										};
 
 										replyService.update(reply, function(
@@ -608,8 +610,30 @@
 
 									});
 									
+									modalLikeBtn.on("click", function(e) {
+
+										
+										replyService.updateLike(reply, function(
+												result) {
+
+											alert(result);
+											modal.modal("hide");
+											showList(pageNum);
+
+										});
+
+									});
 									
-							
+									
+									
+									
+									
+									
+									
+									
+									
+									
+								});
 				
 			</script>
 
