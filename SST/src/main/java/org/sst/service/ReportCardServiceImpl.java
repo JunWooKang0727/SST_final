@@ -155,6 +155,16 @@ public class ReportCardServiceImpl implements ReportCardService {
 		// TODO Auto-generated method stub
 		return mapper.recommendLicenseTest(vo);
 	}
+	@Override
+	public List<StudyGroupVO> recommendSchoolTest(HashMap map) {
+		// TODO Auto-generated method stub
+		return mapper.recommendSchoolTest(map);
+	}
+	@Override
+	public HashMap worstSubject(String rc_num) {
+		// TODO Auto-generated method stub
+		return mapper.worstSubject(rc_num);
+	}
 
 	
 	

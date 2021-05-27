@@ -1,5 +1,6 @@
 package org.sst.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,7 @@ public class ReportCardController {
 	public String read(@RequestParam("rc_num") String rc_num, Model model) {
 		ReportCardVO vo = service.readReportCard(rc_num);
 		model.addAttribute("reportcard", vo);
+		model.addAttribute("rc_num", rc_num);
 		if (vo.getRc_subtype().equals("학교성적")) {
 			List<SchoolTestVO> list = service.listSchoolTest(rc_num);
 			if (list.size() < 1) {
@@ -75,7 +77,7 @@ public class ReportCardController {
 
 	@PostMapping("/create")
 	public String create(ReportCardVO vo, RedirectAttributes rttr) {
-		if (vo.getRc_type().endsWith("성적")) {
+		if (vo.getRc_type().endsWith("학교")) {
 			vo.setRc_subtype("학교성적");
 		}
 		service.createReportCard(vo);
@@ -244,9 +246,18 @@ public class ReportCardController {
 	
 	@GetMapping(value = "/recommendLicenseTest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<StudyGroupVO>> recommendStudyGroup(ReportCardVO vo) {
-		log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@제대로 오긴 한거냐아~");
+	public ResponseEntity<List<StudyGroupVO>> recommendLicenseTest(ReportCardVO vo) {
 		return new ResponseEntity<>(service.recommendLicenseTest(vo),HttpStatus.OK);
 
 	}
+	
+	@GetMapping(value = "/recommendSchoolTest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<StudyGroupVO>> recommendSchoolTest(ReportCardVO vo) {
+		HashMap map = service.worstSubject(vo.getRc_num());
+		map.put("rc_type", vo.getRc_type());
+		return new ResponseEntity<>(service.recommendSchoolTest(map),HttpStatus.OK);
+
+	}
+	 
 }

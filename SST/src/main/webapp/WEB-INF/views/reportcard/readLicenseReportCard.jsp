@@ -114,7 +114,7 @@
 											</c:if>
 											<hr/>
 									</c:forEach>
-									<a class="btn btn-success btn-circle" href="/reportcard/licensetest/create?rc_num=${rc_num}">
+									<a class="btn btn-success btn-circle" href="/reportcard/licensetest/create?rc_num=${reportcard.rc_num}">
                                         <i class="fas fa-plus"></i>
                                     </a> 성적 추가하기 
 									</div>

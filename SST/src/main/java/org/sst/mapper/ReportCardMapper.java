@@ -53,4 +53,7 @@ public interface ReportCardMapper {
 	
 	List<StudyGroupVO> recommendLicenseTest(ReportCardVO vo);
 	
+	HashMap worstSubject(String rc_num);
+	List<StudyGroupVO> recommendSchoolTest(HashMap map);
+	
 }

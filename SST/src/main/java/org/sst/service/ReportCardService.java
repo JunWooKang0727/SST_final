@@ -45,4 +45,7 @@ public interface ReportCardService {
 	
 	public List<StudyGroupVO> recommendLicenseTest(ReportCardVO vo);
 	
+	public HashMap worstSubject(String rc_num);
+	public List<StudyGroupVO> recommendSchoolTest(HashMap map);
+	
 }
