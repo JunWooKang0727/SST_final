@@ -176,7 +176,9 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 	
 	
 	<select id="recommendStudyGrop" resultType="org.sst.domain.StudyGroupVO">
-	<![CDATA[ select * from studygroup where g_name LIKE '%'||#{tg_name}||'%' and  rownum<5 ]]>
+	<![CDATA[ 
+	select * from (select * from studygroup where g_name LIKE
+	 '%'||#{tg_name}||'%' order by DBMS_RANDOM.RANDOM) where  rownum<5  ]]>
 	</select>
 
 

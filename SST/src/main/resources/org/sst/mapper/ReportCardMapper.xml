@@ -244,7 +244,15 @@
 		licensetest.lt_num
 		and reportcard.rc_num = licensetest.rc_num and
 		reportcard.rc_num=#{rc_num}
-	</select>  
+	</select>
+
+
+
+	<select id="recommendLicenseTest" parameterType="org.sst.domain.ReportCardVO" resultType="org.sst.domain.StudyGroupVO">
+		 <![CDATA[ select * from (select * from studygroup where g_name LIKE '%'||#{rc_subtype}||'%' and g_category=#{rc_type}
+			OR g_content LIKE '%'||#{rc_type}||'%' order by DBMS_RANDOM.RANDOM) where  rownum<5
+		]]>
+	</select>
 
 </mapper>
 

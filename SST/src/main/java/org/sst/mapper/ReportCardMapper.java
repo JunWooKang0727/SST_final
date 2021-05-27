@@ -8,6 +8,7 @@ import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
+import org.sst.domain.StudyGroupVO;
 
 public interface ReportCardMapper {	
 	List<ReportCardVO> listReportCard(String m_id);
@@ -49,4 +50,7 @@ public interface ReportCardMapper {
 	
 	List<HashMap> allSubjectScoreLicenseTest(HashMap map);
 	List<String> licenseTestSubjects(String rc_num);
+	
+	List<StudyGroupVO> recommendLicenseTest(ReportCardVO vo);
+	
 }

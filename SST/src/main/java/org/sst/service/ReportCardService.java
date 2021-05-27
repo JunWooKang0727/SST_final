@@ -8,6 +8,7 @@ import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
+import org.sst.domain.StudyGroupVO;
 
 public interface ReportCardService {
 	public List<ReportCardVO> listReportCard(String m_id);
@@ -41,5 +42,7 @@ public interface ReportCardService {
 	public boolean deleteLicenseTestScore(String st_num);
 	public boolean deleteLicenseScore(String ss_num);
 	public boolean updateLicenseScore(LicenseScoreVO ss);
+	
+	public List<StudyGroupVO> recommendLicenseTest(ReportCardVO vo);
 	
 }

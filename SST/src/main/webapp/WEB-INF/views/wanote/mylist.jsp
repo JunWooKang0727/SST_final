@@ -56,7 +56,7 @@
 									<li class="nav-item"><a class="nav-link"
 										href="/wanote/list" id='allWanote'>전체 오답노트</a></li>
 									<li class="nav-item"><a class="nav-link active"
-										href="/wanote/mylist?m_id=ggy">나의 오답노트</a></li>
+										href="/wanote/mylist?m_id=<security:authentication property="principal.username"/>">나의 오답노트</a></li>
 								</ul>
 
 								<div class="card-body">

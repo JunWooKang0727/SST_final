@@ -2,7 +2,9 @@ package org.sst.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,12 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.LicenseScoreVO;
 import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
+import org.sst.domain.StudyGroupVO;
+import org.sst.domain.WANoteReplyVO;
 import org.sst.service.ReportCardService;
 
 import lombok.AllArgsConstructor;
@@ -44,7 +49,6 @@ public class ReportCardController {
 	@GetMapping("/read")
 	public String read(@RequestParam("rc_num") String rc_num, Model model) {
 		ReportCardVO vo = service.readReportCard(rc_num);
-		model.addAttribute("rc_num", rc_num);
 		model.addAttribute("reportcard", vo);
 		if (vo.getRc_subtype().equals("학교성적")) {
 			List<SchoolTestVO> list = service.listSchoolTest(rc_num);
@@ -60,8 +64,7 @@ public class ReportCardController {
 				return "/reportcard/createLicenseTest";
 			} else {
 				model.addAttribute("licenseTestList", list);
-				log.info(service.listLicenseTest(rc_num));
-				return "/sreportcard/readLicenseReportCard";
+				return "/reportcard/readLicenseReportCard";
 			}
 		}
 	}
@@ -177,9 +180,6 @@ public class ReportCardController {
 	}
 
 	
-	
-	
-	
 	// LicenseTest
 	@GetMapping("/licensetest/create")
 	public String createLicenseTest(@RequestParam("rc_num") String rc_num, Model model) {
@@ -239,5 +239,14 @@ public class ReportCardController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/reportcard/licensetest/update?lt_num=" + lt_num;
+	}
+	
+	
+	@GetMapping(value = "/recommendLicenseTest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<StudyGroupVO>> recommendStudyGroup(ReportCardVO vo) {
+		log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@제대로 오긴 한거냐아~");
+		return new ResponseEntity<>(service.recommendLicenseTest(vo),HttpStatus.OK);
+
 	}
 }

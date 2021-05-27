@@ -198,11 +198,19 @@ public class ReportCardMapperTests {
 //		log.info(mapper.averageSchoolTest("rc4"));
 //	}
 
+//	@Test
+//	public void testAnalysis4(){
+//		HashMap map = new HashMap();
+//		map.put("rc_num", "rc22");
+//		map.put("list", mapper.licenseTestSubjects("rc22"));
+//		log.info(mapper.allSubjectScoreLicenseTest(map));
+//	}
+	
 	@Test
-	public void testAnalysis4(){
-		HashMap map = new HashMap();
-		map.put("rc_num", "rc22");
-		map.put("list", mapper.licenseTestSubjects("rc22"));
-		log.info(mapper.allSubjectScoreLicenseTest(map));
+	public void testRecommend(){
+		ReportCardVO vo = new ReportCardVO();
+		vo.setRc_subtype("정보처리기사");
+		vo.setRc_type("License");
+		log.info(mapper.recommendLicenseTest(vo));
 	}
 }
