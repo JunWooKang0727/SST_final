@@ -1,8 +1,11 @@
 package org.sst.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.LicenseScoreVO;
 import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
+import org.sst.domain.StudyGroupVO;
+import org.sst.domain.WANoteReplyVO;
 import org.sst.service.ReportCardService;
 
 import lombok.AllArgsConstructor;
@@ -44,8 +50,8 @@ public class ReportCardController {
 	@GetMapping("/read")
 	public String read(@RequestParam("rc_num") String rc_num, Model model) {
 		ReportCardVO vo = service.readReportCard(rc_num);
-		model.addAttribute("rc_num", rc_num);
 		model.addAttribute("reportcard", vo);
+		model.addAttribute("rc_num", rc_num);
 		if (vo.getRc_subtype().equals("학교성적")) {
 			List<SchoolTestVO> list = service.listSchoolTest(rc_num);
 			if (list.size() < 1) {
@@ -60,8 +66,7 @@ public class ReportCardController {
 				return "/reportcard/createLicenseTest";
 			} else {
 				model.addAttribute("licenseTestList", list);
-				log.info(service.listLicenseTest(rc_num));
-				return "/sreportcard/readLicenseReportCard";
+				return "/reportcard/readLicenseReportCard";
 			}
 		}
 	}
@@ -72,7 +77,7 @@ public class ReportCardController {
 
 	@PostMapping("/create")
 	public String create(ReportCardVO vo, RedirectAttributes rttr) {
-		if (vo.getRc_type().endsWith("성적")) {
+		if (vo.getRc_type().endsWith("학교")) {
 			vo.setRc_subtype("학교성적");
 		}
 		service.createReportCard(vo);
@@ -177,9 +182,6 @@ public class ReportCardController {
 	}
 
 	
-	
-	
-	
 	// LicenseTest
 	@GetMapping("/licensetest/create")
 	public String createLicenseTest(@RequestParam("rc_num") String rc_num, Model model) {
@@ -240,4 +242,22 @@ public class ReportCardController {
 		}
 		return "redirect:/reportcard/licensetest/update?lt_num=" + lt_num;
 	}
+	
+	
+	@GetMapping(value = "/recommendLicenseTest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<StudyGroupVO>> recommendLicenseTest(ReportCardVO vo) {
+		return new ResponseEntity<>(service.recommendLicenseTest(vo),HttpStatus.OK);
+
+	}
+	
+	@GetMapping(value = "/recommendSchoolTest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<StudyGroupVO>> recommendSchoolTest(ReportCardVO vo) {
+		HashMap map = service.worstSubject(vo.getRc_num());
+		map.put("rc_type", vo.getRc_type());
+		return new ResponseEntity<>(service.recommendSchoolTest(map),HttpStatus.OK);
+
+	}
+	 
 }

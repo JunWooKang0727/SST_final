@@ -10,6 +10,7 @@ import org.sst.domain.LicenseTestVO;
 import org.sst.domain.ReportCardVO;
 import org.sst.domain.SchoolScoreVO;
 import org.sst.domain.SchoolTestVO;
+import org.sst.domain.StudyGroupVO;
 import org.sst.mapper.ReportCardMapper;
 
 import lombok.Setter;
@@ -148,6 +149,21 @@ public class ReportCardServiceImpl implements ReportCardService {
 	@Override
 	public boolean updateLicenseScore(LicenseScoreVO ls) {
 		return mapper.updateLicenseScore(ls) == 1;
+	}
+	@Override
+	public List<StudyGroupVO> recommendLicenseTest(ReportCardVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.recommendLicenseTest(vo);
+	}
+	@Override
+	public List<StudyGroupVO> recommendSchoolTest(HashMap map) {
+		// TODO Auto-generated method stub
+		return mapper.recommendSchoolTest(map);
+	}
+	@Override
+	public HashMap worstSubject(String rc_num) {
+		// TODO Auto-generated method stub
+		return mapper.worstSubject(rc_num);
 	}
 
 	

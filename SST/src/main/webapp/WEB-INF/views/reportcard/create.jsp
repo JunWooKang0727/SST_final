@@ -51,9 +51,9 @@
 										타이틀: <input type="text" name="rc_title" placeholder="입력해주세요." class="form-control" required><br> 
 											성적 유형: 
 											<select class="form-control " name="rc_type" id="rc_type" required>
-											<option value="초등학교성적">초등학교 성적</option>
-											<option value="중학교성적">중학교 성적</option>
-											<option value="고등학교성적">고등학교 성적</option>
+											<option value="초등학교">초등학교 성적</option>
+											<option value="중학교">중학교 성적</option>
+											<option value="고등학교">고등학교 성적</option>
 											<option value="License">자격증</option>
 											<option value="Language">어학시험</option>
 											<option value="etc">기타</option>
