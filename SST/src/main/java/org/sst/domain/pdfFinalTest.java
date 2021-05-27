@@ -38,9 +38,10 @@ public class pdfFinalTest {
 
 		String[] result = ahn.split(reg);
 		ArrayList<String> exNumList = null;
-		if (result.length != 0) {
+		int resultLength = result.length;
+		if (resultLength != 0) {
 			exNumList = new ArrayList<String>();
-			for (int i = 0; i < result.length; i++) {
+			for (int i = 0; i < resultLength; i++) {
 				/*
 				 * System.out.println("===="); System.out.println(result[i]);
 				 */
@@ -112,7 +113,8 @@ public class pdfFinalTest {
 		
 		ArrayList<String> downPList  = (ArrayList<String>)ur[0];
 		ArrayList<String> downHList  = (ArrayList<String>)ur[1];
-		for(int i = 0 ; i<downPList.size();i++){
+		int downPListSize =  downPList.size();
+		for(int i = 0 ; i<downPListSize;i++){
 			try {
 				cr.getEx(downPList.get(i), downHList.get(i),pcvo.getPath());
 				//문제를 pcvo에 있는 값에 따라 pdf를 만들어준다.C:/upload/new/m_mun...pdf
@@ -125,7 +127,8 @@ public class pdfFinalTest {
 		int count = 0;
 		System.out.println();
 		int exCount = 0;
-		for(int i = 0 ; i<downHList.size();i++){
+		int downHListSize = downHList.size();
+		for(int i = 0 ; i<downHListSize;i++){
 			count++;
 			System.out.println(count);
 			ArrayList<String> exListForImage = findEx(downPList.get(i).substring(52), downHList.get(i).substring(52), pmvo);
@@ -149,10 +152,12 @@ public class pdfFinalTest {
 			ArrayList<PdfIndexInImage> secondP3i = pfi.printSubwords(document, (Integer.parseInt(searchTerm.substring(0,searchTerm.length()-1).trim())+1)+".");
 			
 			//45번이 아닌경우
-			if(secondP3i.size()!=0){
+			int secondP3iSize= secondP3i.size();
+			int chagedExImageSize = chagedExImage.size();
+			if(secondP3iSize!=0){
 				
 			
-			for(int k = 0 ; k <chagedExImage.size();k++){
+			for(int k = 0 ; k <chagedExImageSize;k++){
 				System.out.println(chagedExImage.get(k)+"해당이미지 검색중입니다.");
 				File f = new File(chagedExImage.get(k));
 				EasyImage easyImage = new EasyImage(f);
@@ -207,7 +212,7 @@ public class pdfFinalTest {
 					int lineDistance = 30;
 					int xindex = (int)(firstP3i.get(0).getxIndex()*4);
 					int xwidth = 0;
-					if(firstP3i.get(0).getxIndex()<(int)((easyImage.getWidth()/4)/2)){
+					if(firstP3i.get(0).getxIndex()<(int)((easyImage.getWidth()/4)/2-lineDistance)){
 						xwidth = (int)(easyImage.getWidth()-xindex*2)/2+lineDistance;
 					}else{
 						xwidth = (int)(easyImage.getWidth()-xindex-lineDistance);
@@ -239,7 +244,7 @@ public class pdfFinalTest {
 			}
 			
 			}else{//45번인경우
-				for(int k = 0 ; k <chagedExImage.size();k++){
+				for(int k = 0 ; k <chagedExImageSize;k++){
 					System.out.println(chagedExImage.get(k)+"해당이미지 검색중입니다.");
 					File f = new File(chagedExImage.get(k));
 					EasyImage easyImage = new EasyImage(f);
@@ -294,21 +299,13 @@ public class pdfFinalTest {
 						int lineDistance = 30;
 						int xindex = (int)(firstP3i.get(0).getxIndex()*4);
 						int xwidth = 0;
-						if(firstP3i.get(0).getxIndex()<(int)((easyImage.getWidth()/4)/2)){
+						if(firstP3i.get(0).getxIndex()<(int)((easyImage.getWidth()/4)/2)-lineDistance){
 							xwidth = (int)(easyImage.getWidth()-xindex*2)/2+lineDistance;
 						}else{
 							xwidth = (int)(easyImage.getWidth()-xindex-lineDistance);
 						}
 						int yindex = (int)(firstP3i.get(0).getyIndex()*4-fontSize);
-						int yheight = 0;
-						if(firstP3i.get(0).getPage()!=secondP3i.get(0).getPage()){
-							yheight = (int)(easyImage.getHeight()-firstP3i.get(0).getyIndex()*4-fontSize);
-						}else if((firstP3i.get(0).getPage()==secondP3i.get(0).getPage())&&
-								firstP3i.get(0).getyIndex()>secondP3i.get(0).getyIndex()){
-							yheight = (int)(easyImage.getHeight()-firstP3i.get(0).getyIndex()*4-fontSize);
-						}else{
-							yheight = (int)((secondP3i.get(0).getyIndex()-firstP3i.get(0).getyIndex())*4);
-						}
+						int yheight = easyImage.getHeight()-yindex;
 
 						EasyImage cropedImage = easyImageMachted.crop(xindex,//찾는숫자 x인덱스*4, 변동값 final
 															   yindex,//변동값 찾는숫자 y인덱스 *2 - 글자 폰트크기(글자 좌측중앙의 위치를찾기때문)
@@ -321,15 +318,14 @@ public class pdfFinalTest {
 					
 						
 						out.close();
-					}
+						}
 					
-				}
+					}
 				
-			}
+				}
 			//아래 코드는 문제 숫자를 넣으면 해당 위치를 가지고 있는 객체를 반환합니다.
 
-			
-		}
+			}
 			document.close();
 		}
 	}

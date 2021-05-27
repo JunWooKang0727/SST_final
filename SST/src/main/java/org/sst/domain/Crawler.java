@@ -64,6 +64,7 @@ public class Crawler {
 		
 		/*System.out.println(doc.html());*/
 		Elements buttonElements = doc.select("button[class=btn_L_col2 has_down]");
+		
 		List<String> buttons = new ArrayList<>();
 		for(Element buttonElement : buttonElements){
 			buttons.add(buttonElement.attr("onclick"));
