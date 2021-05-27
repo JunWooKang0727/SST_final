@@ -125,11 +125,17 @@ public class WANoteMapperTests {
 //		log.info(mapper.countTagChart("ggy"));
 //	}
 	
+//	@Test
+//	public void testListWithTag() {
+//		Criteria cri = new Criteria();
+//		cri.setKeyword("파이썬");
+//		log.info(mapper.listWithTagWANote(cri));
+//		log.info(mapper.getTotalCountTag(cri));
+//	}
+	
 	@Test
-	public void testListWithTag() {
-		Criteria cri = new Criteria();
-		cri.setKeyword("파이썬");
-		log.info(mapper.listWithTagWANote(cri));
-		log.info(mapper.getTotalCountTag(cri));
+	public void testRecommend() {
+		log.info(mapper.recommendStudyGrop(mapper.countTagChart("test").get(0).get("TG_NAME").toString()));
+//		mapper.recommendStudyGrop();
 	}
 }

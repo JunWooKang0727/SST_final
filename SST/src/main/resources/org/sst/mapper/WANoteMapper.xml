@@ -173,6 +173,11 @@ select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date fr
 		group by w_reason order by count(*) desc
 
 	</select>
+	
+	
+	<select id="recommendStudyGrop" resultType="org.sst.domain.StudyGroupVO">
+	<![CDATA[ select * from studygroup where g_name LIKE '%'||#{tg_name}||'%' and  rownum<5 ]]>
+	</select>
 
 
 </mapper>

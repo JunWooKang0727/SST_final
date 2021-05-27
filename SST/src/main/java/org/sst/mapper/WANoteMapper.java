@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.sst.domain.Criteria;
+import org.sst.domain.StudyGroupVO;
 import org.sst.domain.WANoteVO;
 import org.sst.domain.WAtagVO;
 
@@ -31,5 +32,7 @@ public interface WANoteMapper {
 	
 	List<HashMap> countTagChart(String m_id);
 	List<HashMap> countReasonChart(String m_id);
+	
+	List<StudyGroupVO> recommendStudyGrop(String tg_name);
 	
 }

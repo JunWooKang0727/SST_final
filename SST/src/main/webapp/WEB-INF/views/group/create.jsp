@@ -66,12 +66,14 @@
 	                                    <div class="col-sm-9">
 	                                    	<select name="g_category" class="form-control rounded-pill" 
 	                                    	placeholder="카테고리를 선택하세요">
-	                                    		<option selected>선택</option>
-	                                    		<option value="highschool">고등학생</option>
-	                                    		<option value="college">대학생</option>
-	                                    		<option value="employement">취업</option>
-	                                    		<option value="language">어학</option>
-	                                    		<option value="etc">기타</option>
+											<option selected>선택</option>
+                                             <option value="초등학교">초등학교</option>
+                                             <option value="중학교">중학교</option>
+                                             <option value="고등학교">고등학교</option>
+                                             <option value="License">자격증</option>
+                                             <option value="Language">어학시험</option>
+                                             <option value="etc">기타</option>
+
 	                                    	</select>
 	                                    </div>
 	                                </div>

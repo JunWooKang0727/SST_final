@@ -1,5 +1,6 @@
 package org.sst.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.sst.domain.Criteria;
 import org.sst.domain.PageDTO;
+import org.sst.domain.StudyGroupVO;
 import org.sst.domain.WANoteVO;
 import org.sst.domain.WAtagVO;
 import org.sst.domain.WanoteAttachVO;
@@ -193,5 +195,22 @@ public class WANoteController {
 	@ResponseBody
 	public ResponseEntity<List<HashMap>> countReasonChart(@PathVariable("m_id") String m_id) {
 		return new ResponseEntity<>(service.countReasonChart(m_id), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/recommendStudyGroup/{m_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<StudyGroupVO>> recommendStudyGroup(@PathVariable("m_id") String m_id) {
+		// log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+service.countTagChart(m_id).get(0).get("TG_NAME").toString());
+
+		String tg_name ="";
+		for(int i=0; i<service.countTagChart(m_id).size();i++){
+			if (service.recommendStudyGrop(service.countTagChart(m_id).get(i).get("TG_NAME").toString()).size() != 0) {
+				tg_name=service.countTagChart(m_id).get(i).get("TG_NAME").toString();
+				break;
+			}
+		}
+
+		return new ResponseEntity<>(service.recommendStudyGrop(tg_name),HttpStatus.OK);
+
 	}
 }

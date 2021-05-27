@@ -59,7 +59,7 @@ prefix="security"%>
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">공부 관리:</h6>
                         <a class="collapse-item" href="/reportcard/list?m_id=<security:authentication property="principal.username"/>">성적관리</a>
-                        <a class="collapse-item" href="/wanote/list?m_id=ggy">오답노트</a>
+                        <a class="collapse-item" href="/wanote/list">오답노트</a>
 
                     </div>
                 </div>
