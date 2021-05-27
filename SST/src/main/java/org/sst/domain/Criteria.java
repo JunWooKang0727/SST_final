@@ -16,7 +16,7 @@ public class Criteria {
 
 	private String type;
 	private String keyword;
-	
+	private String g_num;
 	private String m_id;
 
 	public Criteria() {

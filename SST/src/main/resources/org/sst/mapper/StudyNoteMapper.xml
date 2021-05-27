@@ -54,6 +54,7 @@
 					close=")">
 					${item} LIKE #{searchKey}
 				</foreach>
+				and g_num #{g_num}
 			</where>
 		</if>
 		
@@ -90,6 +91,7 @@
 					close=")">
 					${item} LIKE #{searchKey}
 				</foreach>
+				
 			</where>
 		</if>
 	</select>
@@ -116,7 +118,7 @@
 	      rownum <= #{pageNum} * #{amount}
 
 	      and to_number(substr(sn_num,4)) > 0
-
+		  
 	      order by to_number(substr(sn_num,4)) desc
 	      )
 	  where rn > (#{pageNum} -1) * #{amount}   

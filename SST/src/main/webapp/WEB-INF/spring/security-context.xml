@@ -46,7 +46,8 @@
       <security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
       
       <security:intercept-url pattern="/personalstudy/**" access="permitAll"/>
-      
+      <security:intercept-url pattern="/studynote/**" access="hasRole('ROLE_MEMBER')"/>
+      <security:intercept-url pattern="/studydata/**" access="hasRole('ROLE_MEMBER')"/>
      
    </security:http>
    

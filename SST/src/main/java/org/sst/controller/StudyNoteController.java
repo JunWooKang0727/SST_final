@@ -37,7 +37,7 @@ public class StudyNoteController {
 	public String create(StudyNoteVO vo){
 		
 		service.register(vo);
-		
+		log.info("create : "+vo);
 		return "redirect:/studynote/list";
 	}
 	
