@@ -44,7 +44,7 @@ public class StudyDataController {
 	public void goList(StudyDataListVO studyDataList, Model model){
 		log.info("go list");
 		
-		studyDataList.setG_num("1"); //임의로 1로 지정 //그룹 번호를 그룹페이지 들어갈 때 가져와야함
+		//studyDataList.setG_num("1"); //임의로 1로 지정 //그룹 번호를 그룹페이지 들어갈 때 가져와야함
 		studyDataList.setCurPath("\\"+studyDataList.getG_num()); // 임의로 1로 지정 //그룹번호로 되어야함
 		log.info("file group number : "+studyDataList.getG_num());
 		log.info(studyDataList);
@@ -72,7 +72,7 @@ public class StudyDataController {
 		UUID uuid = UUID.randomUUID();
 		String uuidFile =uuid.toString()+"_"+dirName;
 		File dir = new File(uploadFolder, dirName);
-		dir.mkdir();
+		dir.mkdirs();
 		
 		StudyDataVO vo = new StudyDataVO();
 		log.info("create folder "+dirName);

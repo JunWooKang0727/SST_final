@@ -48,14 +48,14 @@ prefix="security"%>
 		var csrfTokenValue = "${_csrf.token}";
 		
 		var id = '<security:authentication property="principal.username"/>';
-
+		var g_num = "${g_num}";
 		$.ajax({
 			type: "POST",
 			url: "/studynote/create",
 			beforeSend:function(xhr){
 				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
 			},
-			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_writer:id},
+			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_writer:id,g_num:g_num},
 			async:"false",
 			success: function(){
 				console.log("asdfawef");
@@ -203,6 +203,9 @@ prefix="security"%>
                                     </span>
                                     <span class="text">제출</span>
                                 </a>
+                                
+                                <input type="hidden"
+						value="<c:out value='${g_num}'/>" name="g_num">
 							</div>
 									
 						</form>

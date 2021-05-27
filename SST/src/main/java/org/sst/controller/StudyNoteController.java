@@ -29,16 +29,19 @@ public class StudyNoteController {
 	private StudyNoteService service;
 
 	@GetMapping("/create")
-	public void create() {
+	public void create(String g_num, Model model) {
 		//뷰 이동...--
+		model.addAttribute("g_num",g_num);
 	}
 
 	@PostMapping("/create")
-	public String create(StudyNoteVO vo){
+	public String create(StudyNoteVO vo,RedirectAttributes rttr){
 		
-		service.register(vo);
+		//service.register(vo);
 		log.info("create : "+vo);
-		return "redirect:/studynote/list";
+		rttr.addAttribute("g_num", vo.getG_num());
+		
+		return "redirect:/studynote/list?g_num=gn_4";
 	}
 	
 	
@@ -46,15 +49,15 @@ public class StudyNoteController {
 	public void list(Criteria cri, Model model) {
 
 		log.info("list: " + cri);
+		
 		model.addAttribute("list", service.getList(cri));
-		// model.addAttribute("pageMaker", new PageDTO(cri, 123));
-
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		model.addAttribute("cri", cri);
 		int total = service.getTotal(cri);
 
 		log.info("total: " + total);
 
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
 	}
 	
 	@GetMapping({ "/read", "/update" })
@@ -76,7 +79,7 @@ public class StudyNoteController {
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
-
+		rttr.addAttribute("g_num", vo.getG_num());
 		return "redirect:/board/list";
 	}
 	
@@ -84,7 +87,7 @@ public class StudyNoteController {
 	public String remove(@RequestParam("sn_num") String sn_num, Criteria cri, RedirectAttributes rttr) {
 
 		log.info("remove..." + sn_num);
-
+		//rttr.addAttribute("g_num", vo.getG_num());
 		//List<BoardAttachVO> attachList = service.getAttachList(bno);f
 		service.delete(sn_num);
 /*		if (service.remove(bno)) {

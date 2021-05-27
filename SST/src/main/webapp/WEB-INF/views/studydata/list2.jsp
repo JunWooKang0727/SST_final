@@ -14,7 +14,15 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
+	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
+	<script
+		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script
+		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="../../../resources/js/sb-admin-2.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <title>SST</title>
 <!-- Custom fonts for this template-->
 <link href="../../../resources/vendor/fontawesome-free/css/all.min.css"
@@ -45,6 +53,9 @@
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 					<!-- Page Heading -->
+					<div class="row goMain">
+						<a href="/group/detail?g_num=${studyDataList.g_num}">Main으로</a>
+					</div>
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
 						<h1 class="h3 mb-0 text-gray-800">자료실</h1>
@@ -125,15 +136,7 @@
 	</a>
 	
 	<!-- Bootstrap core JavaScript-->
-	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="../../../resources/js/sb-admin-2.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
 
 	<script type="text/javascript">
 	
@@ -461,7 +464,12 @@
 							
 		}); //end of $(function())
 		
-	
+		$(function(){
+			
+			
+			
+		});
+		
 	</script>
 
 </body>
