@@ -75,6 +75,7 @@ public class ReportCardController {
 	public void create() {
 	}
 
+
 	@PostMapping("/create")
 	public String create(ReportCardVO vo, RedirectAttributes rttr) {
 		if (vo.getRc_type().endsWith("학교")) {

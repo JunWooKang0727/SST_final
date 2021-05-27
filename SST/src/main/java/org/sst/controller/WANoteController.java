@@ -41,6 +41,9 @@ public class WANoteController {
 	@GetMapping("/create")
 	public void create() {
 	}
+	@GetMapping("/home2")
+	public void home2() {
+	}
 	
 	@Transactional
 	@PostMapping("/create")
