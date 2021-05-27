@@ -29,7 +29,19 @@
 
 <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 <link href="../../../resources/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+	<!-- Bootstrap core JavaScript-->
+	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
 
+	<script
+		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- Core plugin JavaScript-->
+	<script
+		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="../../../resources/js/sb-admin-2.min.js"></script>
+	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  -->
+
+	<script src="../../../resources/vendor/jquery-ui/jquery-ui.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -58,11 +70,11 @@
 					
 					<div class="row">
 						
-					 <form action="/studynote/list"> 
+<!-- 					 <form action="/studynote/list"> 
 						<input type="text" id="datepicker" name="startDate">
 						<input type="text" id="datepicker2" name="endDate">
 						<input type="submit" value="날짜 선택">
-					 </form>
+					 </form> -->
 					</div>
 					
 					<div class="row">
@@ -214,19 +226,7 @@
 		class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="../../../resources/vendor/jquery/jquery.min.js"></script>
 
-	<script
-		src="../../../resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../../../resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="../../../resources/js/sb-admin-2.min.js"></script>
-	<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  -->
-
-	<script src="../../../resources/vendor/jquery-ui/jquery-ui.min.js"></script>
 	
 	<script type="text/javascript">
 	$(document)
@@ -257,7 +257,7 @@
 						$("#regBtn").on("click", function(e) {
 							
 							e.preventDefault();
-							self.location = "/studynote/create";
+							self.location = "/studynote/create?g_num=${cri.g_num}";
 
 						});
 
@@ -322,17 +322,7 @@
 						
 						
 							
-							$("#datepicker").datepicker({
-								
-							
-								
-							});
-							
-							$("#datepicker2").datepicker({
-								
-							
-								
-							});
+						
 						
 						
 					});

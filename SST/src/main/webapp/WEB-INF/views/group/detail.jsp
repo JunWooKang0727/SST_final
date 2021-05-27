@@ -38,20 +38,20 @@
                 <div class="container-fluid">
                     <!-- 페이지 헤더 -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-                        <h1 class="h3 mb-0 text-gray-800">그룹이름</h1>
+                        <h1 class="h3 mb-0 text-gray-800">${group.g_name}</h1>
                     </div>
                     <!-- 페이지 본문 -->
                     <!-- 생성한 그룹 -->
                     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2 justify-content-center">
                     	<ul class="nav">
 						  <li class="nav-item">
-						    <a class="nav-link active" href="#">공유노트제출</a>
+						    <a class="nav-link active" href="/studynote/list?g_num=${group.g_num}">스터디 노트</a>
 						  </li>
 						  <li class="nav-item">
 						    <a class="nav-link" href="#">출석체크</a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link" href="#">menu1</a>
+						    <a class="nav-link" href="/studydata/list2?g_num=${group.g_num}">자료실</a>
 						  </li>
 						  <li class="nav-item">
 						    <a class="nav-link" href="#">menu2</a>

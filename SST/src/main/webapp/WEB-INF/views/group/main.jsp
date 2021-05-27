@@ -76,6 +76,8 @@
 	                                            <div class="mb-2">
 	                                            	<a href="/group/read?g_num=<c:out value="${group.g_num }"/>" class="h5 mb-1 font-weight-bold text-gray-800">
 	                                            	<c:out value="${group.g_name }"/></a>
+	                                            	<a href="/group/detail?g_num=<c:out value="${group.g_num }"/>" class="h5 mb-1 font-weight-bold text-gray-800">
+	                                            	입장</a>
 	                                            </div>
 	                                            <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
 													스터디 설명 : <c:out value="${group.g_content }"/>
@@ -107,6 +109,8 @@
 	                                            	<!-- href를 그룹 내부 페이지로 수정해야함 -->
 	                                            	<a href="/group/read?g_num=<c:out value="${one.g_num }"/>" class="h5 mb-1 font-weight-bold text-gray-800">
 	                                            	<c:out value="${one.g_name }"/></a>
+	                                            	<a href="/group/detail?g_num=<c:out value="${one.g_num }"/>" class="h5 mb-1 font-weight-bold text-gray-800">
+	                                            	입장</a>
 	                                            </div>
 	                                            <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
 													스터디 설명 : <c:out value="${one.g_content }"/>

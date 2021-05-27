@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -118,4 +119,190 @@
 	</select>
 
 
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sst.mapper.WANoteMapper">
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection='typeArr'>
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							w_title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							w_question like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<insert id="createWANote" parameterType="org.sst.domain.WANoteVO" 
+	useGeneratedKeys="true" keyColumn="w_num" keyProperty="w_num">
+		insert into
+		WAnote
+		(w_num, w_title, w_question, w_answer, w_reason, w_subject,  m_id,w_date)
+		values (wanote_seq.nextval, #{w_title}, #{w_question},
+		#{w_answer}, #{w_reason}, #{w_subject}, #{m_id},sysdate)
+	</insert>
+
+	<!-- <select id="listWANote" resultType="org.sst.domain.WANoteVO" parameterType="String"> 
+		<![CDATA[ select /*+INDEX_DESC(wanote pk_wanote) */ * from wanote where m_id=#{m_id} 
+		]]> </select> -->
+		
+		
+	<resultMap type="org.sst.domain.WANoteVO" id="wanoteMap">
+		<id property="w_num" column="w_num" />
+		<result property="w_title" column="w_title" />
+		<result property="w_question" column="w_question" />
+		<result property="w_answer" column="w_answer" />
+		<result property="w_reason" column="w_reason" />
+		<result property="w_subject" column="w_subject" />
+		<result property="w_date" column="w_date" />
+		<result property="m_id" column="m_id" />
+		<collection property="taglist" resultMap="tagMap">
+		</collection>
+	</resultMap>
+	<resultMap type="org.sst.domain.WAtagVO" id="tagMap">
+		<result property="tg_num" column="tg_num" />
+		<result property="tg_name" column="tg_name" />
+
+	</resultMap>
+
+
+	<select id="listWithPagingWANote" resultMap="wanoteMap"
+		parameterType="org.sst.domain.Criteria">
+		  <![CDATA[   
+select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
+			(select  /*+ INDEX_DESC(wanote pk_wanote) */ 
+				rownum rn ,wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
+		w_date
+			 from wanote  where 
+			 ]]>
+		<if test="m_id != null">
+			m_id=#{m_id} and
+		</if>
+		<include refid="criteria"></include>  
+  		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+  		where rn > (#{pageNum} -1) * #{amount}   
+  	]]>
+	</select>
+
+
+	<select id="getTotalCount" resultType="int">
+		select count(*) from wanote where 
+		<include refid="criteria"></include>
+		<if test="m_id != null">
+			 m_id=#{m_id} and
+		</if>
+		w_num>0 
+	</select>
+
+	<select id="listWithTagWANote" resultMap="wanoteMap"
+		parameterType="org.sst.domain.Criteria">
+		  <![CDATA[   
+select w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,w_date from 
+			(select  /*+ INDEX_DESC(wanote pk_wanote) */ 
+				rownum rn ,wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
+		w_date
+			 from wanote,watag,tag  where wanote.w_num=watag.w_num and watag.tg_num=tag.tg_num and tg_name=#{keyword} and
+			 ]]>
+		<if test="m_id != null">
+			m_id=#{m_id} and
+		</if>
+  		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+  		where rn > (#{pageNum} -1) * #{amount}   
+  	]]>
+	</select>
+		<select id="getTotalCountTag" resultType="int">
+		select count(*) from wanote,watag,tag  where wanote.w_num=watag.w_num and watag.tg_num=tag.tg_num and tg_name=#{keyword} and
+		<include refid="criteria"></include>
+		<if test="m_id != null">
+			 m_id=#{m_id} and
+		</if>
+		wanote.w_num>0 
+	</select>
+
+	<select id="readWANote" parameterType="String" resultMap="wanoteMap">
+		select wanote.w_num, w_title, w_question, w_answer, w_reason, w_subject, m_id,TO_CHAR(w_date,'YYYY-MM-DD') as
+		w_date,tg_num,tg_name
+			 from wanote LEFT OUTER JOIN (select w_num,watag.tg_num,tg_name from tag,watag where watag.tg_num=tag.tg_num) watag 
+       on wanote.w_num = watag.w_num
+			 where wanote.w_num=#{w_num}
+	</select>
+
+	<delete id="deleteWANote" parameterType="String">
+		DELETE FROM
+		wanote WHERE w_num=#{w_num}
+	</delete>
+
+	<update id="updateWANote" parameterType="org.sst.domain.WANoteVO">
+		UPDATE WAnote
+		SET w_title= #{w_title},w_question= #{w_question},w_answer=
+		#{w_answer}
+		,w_reason= #{w_reason}, w_subject=#{w_subject}
+		WHERE w_num=#{w_num}
+	</update>
+
+	
+	
+	
+	<select id="listAllTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select tag.tg_num,tg_name,count(*) as count from tag,watag  where tg_name LIKE  '%'||#{keyword}||'%' 
+	and watag.tg_num=tag.tg_num group by tag.tg_num,tg_name
+	</select>
+	<select id="readTag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select * from tag where tg_name =#{tg_name}
+	</select>
+	<insert id="createTag" useGeneratedKeys="true" keyColumn="tg_num" keyProperty="tg_num"  parameterType="org.sst.domain.WAtagVO">
+	insert into tag(tg_num,tg_name) values(tag_seq.nextval,#{tg_name})
+	</insert>
+	
+	<insert id="createWATag" parameterType="java.util.HashMap">
+	insert into watag(w_num,tg_num) values(#{w_num},#{tg_num})
+	</insert>
+	
+	<select id="listWATag" resultType="org.sst.domain.WAtagVO" parameterType="String">
+	select * from watag where w_num=#{w_num}
+	</select>
+
+	<delete id="deleteAllWaTag">
+	delete from watag where w_num=#{w_num}
+	</delete>
+
+	<select id="countTagChart" resultType="java.util.HashMap"
+		parameterType="String">
+		 <![CDATA[   
+		select * from (select tg_name,count(*) as count from tag,watag,wanote
+		where tag.tg_num=watag.tg_num and wanote.w_num = watag.w_num and m_id=#{m_id}
+		group by tg_name order by count(*) desc) where rownum<7
+				]]>
+	</select>
+
+	<select id="countReasonChart" resultType="java.util.HashMap"
+		parameterType="String">
+		select w_reason,count(*) as count from wanote
+		where m_id=#{m_id}
+		group by w_reason order by count(*) desc
+
+	</select>
+	
+	
+	<select id="recommendStudyGrop" resultType="org.sst.domain.StudyGroupVO">
+	<![CDATA[ 
+	select * from (select * from studygroup where g_name LIKE
+	 '%'||#{tg_name}||'%' order by DBMS_RANDOM.RANDOM) where  rownum<5  ]]>
+	</select>
+
+
+>>>>>>> refs/remotes/origin/main
 </mapper>

@@ -38,7 +38,7 @@
 		VALUES(
 		('sn_'||sn_seq.NEXTVAL), #{sn_title},#{sn_writer},
 		#{sn_contents,jdbcType=CLOB},
-		SYSDATE, 1, 1
+		SYSDATE, #{g_num}, 1
 		)
 
 	</insert>
@@ -54,6 +54,7 @@
 					close=")">
 					${item} LIKE #{searchKey}
 				</foreach>
+				and g_num #{g_num}
 			</where>
 		</if>
 		
@@ -90,6 +91,7 @@
 					close=")">
 					${item} LIKE #{searchKey}
 				</foreach>
+				
 			</where>
 		</if>
 	</select>
@@ -116,10 +118,13 @@
 	      rownum <= #{pageNum} * #{amount}
 
 	      and to_number(substr(sn_num,4)) > 0
-
+	      
+		  
+		  
 	      order by to_number(substr(sn_num,4)) desc
 	      )
 	  where rn > (#{pageNum} -1) * #{amount}   
+	  
 	  ]]>
 	</select>
 	

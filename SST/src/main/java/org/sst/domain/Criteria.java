@@ -16,6 +16,11 @@ public class Criteria {
 
 	private String type;
 	private String keyword;
+<<<<<<< HEAD
+=======
+	private String g_num;
+	private String m_id;
+>>>>>>> refs/remotes/origin/main
 
 	public Criteria() {
 		this(1, 10);

@@ -1,22 +1,23 @@
 package org.sst.controller;
 
 import java.security.Principal;
-import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+>>>>>>> refs/remotes/origin/main
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 <<<<<<< HEAD
 =======
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.sst.domain.Criteria;
 import org.sst.domain.Criteria2;
 import org.sst.domain.GroupMemberVO;
-import org.sst.domain.PageDTO;
 import org.sst.domain.PageDTO2;
 >>>>>>> refs/remotes/origin/yhy2
 import org.sst.domain.StudyGroupVO;
@@ -136,6 +137,15 @@ public class StudyGroupController {
 	@PostMapping("/memdelete")
 	public void deleteMem(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
 		log.info("[Group member auth Update]");
+		
+	}
+	
+	
+	@GetMapping("/detail")
+	public void goDetail(String g_num,Model model){
+		log.info("detail");
+		model.addAttribute("group", service.groupDetailGet(g_num));
+		
 		
 	}
 

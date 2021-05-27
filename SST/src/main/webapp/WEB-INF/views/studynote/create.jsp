@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,11 +44,19 @@
 	});
 	
 	function sendRegData(){
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
+		
+		var id = '<security:authentication property="principal.username"/>';
+		var g_num = "${g_num}";
 		$.ajax({
 			type: "POST",
 			url: "/studynote/create",
-			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_writer:"kang"},
-			async:"true",
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+			},
+			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_writer:id,g_num:g_num},
+			async:"false",
 			success: function(){
 				console.log("asdfawef");
 			}
@@ -193,6 +203,9 @@
                                     </span>
                                     <span class="text">제출</span>
                                 </a>
+                                
+                                <input type="hidden"
+						value="<c:out value='${g_num}'/>" name="g_num">
 							</div>
 									
 						</form>
