@@ -10,7 +10,7 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet"> 
+ <link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -180,7 +180,7 @@
                                 aria-haspopup="true" aria-expanded="true"
                                 aria-controls="collapsePages">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-									<security:authentication property="principal.username"/>
+									<!-- <security:authentication property="principal.username"/> -->
 								</span>
                                 <img class="img-profile rounded-circle"
 

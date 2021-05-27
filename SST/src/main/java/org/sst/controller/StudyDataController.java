@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -89,16 +90,16 @@ public class StudyDataController {
 	
 	
 	
-	@PostMapping("/uploadAjax")
+	@PostMapping("/upload")
 	@ResponseBody
-	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile,StudyDataListVO vo){
+	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile,StudyDataListVO vo,Principal principal){
 		
 		log.info("upate ajax post...........................");
 		
 		String uploadFolder = "E:\\upload";
 		
 		String curPath = vo.getCurPath();
-		
+		String id = principal.getName();
 		
 	
 		uploadFolder=uploadFolder + curPath;
@@ -129,7 +130,7 @@ public class StudyDataController {
 			File saveFile = new File(uploadFolder, uploadFileName);
 			
 			studyData.setG_num(vo.getG_num());
-			studyData.setUploader("solkang");
+			studyData.setUploader(id);
 			studyData.setUploadPath(curPath);
 			studyData.setFileType(true);
 			studyData.setUuid(uuid.toString());

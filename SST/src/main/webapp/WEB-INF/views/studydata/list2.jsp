@@ -24,8 +24,8 @@
 	rel="stylesheet">
 
 <!-- Custom styles for this template-->
-<link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
-<link href="../../../resources/css/studydata.css" rel="stylesheet">
+<!-- <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet"> -->
+
 </head>
 
 <body id="page-top">
@@ -39,7 +39,9 @@
 			<!-- Main Content -->
 			<div id="content">
 				<!-- topbar -->
-				<%@include file="../template/topbar.jsp"%>
+				
+				<%@include file="../template/topbar.jsp"%> 
+				<link href="../../../resources/css/studydata.css" rel="stylesheet">
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 					<!-- Page Heading -->
@@ -245,7 +247,7 @@
 			
 			if (confirm("파일을 등록할까요")) {
 				$.ajax({
-					url : '/studydata/uploadAjax',
+					url : '/studydata/upload',
 					
 					processData : false,
 					contentType : false,
