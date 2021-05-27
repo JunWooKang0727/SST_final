@@ -53,10 +53,11 @@ public class StudyDataController {
 	
 	//새 폴더 생성
 	@PostMapping("/create")
+	@ResponseBody
 	public String makeDir(StudyDataListVO listvo, String dirName){
 		
 		String uploadFolder = "E:\\upload";
-		
+		log.info("create directory");
 //		if(dirName.equals("")){
 //			return "redirect:/studydata/list2";
 //		}
@@ -73,7 +74,7 @@ public class StudyDataController {
 		dir.mkdir();
 		
 		StudyDataVO vo = new StudyDataVO();
-		log.info("new folder in "+curPath);
+		log.info("create folder "+dirName);
 		vo.setFileName(dirName);
 		vo.setFileType(false);
 		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
@@ -89,6 +90,7 @@ public class StudyDataController {
 	
 	
 	@PostMapping("/uploadAjax")
+	@ResponseBody
 	public ResponseEntity<String> uploadAjaxPost(MultipartFile[] uploadFile,StudyDataListVO vo){
 		
 		log.info("upate ajax post...........................");
@@ -162,7 +164,7 @@ public class StudyDataController {
 		//vo.setCurPath("^1");
 		vo.setCurPath(regPath);
 		//vo2.setG_num("1");
-		log.info("새로만든거"+vo.getCurPath());
+		//log.info("새로만든거"+vo.getCurPath());
 		return new ResponseEntity<List<StudyDataVO>>(service.getList(vo), HttpStatus.OK);
 
 	}//end getFileList 123
@@ -225,7 +227,7 @@ public class StudyDataController {
 				if(file.isDirectory()){
 					log.info("================ 디렉토리 입니다 =================");
 				}else{
-					log.info("=======아닙니다");
+					
 				}
 				file.delete();
 				service.delete(vo.getUuid());

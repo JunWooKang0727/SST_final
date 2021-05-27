@@ -18,7 +18,6 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -279,9 +278,12 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 		File directory = new File(pmvo.getPath());
 		if (!directory.exists())
 			directory.mkdirs(); // 파일경로 없으면 생성
+		
+	
 		com.itextpdf.text.Document document = new com.itextpdf.text.Document();
 		FileOutputStream fos = new FileOutputStream(pmvo.getPath() + fileName);
-		
+		System.out.println("========== pmvo경로 : "+pmvo.getPath());
+		System.out.println("========== fileName : "+fileName);
 		PdfWriter.getInstance(document, fos);
 		
 		if (exRealMultiList.size() > 0) {
@@ -369,7 +371,18 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 	}
 
 	@Override
-	public void makePdf(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo) throws IOException {
+	public List<String> makePdf(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo) throws IOException {
+		File directory = new File(pmvo.getPath());
+		if (!directory.exists())
+			directory.mkdirs(); // 파일경로 없으면 생성
+		
+		File[] filearr = directory.listFiles();
+		
+		for(File f : filearr){
+			System.out.println("★★★★★★★"+f.getName());
+			f.delete();
+		}
+		
 		int urlLeng = pcvo.getExUrl().length();
 		System.out.println("1." + urlLeng + "파일이 저장될 경로입니다.");
 		// 폼으로 입력받아야 하는값.
@@ -416,7 +429,16 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 
 			pdfDelete(downPList, downHList, pmvo);
 
+		}//end of for
+		
+		
+		File[] resultFiles = directory.listFiles();
+		List<String> result = new ArrayList<>();
+		for(File f : resultFiles){
+			result.add(f.getName());
 		}
-
+		
+		return result;
+		
 	}
 }

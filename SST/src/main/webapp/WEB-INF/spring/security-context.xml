@@ -19,7 +19,7 @@
    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
    
    <!-- jsp에서 security jstl 사용하려면 use-expression="ture" 설정을 해야한다. -->
-   <security:http use-expressions="true">
+   <security:http auto-config="true" use-expressions="true">
    
       <!-- 권한 없을 시 페이지 이동처리 --> 
       <security:access-denied-handler ref="MemberAccessDeny"/>
@@ -44,6 +44,10 @@
       <security:intercept-url pattern="/member/delete" access="hasRole('ROLE_MEMBER')"/>
       <!-- /group 하위에 있는 모든 페이지에 ROLE_MEMBER을 갖고있는 사람만 접근 가능 -->
       <security:intercept-url pattern="/group/**" access="hasRole('ROLE_MEMBER')"/>
+      
+      <security:intercept-url pattern="/personalstudy/**" access="permitAll"/>
+      
+     
    </security:http>
    
    <security:authentication-manager>
