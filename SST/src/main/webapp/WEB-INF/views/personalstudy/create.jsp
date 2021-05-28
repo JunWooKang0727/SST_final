@@ -160,10 +160,11 @@
 								<label><input type="radio" name="Subject" value="1">국어</label> 
 								<label><input type="radio" name="Subject"value="2"> 수학</label> 
 								<label><input type="radio" name="Subject" value="3"> 영어</label> 
-								<label><input type="radio" name="Subject" value="4"> 사회탐구</label> 
-								<label><input type="radio" name="Subject" value="5"> 과학탐구</label>
-								<label><input type="radio" name="Subject" value="6"> 직업탐구</label>
-								<label><input type="radio" name="Subject" value="7"> 제2외국어</label>
+								<label><input type="radio" name="Subject" value="4"> 한국사</label> 
+								<label><input type="radio" name="Subject" value="5"> 사회탐구</label> 
+								<label><input type="radio" name="Subject" value="6"> 과학탐구</label>
+								<label><input type="radio" name="Subject" value="7"> 직업탐구</label>
+								<label><input type="radio" name="Subject" value="8"> 제2외국어</label>
 								
 							</div>
 							
