@@ -244,8 +244,32 @@
 		licensetest.lt_num
 		and reportcard.rc_num = licensetest.rc_num and
 		reportcard.rc_num=#{rc_num}
-	</select>  
+	</select>
 
+
+
+	<select id="recommendLicenseTest" parameterType="org.sst.domain.ReportCardVO" resultType="org.sst.domain.StudyGroupVO">
+		 <![CDATA[ select * from (select * from studygroup where g_name LIKE '%'||#{rc_subtype}||'%' and g_category=#{rc_type}
+			OR g_content LIKE '%'||#{rc_type}||'%' order by DBMS_RANDOM.RANDOM) where  rownum<5
+		]]>
+	</select>
+	
+	<select id="worstSubject" resultType="java.util.HashMap">
+		 <![CDATA[ 
+		select st_year||'학년' as year,ss_name as subject from 
+		(select st_year,st_semester,st_test,st_date,ss_name,ss_score from
+		schoolscore ss,schooltest st where ss.st_num=st.st_num and st.rc_num =#{rc_num} 
+		order by st_date desc,ss_score) where rownum=1
+		]]>
+	</select>
+
+	<select id="recommendSchoolTest" parameterType="java.util.HashMap" resultType="org.sst.domain.StudyGroupVO">
+		 <![CDATA[ 
+		select * from (select * from studygroup where g_name LIKE '%'||#{YEAR}||'%' and  g_name LIKE '%'||#{SUBJECT}||'%' and g_category=#{rc_type} 
+order by DBMS_RANDOM.RANDOM) where rownum<5
+		
+		]]>
+	</select>
 </mapper>
 
 

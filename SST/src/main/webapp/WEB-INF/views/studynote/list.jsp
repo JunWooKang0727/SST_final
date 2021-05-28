@@ -186,10 +186,15 @@
 									class="icon text-white-50"> <i class="fas fa-pen"></i>
 								</span> <span class="text">글쓰기</span>
 								</a>
+								
 						</form>
 
 						</div>
-
+						
+						<form id='goCreate' action="/studynote/create" method='get'>
+							<input type="hidden" name="g_num" value="${cri.g_num}">
+						</form>
+						
 						<form id='actionForm' action="/studynote/list" method='get'>
 							<input type='hidden' name='pageNum'
 								value='${pageMaker.cri.pageNum}'> 
@@ -257,7 +262,7 @@
 						$("#regBtn").on("click", function(e) {
 							
 							e.preventDefault();
-							self.location = "/studynote/create?g_num=${cri.g_num}";
+							$('#goCreate').submit();
 
 						});
 

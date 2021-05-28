@@ -56,7 +56,7 @@
 									<li class="nav-item"><a class="nav-link"
 										href="/wanote/list" id='allWanote'>전체 오답노트</a></li>
 									<li class="nav-item"><a class="nav-link active"
-										href="/wanote/mylist?m_id=ggy">나의 오답노트</a></li>
+										href="/wanote/mylist?m_id=<security:authentication property="principal.username"/>">나의 오답노트</a></li>
 								</ul>
 
 								<div class="card-body">
@@ -214,6 +214,22 @@
 						</div>
 					</div>
 <div class="row">
+					<div class="col-lg-12">
+					<div class="row" id="recommend">
+							</div>
+<!-- 						<div class="card shadow  mb-4">
+							<div class="card-header py-3">
+								<h5 class="m-0 font-weight-bold">스터디 그룹추천</h5>
+							</div>
+							<div class="card-body">
+							<div class="row" id="recommend">
+							</div>
+							</div>
+						</div> -->
+					</div>
+					
+</div>
+<div class="row">
 					<div class="col-lg-6">
 						<div class="card shadow  mb-4">
 							<div class="card-header py-3">
@@ -233,17 +249,7 @@
 					</div>
 </div>
 
-<div class="row">
-					<div class="col-lg-12">
-						<div class="card shadow  mb-4">
-							<div class="card-header py-3">
-								<h5 class="m-0 font-weight-bold">스터디 그룹추천</h5>
-							</div>
-							<div class="card-body"><div id="chartdiv"></div></div>
-						</div>
-					</div>
-					
-</div>
+
 				</div>
 				<!-- /.container-fluid -->
 			</div>

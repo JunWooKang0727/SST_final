@@ -100,6 +100,42 @@ am4core.ready(function() {
 	series.ticks.template.locationX = 1;
 	series.ticks.template.locationY = 0.5;
 
-	series.labelsContainer.width = 200;
+	series.labelsContainer.width = 250;
 
 	}); // end am4core.ready()
+
+
+
+$(document).ready(function(){
+	var m_id = $('#m_id').val();
+	$.ajax({
+		url : '/wanote/recommendStudyGroup/' + m_id,
+		type : 'GET',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			$.each(data, function(index, item) {
+				var html="";				
+				html+='<div class="col-xl-3 col-md-6 mb-4"> <div class="card border-left-info shadow h-100 py-2"> ';
+				html+='<div class="card-body">';
+				html+='<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> 스터디 그룹 추천 '+(index+1)+'</div>';
+				html+='<div ><a class="h5 mb-0 font-weight-bold text-gray-700" href="/group/selectdetail?g_num='+data[index].g_num+'">';
+				html+=data[index].g_name;
+				html+='</a></div>';
+				html+='카테고리: '+data[index].g_category+'<br>';
+				html+='</div></div></div>';
+				$('#recommend').append(html);
+			})
+		}
+
+	})
+
+
+
+	
+
+
+})
+
+
+

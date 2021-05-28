@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sst.domain.Criteria;
+import org.sst.domain.StudyGroupVO;
 import org.sst.domain.WANoteVO;
 import org.sst.domain.WAtagVO;
 import org.sst.mapper.WANoteMapper;
@@ -117,6 +118,12 @@ public class WANoteServiceImpl implements WANoteService{
 	public int deleteAllWaTag(String w_num) {
 		// TODO Auto-generated method stub
 		return mapper.deleteAllWaTag(w_num);
+	}
+
+	@Override
+	public List<StudyGroupVO> recommendStudyGrop(String tg_name) {
+		// TODO Auto-generated method stub
+		return mapper.recommendStudyGrop(tg_name);
 	}
 
 }
