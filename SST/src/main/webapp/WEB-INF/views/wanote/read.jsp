@@ -429,7 +429,7 @@ prefix="security"%>
 																+ attach.fileName);
 
 														str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-														str += "<img height='250' src='/wanoteAttach/display?fileName="
+														str += "<img height='400' src='/wanoteAttach/display?fileName="
 																+ fileCallPath
 																+ "'>";
 														str += "</div>";

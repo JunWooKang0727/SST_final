@@ -49,11 +49,18 @@
 	});
 	
 	function sendRegData(){
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
+		
 		$.ajax({
 			type: "POST",
 			url: "/studynote/update",
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
+
 			data: {sn_contents:$(".input_contents").html(),sn_title:$(".input_title").val(),sn_num:$("#sn_num").val()},
-			async:"true",
+			async:"false",
 			success: function(){
 				console.log("asdfawef");
 			}

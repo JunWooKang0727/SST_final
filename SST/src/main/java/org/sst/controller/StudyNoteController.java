@@ -49,7 +49,8 @@ public class StudyNoteController {
 		//뷰 이동...--
 		model.addAttribute("g_num",g_num);
 	}
-
+	
+	@ResponseBody
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String create(StudyNoteVO vo,RedirectAttributes rttr,Principal principal){
 		
@@ -104,6 +105,7 @@ public class StudyNoteController {
         model.addAttribute("studynote", service.read(sn_num));
     }
 	
+	@ResponseBody
 	@PostMapping("/update")
 	public String modify(StudyNoteVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + vo);
@@ -117,7 +119,7 @@ public class StudyNoteController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		rttr.addAttribute("g_num", vo.getG_num());
-		return "redirect:/board/list";
+		return "redirect:/studynote/list";
 	}
 	
 	@PostMapping("/delete")

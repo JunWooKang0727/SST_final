@@ -1,6 +1,7 @@
 package org.sst.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -111,13 +112,11 @@ public class StudyGroupController {
 	
 	@ResponseBody
 	@PostMapping("/accept")
-	public void joinGroup(@RequestParam("g_num") String g_num, 
+	public List<GroupMemberVO> joinGroup(@RequestParam("g_num") String g_num, 
 			@RequestParam("m_id") String m_id, Model model){
 		log.info("[Group member Accept]");
 		service.groupmemAccept(g_num, m_id);
-		// model.addAttribute("group", service.groupDetailGet(g_num));
-		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
-		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
+		return service.memberListGet(g_num, "1");
 	}
 	
 	@ResponseBody
@@ -126,26 +125,24 @@ public class StudyGroupController {
 			Model model){
 		log.info("[Group member Deny]");
 		service.groupmemDeny(g_num, m_id);
-		// model.addAttribute("group", service.groupDetailGet(g_num));
-		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
-		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
 	}
 	
 	@ResponseBody
 	@PostMapping("/authupdate")
-	public void updateAuth(@RequestParam("g_num") String g_num, 
+	public List<GroupMemberVO> updateAuth(@RequestParam("g_num") String g_num, 
 			@RequestParam("m_id") String m_id, @RequestParam("p_grant") String p_grant
 			, Model model){
 		log.info("[Group member auth Update]");
-		model.addAttribute("waitmember", service.memberListGet(g_num, "0"));
-		model.addAttribute("memberlist", service.memberListGet(g_num, "1"));
+		service.groupmemAuthUpdate(p_grant, g_num, m_id);
+		return service.memberListGet(g_num, "1");
 	}
 	
 	@ResponseBody
 	@PostMapping("/memdelete")
-	public void deleteMem(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
+	public List<GroupMemberVO> deleteMem(@RequestParam("g_num") String g_num, @RequestParam("m_id") String m_id){
 		log.info("[Group member auth Update]");
-		
+		service.groupmemDel(g_num, m_id);
+		return service.memberListGet(g_num, "1");
 	}
 	
 	

@@ -48,16 +48,13 @@
 						    <a class="nav-link active" href="/studynote/list?g_num=${group.g_num}">스터디 노트</a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link" href="#">출석체크</a>
-						  </li>
-						  <li class="nav-item">
 						    <a class="nav-link" href="/studydata/list2?g_num=${group.g_num}">자료실</a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link" href="#">menu2</a>
+						    <a class="nav-link" href="#"></a>
 						  </li>
 						  <li class="nav-item">
-						    <a class="nav-link" href="#">menu4</a>
+						    <a class="nav-link" href="#"></a>
 						  </li>
 						  <li class="nav-item">
 						    <a class="nav-link" href="#">그룹 설정</a>
@@ -87,7 +84,7 @@
                     	<div class="col-xl-8">
                     	</div>
 	                	<div class="col-xl-4">
-                    		<button type="button" class="btn btn-primary btn-block">화상채팅방</button>
+                    		<a href="https://kangtaeksu.github.io/StudyVideo/examples/full/conferenceList.html" class="btn btn-primary btn-block">화상채팅방</a>
                     		<button type="button" class="btn btn-primary btn-block">일반채팅방</button>
                     	</div>
                     </div>
