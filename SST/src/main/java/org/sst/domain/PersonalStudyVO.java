@@ -14,5 +14,6 @@ public class PersonalStudyVO implements Serializable{
 	private String ps_place;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date ps_starttime;
+	private String m_id;
 	
 }

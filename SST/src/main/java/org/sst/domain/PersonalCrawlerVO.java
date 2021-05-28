@@ -10,7 +10,7 @@ public class PersonalCrawlerVO {
 	private String[] MonthList;
 	private String StartYear;
 	private String EndYear;
-	private String Path;
+	private final String Path  = "C:/upload/new/";
 	private final String exUrl = "https://wdown.ebsi.co.kr/W61001/01exam";
 	
 }

@@ -84,22 +84,23 @@
 					<div class="row">
 						<div class="col1">
 							<form action="/personalstudy/create" method="post">
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 								<div class="inputStudy">분류 :</div>
 								<select name="ps_category" placeholder="카테고리를 선택하세요">
 									<option selected>선택</option>
-									<option value="certificate">자격증</option>
-									<option value="language">어학</option>
-									<option value="schoolexam">학교시험</option>
-									<option value="etc">기타</option>
+									<option value="자격증">자격증</option>
+									<option value="어학">어학</option>
+									<option value="학교시험">학교시험</option>
+									<option value="기타">기타</option>
 								</select> <br>
 								<div class="inputStudy">장소 :</div>
 								<select name="ps_place" placeholder="카테고리를 선택하세요">
 									<option selected>선택</option>
-									<option value="cafe">카페</option>
-									<option value="house">집</option>
-									<option value="reading room">독서실</option>
-									<option value="library">도서관</option>
-									<option value="etc">기타</option>
+									<option value="카페">카페</option>
+									<option value="집">집</option>
+									<option value="독서실">독서실</option>
+									<option value="도서관">도서관</option>
+									<option value="기타">기타</option>
 								</select> <br>
 								<div>
 									<div>
@@ -144,9 +145,9 @@
 />
 							
 							<div class = "inputPath">
-							<label>경로 : <input type="text" name = "Path"></label>
+							<!-- <label>경로 : <input type="text" name = "Path"></label> -->
 							<div class = "inputPath">
-							<label>경로 : <input type="text" name = "path"></label>
+							<!-- <label>경로 : <input type="text" name = "path"></label> -->
 							</div>
 							<div class = "storeFile">
 							<label>저장될 파일명 : <input type="text" name = "exFileName"></label>
@@ -213,7 +214,7 @@
 							</div>
 							<br>
 								<div>
-								<div class="createBtn btn btn-secondary">야얄야얆ㅁㅈㄷㄹ</div>
+								<div class="createBtn btn btn-secondary">텍스트문제만들기</div>
 								<input type="submit" value="문제만들기"> 
 								<input type="reset" value="설정초기화">
 								</div>

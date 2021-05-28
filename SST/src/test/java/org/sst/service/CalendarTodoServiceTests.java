@@ -55,11 +55,11 @@ public class CalendarTodoServiceTests {
 		log.info(service.updateNonCheck(vo));
 	}
 */
-	@Test
+	/*@Test
 	public void testDelete(){
 		CalendarTodoVO vo = new CalendarTodoVO();
 		vo.setT_num("t34");
 		log.info("delete Row : "+service.delete(vo));
 	
-	}
+	}*/
 }

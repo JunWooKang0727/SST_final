@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PersonalMakeVO {
-	private String path;
+	private final String path = "C:/upload/new/";
 	private String exFileName;
 	private String searchT;
 }

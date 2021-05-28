@@ -14,32 +14,32 @@ public class CalendarServiceImpl implements CalendarSevice{
 	private CalendarMapper mapper;
 
 	@Override
-	public int register(CalendarTodoVO vo){
-		
+	public int register(CalendarTodoVO vo, String id){
+		vo.setM_id(id);
 		return mapper.insertTodo(vo);
 	}
 
 	@Override
-	public List<CalendarTodoVO> list(){
+	public List<CalendarTodoVO> list(String id){
 		
-		return mapper.listTodo();
+		return mapper.listTodo(id);
 	}
 
 	@Override
-	public int updateCheck(CalendarTodoVO vo){
-		// TODO Auto-generated method stub
+	public int updateCheck(CalendarTodoVO vo, String id){
+		vo.setM_id(id);
 		return mapper.updateCheckTodo(vo);
 	}
 
 	@Override
-	public int updateNonCheck(CalendarTodoVO vo){
-		// TODO Auto-generated method stub
+	public int updateNonCheck(CalendarTodoVO vo, String id){
+		vo.setM_id(id);
 		return mapper.updateNonCheckTodo(vo);
 	}
 
 	@Override
-	public int delete(CalendarTodoVO vo){
-		// TODO Auto-generated method stub
+	public int delete(CalendarTodoVO vo, String id){
+		vo.setM_id(id);
 		return mapper.deleteTodo(vo);
 	}
 	

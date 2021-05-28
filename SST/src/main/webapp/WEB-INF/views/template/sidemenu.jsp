@@ -41,8 +41,8 @@ prefix="security"%>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">스케줄 관리:</h6>
-                        <a class="collapse-item" href="buttons.html">스케줄</a>
-                        <a class="collapse-item" href="cards.html">SST 타이머</a>
+                        <a class="collapse-item" href="/calendar/list">스케줄</a>
+                        <a class="collapse-item" href="/personalstudy/create">개인 공부</a>
                     </div>
                 </div>
             </li>

@@ -7,6 +7,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +35,7 @@
 <!-- Custom styles for this template-->
 <link href="../../../resources/css/sb-admin-2.min.css" rel="stylesheet">
 <script>
+	
 
   function realDate(listStartDate){
   	
@@ -46,7 +50,7 @@
   
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    
+    var id = '<security:authentication property="principal.username"/>';
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	
 
@@ -56,7 +60,7 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
       },
-      initialDate: '2020-09-12',
+      initialDate: '2021-05-29',
       navLinks: true, // can click day/week names to navigate views
       //이거 false로 처리하고 fc-daygrid-day-number 여기에 이벤트 처리 하고싶음.
       //overlap: true이면 스케쥴 이동이 가능하다, false면 스케쥴이동이불가하다.
@@ -72,8 +76,9 @@
 	    	  
 	    	  {
 	    	    title: '${todo.t_title}',
+	    	    
 	    	    <c:set var="start" value="${todo.t_startdate}" />
-	    	    <c:set var='startmonth' value = "${fn:substring(start,4,7)}"/>
+	    	    	<c:set var='startmonth' value = "${fn:substring(start,4,7)}"/>
 	    	    <c:if test="${startmonth eq 'Jan'}">
 	    	    start : '${fn:substring(start,24,28)}-01-${fn:substring(start,8,10)}',
 	    	    </c:if>
@@ -154,20 +159,20 @@
          {
         	//매주 지정 요일 반복 1 => 월요일
           title: '자격증공부',
-          start: '2020-09-03',
-          end : '2020-09-20'
+          start: '2021-05-03',
+          end : '2021-05-20'
           
         },
         {
             title: '단어암기”',
-            start: '2020-09-01',
-            end: '2020-09-15',
+            start: '2021-05-01',
+            end: '2021-05-15',
             color: '#4776fd',
           },
         {
             title: '운동',
-            start: '2020-09-01T13:00:00',
-            end: '2020-09-25T14:00:00',
+            start: '2021-05-01T13:00:00',
+            end: '2021-05-25T14:00:00',
             daysOfWeek: [ 1, 2 ],
               
             url: 'http://www.naver.com',

@@ -88,9 +88,6 @@ public class Crawler {
 			System.out.println(downP.get(i)+"문제 경로입니다");
 			System.out.println(downH.get(i)+"해설 경로입니다");
 		}
-		/*for(int i = 0 ; i<downH.size();i++){
-			getEx(downP.get(i));
-		}*/
 		Object[] exMak = new Object[2];
 		exMak[0] = downP;
 		exMak[1] = downH;

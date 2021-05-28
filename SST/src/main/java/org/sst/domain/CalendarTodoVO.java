@@ -17,4 +17,5 @@ public class CalendarTodoVO implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date t_enddate;
 	private int t_todocheck;
+	private String m_id;
 }

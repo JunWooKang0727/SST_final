@@ -10,25 +10,25 @@
 	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
 	<insert id="insertTodo"><!-- id와 동일한 메서드를 만들어야한다 -->
 		insert into todolist(
-			t_num, t_category, t_title, t_contents, t_startdate, t_enddate,t_todocheck
+			t_num, t_title, t_category, t_contents, t_startdate, t_enddate,t_todocheck,m_id
 		)
 		values(
-			't'||to_char(todo_seq.nextval), #{t_category}, #{t_title}, #{t_contents}, #{t_startdate},#{t_enddate},0
+			't'||to_char(todo_seq.nextval), #{t_title}, #{t_category}, #{t_contents}, #{t_startdate},#{t_enddate},0,#{m_id}
 		)
 		
 	</insert>
 	
 	<select id = "listTodo" resultType="org.sst.domain.CalendarTodoVO">
-	select * from todolist
+	select * from todolist where m_id = #{m_id} 
 	</select>
 	
 	 <update id="updateCheckTodo" parameterType="org.sst.domain.CalendarTodoVO">
-		UPDATE todolist SET t_todocheck = 1 WHERE t_num = #{t_num}
+		UPDATE todolist SET t_todocheck = 1 WHERE t_num = #{t_num} and m_id = #{m_id}
 	</update>
 	<update id="updateNonCheckTodo" parameterType="org.sst.domain.CalendarTodoVO">
-		UPDATE todolist SET t_todocheck = 0 WHERE t_num = #{t_num}
+		UPDATE todolist SET t_todocheck = 0 WHERE t_num = #{t_num} and m_id = #{m_id}
 	</update>
 	<delete id="deleteTodo" parameterType="org.sst.domain.CalendarTodoVO">
-		delete from todolist WHERE t_num = #{t_num}
+		delete from todolist WHERE t_num = #{t_num} and m_id = #{m_id}
 	</delete>
 </mapper>

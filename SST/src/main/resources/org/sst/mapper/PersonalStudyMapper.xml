@@ -10,10 +10,10 @@
 	<!-- 컨트롤 스페이스 해도 resultType 안나옴 -->
 	<insert id="insertStudyTime"><!-- id와 동일한 메서드를 만들어야한다 -->
 		insert into personalstudy(
-			ps_num, ps_category, ps_time, ps_place, ps_starttime
+			ps_num, ps_category, ps_time, ps_place, ps_starttime,m_id
 		)
 		values(
-			'ps'||to_char(studytime_seq.nextval), #{ps_category}, #{ps_time}, #{ps_place}, sysdate
+			'ps'||to_char(studytime_seq.nextval), #{ps_category}, #{ps_time}, #{ps_place}, sysdate,#{m_id}
 		)
 		
 	</insert>

@@ -16,8 +16,8 @@ public class PersonalStudyServiceImpl implements PersonalStudyService {
 	
 	
 	@Override
-	public int register(PersonalStudyVO vo){
-
+	public int register(PersonalStudyVO vo,String id){
+		vo.setM_id(id);
 		
 		return mapper.insertStudyTime(vo);
 	}
