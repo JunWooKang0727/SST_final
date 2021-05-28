@@ -59,7 +59,7 @@ public class StudyDataController {
 	@ResponseBody
 	public String makeDir(StudyDataListVO listvo, String dirName,Principal principal){
 		
-		String uploadFolder = "D:\\upload";
+		String uploadFolder = "E:\\upload";
 		log.info("create directory");
 //		if(dirName.equals("")){
 //			return "redirect:/studydata/list2";
@@ -82,7 +82,7 @@ public class StudyDataController {
 		vo.setFileType(false);
 		vo.setG_num(listvo.getG_num()); //여기에 그룹 넘버
 		vo.setUploader(principal.getName());
-		vo.setUploadPath(uploadFolder.replace("D:\\upload", ""));
+		vo.setUploadPath(uploadFolder.replace("E:\\upload", ""));
 		vo.setUuid(uuid.toString());
 		//log.info(vo);1
 		service.upload(vo);
@@ -98,7 +98,7 @@ public class StudyDataController {
 		
 		log.info("upate ajax post...........................");
 		
-		String uploadFolder = "D:\\upload";
+		String uploadFolder = "E:\\upload";
 		
 		String curPath = vo.getCurPath();
 		String id = principal.getName();
@@ -182,7 +182,7 @@ public class StudyDataController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent")String userAgent,String fileName){
 		
-		Resource resource = new FileSystemResource("D:\\upload\\"+fileName);
+		Resource resource = new FileSystemResource("E:\\upload\\"+fileName);
 		
 		log.info(resource);
 		
@@ -231,7 +231,7 @@ public class StudyDataController {
 		if(vo.isFileType()){
 			try {
 				log.info("파일 타입 : ");
-				file = new File("D:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
+				file = new File("E:\\upload\\"+URLDecoder.decode(fileCallPath,"UTF-8"));
 				if(file.isDirectory()){
 					log.info("================ 디렉토리 입니다 =================");
 				}else{
@@ -246,7 +246,7 @@ public class StudyDataController {
 		}else if(!vo.isFileType()){
 			try {
 				log.info("디렉토리 타입 : ");
-				file = new File("D:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
+				file = new File("E:\\upload"+vo.getUploadPath()+"\\"+vo.getFileName());
 				if(file.isDirectory()){
 					
 					StudyDataListVO listvo = new StudyDataListVO();
