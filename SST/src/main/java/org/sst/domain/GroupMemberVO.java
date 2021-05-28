@@ -1,5 +1,7 @@
 package org.sst.domain;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupMemberVO {
+public class GroupMemberVO implements Serializable{
 	private String gm_num;
 	private String g_num;
 	private int gm_index;
