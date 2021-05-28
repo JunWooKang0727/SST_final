@@ -61,12 +61,12 @@ public class CalendarTodoTests {
 	 * 
 	 * log.info(mapper.updateNonCheckTodo(vo)); }
 	 */
-	@Test
+	/*@Test
 	public void testDelete() {
 		CalendarTodoVO vo = new CalendarTodoVO();
 
 		vo.setT_num("t33");
 
 		log.info(mapper.deleteTodo(vo));
-	}
+	}*/
 }

@@ -1,5 +1,7 @@
 package org.sst.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,38 +29,39 @@ public class CalendarController {
 	}
 
 	@PostMapping("/create")
-	public String create(CalendarTodoVO vo){
-		
-		service.register(vo);
+	public String create(CalendarTodoVO vo,Principal principal){
+		String id = principal.getName();
+		service.register(vo,id);
 		
 		return "redirect:/calendar/list";
 	}
 	
 	
 	@GetMapping("/list")
-	public void list(Model model) {
-
-		model.addAttribute("list", service.list());
+	public void list(Model model, Principal principal) {
+		String id = principal.getName();
+		model.addAttribute("list", service.list(id));
 		
 		log.info("list: " + model);
 	}
 	
 	
 	@GetMapping("/check")
-	public String check(CalendarTodoVO vo, RedirectAttributes rttr) {
+	public String check(CalendarTodoVO vo, RedirectAttributes rttr,Principal principal) {
 		log.info("check:" + vo);
-		service.updateCheck(vo);
-		if (service.updateCheck(vo)>0) {
+		String id = principal.getName();
+		service.updateCheck(vo,id);
+		if (service.updateCheck(vo,id)>0) {
 			rttr.addFlashAttribute("result", "success");
 		}
 		return "redirect:/calendar/list";
 	}
 	@GetMapping("/noncheck")
-	public String noncheck(CalendarTodoVO vo, RedirectAttributes rttr) {
+	public String noncheck(CalendarTodoVO vo, RedirectAttributes rttr,Principal principal) {
 		log.info("noncheck:" + vo);
-		
-		service.updateNonCheck(vo);
-		if (service.updateNonCheck(vo)>0) {
+		String id = principal.getName();
+		service.updateNonCheck(vo,id);
+		if (service.updateNonCheck(vo,id)>0) {
 			rttr.addFlashAttribute("result", "success");
 		}
 
@@ -67,11 +70,11 @@ public class CalendarController {
 	}
 	
 	@GetMapping("/delete")
-	public String remove(CalendarTodoVO vo, RedirectAttributes rttr) {
-
+	public String remove(CalendarTodoVO vo, RedirectAttributes rttr,Principal principal) {
+		String id = principal.getName();
 		log.info("remove..." + vo.getT_num());
 		
-		service.delete(vo);
+		service.delete(vo,id);
 
 		return "redirect:/calendar/list";
 		

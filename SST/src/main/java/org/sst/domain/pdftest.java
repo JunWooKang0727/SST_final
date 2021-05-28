@@ -8,7 +8,7 @@ public class pdftest {
 	public static void main(String[] args) throws Exception {
 		Crawler cr = new Crawler();//1
 		pdftestM pm = new pdftestM();//1
-		PersonalCrawlerVO pcvo  = new PersonalCrawlerVO(null, args, null, null, null);//1
+		PersonalCrawlerVO pcvo  = new PersonalCrawlerVO(null, null, null, null);
 		
 		int urlLeng = pcvo.getExUrl().length();
 		
@@ -37,7 +37,7 @@ public class pdftest {
 		
 		System.out.println("해설 URL리스트입니다.");
 		//폼으로 입력받아야 하는값
-		pcvo.setPath("C:/upload/new/");
+		
 		for(int i = 0 ; i<downPList.size();i++){
 			try {
 				cr.getEx(downPList.get(i), downHList.get(i),pcvo.getPath());
@@ -50,9 +50,9 @@ public class pdftest {
 			System.out.println(i+"번째입니다.");
 			
 			//path, 
-			PersonalMakeVO pmvo = new PersonalMakeVO(EndYear, EndYear, EndYear);
+			PersonalMakeVO pmvo = new PersonalMakeVO(null, null);
 			pmvo.setExFileName("newexample");
-			pmvo.setPath("C:/upload/new/");
+			
 			pmvo.setSearchT("표현상 특징을 파악한다");
 			Object[] r = pm.findEx(
 					downPList.get(i).substring(urlLeng+14),

@@ -2,6 +2,8 @@ package org.sst.controller;
 
 
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +27,10 @@ public class PersonalStudyController{
 		
 	}
 	@PostMapping("/create")
-	public String create(PersonalStudyVO vo){
+	public String create(PersonalStudyVO vo,Principal principal){
 		log.info("study======================="+vo);
-		service.register(vo);
+		String id = principal.getName();
+		service.register(vo,id);
 		
 		return "redirect:/personalstudy/create";
 	}

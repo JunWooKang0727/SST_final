@@ -41,11 +41,12 @@ public class PersonalCrawlMakeController {
 		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
 	}
 	
+	
 	@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent")String userAgent,String fileName){
 		log.info("+++++++++++++++++++++++"+fileName);
-		Resource resource = new FileSystemResource("E:\\upload\\temp\\"+fileName);
+		Resource resource = new FileSystemResource("C:\\upload\\new\\"+fileName);
 		
 		log.info(resource);
 		
@@ -84,4 +85,5 @@ public class PersonalCrawlMakeController {
 		
 		return new ResponseEntity<Resource>(resource, headers,HttpStatus.OK);
 	}
+	
 }

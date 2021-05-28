@@ -37,7 +37,7 @@ public class pdfFindIndex {
 	    stripper.getText(document);
 	    return hits;
 	}
-	ArrayList<PdfIndexInImage> printSubwords(PDDocument document, String searchTerm) throws IOException
+	public ArrayList<PdfIndexInImage> printSubwords(PDDocument document, String searchTerm) throws IOException
 	{
 	    System.out.printf("* Looking for '%s'\n", searchTerm);
 	    ArrayList<PdfIndexInImage> p3i = new ArrayList<PdfIndexInImage>();

@@ -74,7 +74,7 @@ public class pdfMultiFinalTest {
 							break;
 					}
 				}
-				System.out.println("지문개수 : "+exMultiList.size());
+				//System.out.println("지문개수 : "+multiP3i.size());
 				}
 			}
 		return forMulti;
@@ -106,7 +106,7 @@ public class pdfMultiFinalTest {
 		Crawler cr = new Crawler();
 		
 		String [] a = {"03"};
-		PersonalCrawlerVO pcvo = new PersonalCrawlerVO("1", a, "2018", "2021", "C:/upload/new/");
+		PersonalCrawlerVO pcvo = new PersonalCrawlerVO("1", a, "2018", "2021");
 		Object[] ur = cr.urlFromEbs(pcvo);//문제 url https://wdown.ebsi.co.kr/W61001/01exam/.....pdf
 		
 		ArrayList<String> downPList  = (ArrayList<String>)ur[0];
@@ -119,7 +119,7 @@ public class pdfMultiFinalTest {
 				e.printStackTrace();
 			}
 		}
-		PersonalMakeVO pmvo = new PersonalMakeVO("C:/upload/new/", "newexample", "매체");
+		PersonalMakeVO pmvo = new PersonalMakeVO("newexample", "매체");
 		int multiCount = 0;//이미지를 위한 것
 		int exMultiCount = 0;//매칭된이미지를 위한것.
 		
@@ -134,8 +134,8 @@ public class pdfMultiFinalTest {
 			PdfIndexInImage matchedMulti = (PdfIndexInImage) exMultiForImage[0];
 			
 			PdfIndexInImage matchedMultiFirst = (PdfIndexInImage) exMultiForImage[1];
-			System.out.println("다중지문의 x인덱스는 :"+matchedMulti.getxIndex()+"입니다.");
-			System.out.println("다중지문의 첫번째문제의 x인덱스는 :"+matchedMulti.getxIndex()+"입니다.");
+		//	System.out.println("다중지문의 x인덱스는 :"+matchedMulti.getxIndex()+"입니다.");
+		//	System.out.println("다중지문의 첫번째문제의 x인덱스는 :"+matchedMulti.getxIndex()+"입니다.");
 
 			if(matchedMulti!=null){
 			pdfImageTest pit = new pdfImageTest();
@@ -159,6 +159,8 @@ public class pdfMultiFinalTest {
 					return;
 				}
 				int imagePath = pcvo.getPath().length()+downPList.get(i).substring(52,downPList.get(i).length()-4).length();
+				System.out.println(matchedMulti.getPage()+"페이지이징지잊이지");
+				System.out.println(Integer.parseInt(chagedExImage.get(k).substring(imagePath,chagedExImage.get(k).length()-4))+"얻어온페이지인밍밍미");
 				if(matchedMulti.getPage()==Integer.parseInt(chagedExImage.get(k).substring(imagePath,chagedExImage.get(k).length()-4))){
 						exMultiCount++;//문제를 구분한다.
 					 	
@@ -177,6 +179,7 @@ public class pdfMultiFinalTest {
 					int fontSize = 40;//폰트는 10인데 4배차이나니깐.
 					int lineDistance = 30;
 					int xindex = (int)(matchedMulti.getxIndex()*4);
+					
 					int xwidth = 0;
 					if(matchedMulti.getxIndex()<(int)((easyImage.getWidth()/4)/2-lineDistance)){
 						xwidth = (int)(easyImage.getWidth()-xindex*2)/2+lineDistance;
@@ -185,20 +188,22 @@ public class pdfMultiFinalTest {
 					}
 					int yindex = (int)(matchedMulti.getyIndex()*4-fontSize);
 					int yheight = 0;
-					
+					System.out.println("결정된xindex :"+xindex+"결정된yindex :"+yindex+"결정된xwidth :"+xwidth);
 					if(matchedMulti.getPage()==matchedMultiFirst.getPage()&&
-							matchedMulti.getxIndex()==matchedMultiFirst.getxIndex()){
-						yheight = (int)((matchedMultiFirst.getyIndex()-matchedMulti.getyIndex())*4-fontSize);
+						matchedMulti.getxIndex()==matchedMultiFirst.getxIndex()){
+						yheight = (int)((matchedMultiFirst.getyIndex()*4-matchedMulti.getyIndex())*4-fontSize);
 						
 					}else if((matchedMulti.getPage()==matchedMultiFirst.getPage())&&
 							matchedMulti.getxIndex()!=matchedMultiFirst.getxIndex()){
 
-						yheight = (int)(easyImage.getHeight()-matchedMulti.getyIndex()*4-fontSize);
+						yheight = (int)(easyImage.getHeight()-matchedMulti.getyIndex()*4+fontSize);
+						System.out.println("멀티이페이지같을경우뽑는xindex :"+xindex+"뽑는yindex :"+yindex+"뽑는xwidth :"+xwidth+"뽑는yheight :"+yheight);
 						
 						EasyImage cropedImage = easyImageMachted.crop(xindex,//찾는숫자 x인덱스*4, 변동값 final
 								   yindex,//변동값 찾는숫자 y인덱스 *2 - 글자 폰트크기(글자 좌측중앙의 위치를찾기때문)
 								   xwidth,//변동값 x축의 문제사이의간격*4-문제사이의줄간격 
 								   yheight);//변동값 y축의 문제사이의 간격*4
+						
 						FileOutputStream out = new FileOutputStream(copyFile);
 						cropedImage.writeTo(out, "png");
 						
@@ -212,13 +217,13 @@ public class pdfMultiFinalTest {
 				        easyImageMachted = new EasyImage(copyFile2);
 				        xindex = (int)(matchedMultiFirst.getxIndex()*4);//x값 재조정
 				        yindex = (int)(ytop*4-fontSize); //y값재조정
-				        yheight = (int)(easyImage.getHeight()-matchedMultiFirst.getyIndex()*4-fontSize);//height값재조정
+				        yheight = (int)(matchedMultiFirst.getyIndex()*4-ytop*4-fontSize);//height값재조정
 				        xwidth = (int)(easyImage.getWidth()-xindex-lineDistance);//whidth값 재조정
 				        
 					}else if((matchedMulti.getPage()!=matchedMultiFirst.getPage())&&
 							matchedMulti.getxIndex()>200 && matchedMultiFirst.getxIndex()<200){
 						yheight = (int)(easyImage.getHeight()-matchedMulti.getyIndex()*4-fontSize);
-						
+						System.out.println("멀티이페이지다를경우뽑는xindex :"+xindex+"뽑는yindex :"+yindex+"뽑는xwidth :"+xwidth+"뽑는yheight :"+yheight);
 						EasyImage cropedImage = easyImageMachted.crop(xindex,//찾는숫자 x인덱스*4, 변동값 final
 								   yindex,//변동값 찾는숫자 y인덱스 *2 - 글자 폰트크기(글자 좌측중앙의 위치를찾기때문)
 								   xwidth,//변동값 x축의 문제사이의간격*4-문제사이의줄간격 
@@ -228,27 +233,31 @@ public class pdfMultiFinalTest {
 						
 						exMultiCountIn++;//지문이 길어질경우 사용하는 숫자
 						
-						
-						String oriFilePathLong = pcvo.getPath()+chagedExImage.get(k).substring(pcvo.getPath().length(),chagedExImage.get(k).length()-4)//path부터 .png제외한경로까지
-								+Integer.parseInt(chagedExImage.get(k).substring(
-//=======================================//여기처리해ㅐ래해ㅐdownPList.get(i).substring(52,downPList.get(i).length()-4)
-										chagedExImage.get(k).substring(0,chagedExImage.get(k).length()-4).length(),
-										chagedExImage.get(k).length()-4))+1
-								//숫자뽑기
+						//chagedExImage = "C:/upload/new/pdf이름_숫자.pdf"
+						String pdfMakedNum = chagedExImage.get(k).substring(pcvo.getPath().length()+downPList.get(i).substring(52,downPList.get(i).length()-4).length(),
+								chagedExImage.get(k).length()-4);//현재이미지파일 숫자
+						String oriFilePathLong = pcvo.getPath()//경로 = C:/upload/new/
+								+downPList.get(i).substring(52,downPList.get(i).length()-4)//pdf이름
+								+((Integer.parseInt(pdfMakedNum)+1)) //다음이미지파일 숫자
 								+".png";
+						System.out.println("oriFilePathLong :"+oriFilePathLong);
 						File copyFile2 = copyingFile(oriFilePathLong,
 								pcvo.getPath(),
-								chagedExImage.get(k).substring(pcvo.getPath().length(),chagedExImage.get(k).length()-4),
+								downPList.get(i).substring(52,downPList.get(i).length()-4)//pdf이름
+								+((Integer.parseInt(pdfMakedNum)+1)),
 								"multiremake_",
 								exMultiCountIn,//그다음 x축처음값부터 y축에서 인덱스숫자까지(파일하나)를 위한
 								".png");//파일 한개 더생성
-
+						System.out.println("pdf이름 : "+"");
 				        easyImageMachted = new EasyImage(copyFile2);
 				        xindex = (int)(matchedMultiFirst.getxIndex()*4);//x값 재조정
 				        yindex = (int)(ytop*4-fontSize); //y값재조정
 				        yheight = (int)(easyImage.getHeight()-matchedMultiFirst.getyIndex()*4-fontSize);//height값재조정
 				        xwidth = (int)(easyImage.getWidth()-xindex-lineDistance);//whidth값 재조정
 						//여기까지 했어요.
+					}else if((matchedMulti.getPage()!=matchedMultiFirst.getPage())&&
+							matchedMulti.getxIndex()>200 && matchedMultiFirst.getxIndex()<200){
+						
 					}
 					System.out.println("뽑는xindex :"+xindex+"뽑는yindex :"+yindex+"뽑는xwidth :"+xwidth+"뽑는yheight :"+yheight);
 					EasyImage cropedImage = easyImageMachted.crop(xindex,//찾는숫자 x인덱스*4, 변동값 final

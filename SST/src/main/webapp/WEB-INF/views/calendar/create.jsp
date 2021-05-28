@@ -7,6 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,23 +74,22 @@ font-weight: bold;
 							<form action="/calendar/create" method="post">
 								<div class = "inputTodoText">제목 : </div><input type="text" name="t_title"><br>
 								<div class = "inputTodoText">종류 : </div>
-								<select name="t_category"
-	                                    	placeholder="카테고리를 선택하세요">
+								<select name="t_category">
 	                                    		<option selected>선택</option>
-	                                    		<option value="healthcare">운동</option>
-	                                    		<option value="study">공부</option>
-	                                    		<option value="exam">시험</option>
-	                                    		<option value="personal issues">개인사정</option>
-	                                    		<option value="self-development">자기계발</option>
-	                                    		<option value="etc">기타</option>
-	                       </select>
+	                                    		<option value="운동">운동</option>
+	                                    		<option value="공부">공부</option>
+	                                    		<option value="시험">시험</option>
+	                                    		<option value="개인사정">개인사정</option>
+	                                    		<option value="자기계발">자기계발</option>
+	                                    		<option value="기타">기타</option>
+	                       		</select>
 								<br>
 								<div class = "inputTodoText_content">내용 </div>
 							<textarea rows="6" cols="70" name="t_contents"></textarea>
 							<br>
 							<div class = "inputTodoText">시작날짜 : </div><input type = "text" name = "t_startdate"><br>
 							<div class = "inputTodoText">마감날짜 : </div><input type = "text" name = "t_enddate"><br>
-	
+							<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 							<input type="submit" value="등록" class = 'insertTodoButton'>
 							</form>
                 	</div>
