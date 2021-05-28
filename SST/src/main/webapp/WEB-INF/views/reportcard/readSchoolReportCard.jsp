@@ -62,32 +62,10 @@
 							</div>
 						</div>
 
-						<div class="col-lg-6">
-							<div class="card shadow  mb-4">
-								<div class="card-header py-3">
-									<h5 class="m-0 font-weight-bold">최근 시험그룹 추천</h5>
-								</div>
-								<div class="card-body">
-									
-									추천1
-									
-								</div>
-							</div>
+						<div class="row col-lg-12" id="recommend">
+
 						</div>
 
-						<div class="col-lg-6">
-							<div class="card shadow  mb-4">
-								<div class="card-header py-3">
-									<h5 class="m-0 font-weight-bold">성적 낮은 과목 추천</h5>
-								</div>
-								<div class="card-body">
-									  
-									  추천2
-									  
-									  
-								</div>
-							</div>
-						</div>
 						<div class="col-lg-12">
 							<div class="card shadow mb-4">
 								<!-- Card Header - Accordion -->
