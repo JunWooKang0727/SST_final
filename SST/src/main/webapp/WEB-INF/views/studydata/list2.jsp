@@ -81,11 +81,11 @@
 							<div class="modal_content" title="클릭하면 창이 닫힙니다.">새 폴더 만들기</div>
 							<!-- <form class="dirNameForm" action="/studydata/create"
 								method="POST"> -->
-								<input type="text" name="dirName">
+								<span>폴더명 : </span><input type="text" name="dirName">
 
 							<!-- </form> -->
 							<div class="btnArea">
-								<a href="" class="create">만들기</a><a href="" class="cancel">취소</a>
+								<a href="" class="create btn btn-light">만들기</a><a href="" class="cancel btn btn-danger">취소</a>
 							</div>
 						</div>
 
