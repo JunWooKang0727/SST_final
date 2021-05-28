@@ -60,7 +60,7 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
       },
-      initialDate: '2021-05-29',
+      defaultDate: 'today',
       navLinks: true, // can click day/week names to navigate views
       //이거 false로 처리하고 fc-daygrid-day-number 여기에 이벤트 처리 하고싶음.
       //overlap: true이면 스케쥴 이동이 가능하다, false면 스케쥴이동이불가하다.
