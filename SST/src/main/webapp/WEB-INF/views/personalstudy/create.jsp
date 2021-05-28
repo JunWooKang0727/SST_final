@@ -214,8 +214,9 @@
 							</div>
 							<br>
 								<div>
-								<div class="createBtn btn btn-secondary">텍스트문제만들기</div>
-								<input type="submit" value="문제만들기"> 
+								<div class="createBtn1 btn btn-secondary">텍스트문제만들기</div>
+								<div class="createBtn2 btn btn-secondary">이미지문제만들기</div>
+								<!-- <input type="submit" value="문제만들기"> -->
 								<input type="reset" value="설정초기화">
 								</div>
 							</form>
@@ -340,12 +341,52 @@
 		
 		$(function(){
 			
-			$('.createBtn').click(function(){
+			$('.createBtn1').click(function(){
 				
 				var fdata = $('#createForm').serialize();
 				
 				$.ajax({
 					url:'/personalcrawlmake/create',
+					type:'GET',
+					data : fdata,
+					dataType:'json',
+					success : function(data){
+						$('.downArea').empty();
+						var str="";
+						
+						$(data).each(function(i, obj) {
+							
+							str += '<div class="fileItem">'
+								
+							+ '<img class="pdficon" src="../../../resources/img/pdf.png">'
+							+ '<a class="downlink" href="/personalcrawlmake/download?fileName='+ obj +'">'
+							+ obj + '</a>'
+							+ '</div>';
+							$('.downArea').append(str);
+							str='';
+						});
+						
+						$('#createForm')[0].reset();
+					}
+					
+					
+					
+				});
+				
+				
+			});
+			
+			
+			
+		});
+		$(function(){
+			
+			$('.createBtn2').click(function(){
+				
+				var fdata = $('#createForm').serialize();
+				
+				$.ajax({
+					url:'/personalcrawlmake/createImage',
 					type:'GET',
 					data : fdata,
 					dataType:'json',

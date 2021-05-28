@@ -505,10 +505,11 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 	}
 
 	@Override
-	public void pdfCreateForImage(ArrayList<String> remakeFilePathList, String makeFileName, PersonalMakeVO pmvo)
+	public List<String> pdfCreateForImage(ArrayList<String> remakeFilePathList, PersonalMakeVO pmvo)
 			throws Exception {
 		// 파라미터 경로, 파일이름
-		String pdfPath = pmvo.getPath()+makeFileName+".pdf";
+		List<String> makedpdf = new ArrayList<String>();
+		String pdfPath = pmvo.getPath()+pmvo.getExFileName()+".pdf";
 		File directory = new File(pmvo.getPath());
 		if (!directory.exists())
 			directory.mkdirs(); // 파일경로 없으면 생성
@@ -526,6 +527,8 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 				System.out.println("완료입니다.");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			doc.close();
 		}
 			for (int i = 0; i < remakeFilePathList.size(); i++) {
@@ -538,10 +541,12 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			System.out.println(bool);
 			System.out.println("지우기 성공하였습니다.");
 			}
+			makedpdf.add(pdfPath.substring(pmvo.getPath().length(),pdfPath.length()));
+			return makedpdf;
 	}
 
 	@Override
-	public void makePdfForImage(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo, String reMakeName) throws Exception {
+	public List<String> makePdfForImage(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo) throws Exception {
 		Crawler cr = new Crawler();
 		ArrayList<String> remakeFilePathList = new ArrayList<String>();
 		/*String [] a = {"03"};
@@ -607,7 +612,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 				if (!easyImage.isSuppoprtedImageFormat()) {
 
 					System.out.println("not supported image type");
-					return;
+					return null;
 
 				}
 				int imagePath = pcvo.getPath().length()+downPList.get(i).substring(52,downPList.get(i).length()-4).length();
@@ -679,7 +684,7 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 					if (!easyImage.isSuppoprtedImageFormat()) {
 
 						System.out.println("not supported image type");
-						return;
+						return null;
 
 					}
 					int imagePath = pcvo.getPath().length()+downPList.get(i).substring(52,downPList.get(i).length()-4).length();
@@ -736,6 +741,8 @@ public class PersonalCrawlMakeServiceImpl implements PersonalCrawlMakeService {
 			document.close();
 			
 		}
-		pdfCreateForImage(remakeFilePathList, reMakeName, pmvo);
+		List<String> createImagePath = pdfCreateForImage(remakeFilePathList, pmvo);
+		return createImagePath;
 	}
+	
 }
