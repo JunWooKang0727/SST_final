@@ -51,7 +51,7 @@ public class WanoteUploadController {
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model){
 		for(MultipartFile multipartFile: uploadFile){
-			String uploadFolder="D:\\upload";
+			String uploadFolder="E:\\upload";
 			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
 			log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"+uploadFolder+ multipartFile.getOriginalFilename());
 			try {
@@ -84,7 +84,7 @@ public class WanoteUploadController {
 	@ResponseBody
 	public ResponseEntity<List<WanoteAttachVO>> uploadAjaxPost(MultipartFile[] uploadFile, Model model){
 		List<WanoteAttachVO> list = new ArrayList<>();
-		String uploadFolder="D:\\upload";
+		String uploadFolder="E:\\upload";
 		String uploadFolderPath = getFolder();
 		File uploadPath = new File(uploadFolder,uploadFolderPath);
 		
@@ -131,7 +131,7 @@ public class WanoteUploadController {
 	@GetMapping("/display")
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
-		File file = new File("d:\\upload\\" + fileName);
+		File file = new File("E:\\upload\\" + fileName);
 		ResponseEntity<byte[]> result = null;
 
 		try {
@@ -150,7 +150,7 @@ public class WanoteUploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 
-		Resource resource = new FileSystemResource("d:\\upload\\" + fileName);
+		Resource resource = new FileSystemResource("E:\\upload\\" + fileName);
 
 		if (resource.exists() == false) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -190,7 +190,7 @@ public class WanoteUploadController {
 		
 		File file;
 		try {
-			file = new File("d:\\upload\\" +URLDecoder.decode(fileName, "UTF8"));
+			file = new File("E:\\upload\\" +URLDecoder.decode(fileName, "UTF8"));
 			log.info("------------------------------------------------------------뭐가 문제야 제발..."+file);
 			log.info(file.delete());
 		} catch (UnsupportedEncodingException e) {
