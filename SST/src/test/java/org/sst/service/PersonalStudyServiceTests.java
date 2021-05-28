@@ -19,7 +19,7 @@ public class PersonalStudyServiceTests {
 	@Setter(onMethod_=@Autowired)
 	private PersonalStudyService service;
 	
-	@Test
+	/*@Test
 	public void testInsert() {
 
 		PersonalStudyVO vo = new PersonalStudyVO();
@@ -29,7 +29,7 @@ public class PersonalStudyServiceTests {
 		vo.setPs_time("00:00:00:00");
 		vo.setPs_place("카페");
 		vo.setPs_starttime(new Date(2020, 9, 10));
-		
+		vo.setM_id("1234");
 		service.register(vo);
-	}
+	}*/
 }

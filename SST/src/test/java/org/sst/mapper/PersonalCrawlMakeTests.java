@@ -24,8 +24,8 @@ public class PersonalCrawlMakeTests {
 	@Test
 	public void get() throws IOException{
 		String [] a = {"03"};
-		PersonalCrawlerVO pcvo = new PersonalCrawlerVO("1", a, "2018", "2021", "C:/upload/new/");
-		PersonalMakeVO pmvo = new PersonalMakeVO("C:/upload/new/", "serviceTest", "표현상 특징을 파악한다");
+		PersonalCrawlerVO pcvo = new PersonalCrawlerVO("1", a, "2018", "2021");
+		PersonalMakeVO pmvo = new PersonalMakeVO("serviceTest", "표현상 특징을 파악한다");
 		service.makePdf(pcvo, pmvo);
 	}
 }
