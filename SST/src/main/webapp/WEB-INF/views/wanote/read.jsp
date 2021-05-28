@@ -41,7 +41,7 @@ prefix="security"%>
 					<!-- Page Heading -->
 					<div
 						class="d-sm-flex align-items-center justify-content-between mb-4">
-						<h1 class="h3 mb-0 text-gray-800">오답노트 입력</h1>
+						<h1 class="h3 mb-0 text-gray-800">오답노트 </h1>
 					</div>
 					<!-- Content Row -->
 					<div class="row">
@@ -67,7 +67,8 @@ prefix="security"%>
 								<a href="/wanote/list?type=Tag&keyword=${tag.tg_name}"><c:out value="${tag.tg_name}" /></a>
 								</c:forEach>
 								</div>
-								<div id='update-btn-area'>
+								<div id='update-btn-area' class="float-right">
+								<button type="button" class="btn btn-secondary" data-oper="list">목록</button>
 								</div>
 								</div>
 							</div>
@@ -174,7 +175,7 @@ prefix="security"%>
 	var m_id="${wanote.m_id}";
 
 	if(id==m_id){
-		$("#update-btn-area").append('<button type="button" class="btn btn-info float-right" data-oper="update">수정</button>');
+		$("#update-btn-area").append('<button type="button" class="btn btn-info" data-oper="update">수정</button>');
 	}
 	//태그검색
 		$(document).on("click", ".del-tag", function (e) {
@@ -196,7 +197,7 @@ prefix="security"%>
 			$("button[data-oper='list']").on("click", function(e) {
 
 				operForm.find("#bno").remove();
-				operForm.attr("action", "/05/board/list")
+				operForm.attr("action", "/wanote/list")
 				operForm.submit();
 
 			});

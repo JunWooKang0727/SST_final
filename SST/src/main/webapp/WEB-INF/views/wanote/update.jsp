@@ -49,9 +49,14 @@ prefix="security"%>
 									<form action="/wanote/update" method="post"
 										class="centerform">
 										 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-										
 										<input type="hidden" name="m_id" value="<security:authentication property="principal.username"/>">
 										<input type="hidden" name="w_num" value="${wanote.w_num}">
+										
+										<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+        								<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+	    								<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+										<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
+		
 										제목: <input type="text" name="w_title" value="${wanote.w_title}" class="form-control" required><br>
 										문제:
 										<textarea class="form-control" rows="3" name="w_question" required>${wanote.w_question}</textarea>  
@@ -140,6 +145,8 @@ prefix="security"%>
 	<!-- Custom scripts for all pages-->
 	<script type="text/javascript">
 			var tagList = {};
+			var csrfHeaderName = "${_csrf.headerName}";
+			var csrfTokenValue = "${_csrf.token}";
 
 			$('#add-tag').click(function() {
 				if($('#tag-name').val()==''){
@@ -295,16 +302,21 @@ $(document).ready(function() {
     }
     
     $.ajax({
-      url: '/wanoteAttach/uploadAjaxAction',
-      processData: false, 
-      contentType: false,data: 
-      formData,type: 'POST',
-      dataType:'json',
-        success: function(result){
-		  showUploadResult(result); //업로드 결과 처리 함수 
+		url : '/wanoteAttach/uploadAjaxAction',
+		processData : false,
+		contentType : false,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName,csrfTokenValue);
+		},
+		data : formData,
+		type : 'POST',
+		dataType : 'json',
+		success : function(result) {
+			console.log(result);
+			showUploadResult(result); //업로드 결과 처리 함수 
 
-      }
-    }); //$.ajax
+		}
+	}); //$.ajax
     
   });    
 
@@ -319,7 +331,7 @@ $(document).ready(function() {
     $(uploadResultArr).each(function(i, obj){
 		
 		if(obj.image){
-			var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+			var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/"+obj.uuid +"_"+obj.fileName);
 			str += "<li data-path='"+obj.uploadPath+"'";
 			str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
 			str +" ><div>";
@@ -358,6 +370,9 @@ $(document).ready(function() {
 
 		$.ajax({
 			url : '/wanoteAttach/deleteFile',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 			data : {
 				fileName : targetFile,
 			},

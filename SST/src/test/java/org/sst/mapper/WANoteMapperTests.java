@@ -88,7 +88,7 @@ public class WANoteMapperTests {
 //
 //	    for(int i = 0; i < 100; i++) {
 //	    	WANoteVO vo = new WANoteVO();
-//			vo.setM_id("ggy");
+//			vo.setM_id("test");
 //			vo.setW_title("MapperTest");
 //			vo.setW_question("MapperTest");
 //			vo.setW_answer("MapperTest");
@@ -133,9 +133,9 @@ public class WANoteMapperTests {
 //		log.info(mapper.getTotalCountTag(cri));
 //	}
 	
-	@Test
-	public void testRecommend() {
-		log.info(mapper.recommendStudyGrop(mapper.countTagChart("test").get(0).get("TG_NAME").toString()));
-//		mapper.recommendStudyGrop();
-	}
+//	@Test
+//	public void testRecommend() {
+//		log.info(mapper.recommendStudyGrop(mapper.countTagChart("test").get(0).get("TG_NAME").toString()));
+////		mapper.recommendStudyGrop();
+//	}
 }
