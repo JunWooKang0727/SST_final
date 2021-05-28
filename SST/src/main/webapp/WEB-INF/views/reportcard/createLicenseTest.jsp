@@ -62,7 +62,7 @@
 										</div>
 										 <a class="btn btn-success btn-circle" id="plus_licensescore">
                                         <i class="fas fa-plus"></i>
-                                    </a> 과목 점수 추가하기 
+                                    </a> 과목 점수 추가
                                     <br><hr>
 										<input class="btn btn-info" type="submit" value="등록하기">
 									</form>
