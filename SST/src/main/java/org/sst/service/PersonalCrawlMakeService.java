@@ -17,6 +17,6 @@ public interface PersonalCrawlMakeService {
 	public List<String> makePdf(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo) throws IOException;
 	public ArrayList<String> findExForImage(String example, String answer,PersonalMakeVO pmvo) throws IOException;
 	public File copyingFileForImage(String oriFilePath,String storepath,String filename,String rename,int count ,String form);
-	public void pdfCreateForImage(ArrayList<String> remakeFilePathList, String makeFileName,PersonalMakeVO pmvo) throws Exception;
-	public void makePdfForImage(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo,String reMakeName) throws Exception;
+	public List<String> pdfCreateForImage(ArrayList<String> remakeFilePathList,PersonalMakeVO pmvo) throws Exception;
+	public List<String> makePdfForImage(PersonalCrawlerVO pcvo, PersonalMakeVO pmvo) throws Exception;
 }

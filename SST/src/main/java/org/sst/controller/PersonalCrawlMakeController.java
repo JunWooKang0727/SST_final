@@ -40,7 +40,12 @@ public class PersonalCrawlMakeController {
 		System.out.println(pmvo.toString()+"받아온 문제값입니다.");
 		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
 	}
-	
+	@GetMapping(value="/createImage",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<String>> createImage(PersonalCrawlerVO pcvo,PersonalMakeVO pmvo) throws Exception{
+		List<String> list = service.makePdfForImage(pcvo, pmvo);
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
 	
 	@GetMapping(value="/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
