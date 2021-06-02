@@ -135,16 +135,14 @@ prefix="security"%>
 					</div>
 				</div>
 				
-				<form id='operForm' action="/wanote/update" method="get">
+			<form id='operForm' action="/wanote/update" method="get">
 				 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-				
-  <input type='hidden' id='w_num' name='w_num' value='<c:out value="${wanote.w_num}"/>'>
-  <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-  <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
-  <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
-  <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
- 
-</form>
+ 				 <input type='hidden' id='w_num' name='w_num' value='<c:out value="${wanote.w_num}"/>'>
+ 				 <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+ 				 <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+ 				 <input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
+ 				 <input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>  
+			</form>
 				<!-- /.container-fluid -->
 			</div>
 			<!-- End of Main Content -->

@@ -41,10 +41,10 @@ public class WANoteMapperTests {
 //		log.info(mapper.listWANote("ggy"));
 //	}
 	
-//	@Test
-//	public void testRead() {
-//		log.info(mapper.readWANote("350"));
-//	}
+	@Test
+	public void testRead() {
+		log.info(mapper.readWANote("108"));
+	}
 	
 //	@Test
 //	public void testUpdate() {

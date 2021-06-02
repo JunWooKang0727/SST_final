@@ -12,6 +12,5 @@ public class SchoolTestVO {
 	private int st_semester;
 	private String st_test;
 	private String rc_num;
-	
 	private List<SchoolScoreVO> scorelist;
 }

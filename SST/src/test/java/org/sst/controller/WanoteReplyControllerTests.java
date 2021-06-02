@@ -3,6 +3,8 @@ package org.sst.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.security.Principal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +29,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 
 @ContextConfiguration({
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 @Log4j
@@ -43,7 +46,14 @@ public class WanoteReplyControllerTests {
 	
 	@Test
 	public void testList() throws Exception{
-		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/wanotereply/pages/350/1"))
+		Principal principal = new Principal() {
+			// getName은 회원의 id 값
+			@Override
+			public String getName() {
+			return "gugu"; // DB MEMBER 테이블에 hello0599 있어야함
+			}
+			};
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/wanotereply/pages/108/1"))
 				.andReturn().getModelAndView().getModelMap());
 	}
 }

@@ -87,21 +87,19 @@
 												<tr>
 												<th>과목</th>
 													<c:forEach items="${test.scorelist }" var="score">
-														
+					
 														<th>${score.ls_name }</th>
 													</c:forEach>
 												</tr>
 												<tr>
 												<th>획득 점수</th>
 													<c:forEach items="${test.scorelist }" var="score">
-														
 														<c:if test="${score.ls_score<score.ls_goal }">
 															<td class="text-danger">${score.ls_score }</td>
 														</c:if>
 														<c:if test="${score.ls_score >= score.ls_goal }">
 															<td class="text-success">${score.ls_score }</td>
 														</c:if>
-
 													</c:forEach>
 												</tr>
 												<tr>

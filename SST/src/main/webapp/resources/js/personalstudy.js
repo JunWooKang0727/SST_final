@@ -16,8 +16,10 @@ $(function() {
 	$('#plus_score').click(function() { //자바스크립트 이벤트 발생
 		
 		if($('#plus_score_input').children().length<9){
-			var html='<div><hr>과목'+(test+1)+': <input type="text" name="scorelist['+test+'].ss_name" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
-			html+='점수: <input type="number" name="scorelist['+test+'].ss_score" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br></div>';
+			var html='<div><hr>과목'+(test+1)+': <input type="text" name="scorelist['+
+			test+'].ss_name" placeholder="과목명을 입력해주세요." class="form-control" required><br>';
+			html+='점수: <input type="number" name="scorelist['+test
+			+'].ss_score" placeholder="점수를 입력해주세요." class="form-control "  min="1" max="100" required><br></div>';
 			$('#plus_score_input').append(html);
 		}
 		else{

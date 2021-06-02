@@ -1,5 +1,7 @@
 package org.sst.controller;
 
+import java.security.Principal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 
 @ContextConfiguration({
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 @Log4j
@@ -35,11 +38,18 @@ public class ReportCardControllerTests {
 				.addFilters(new CharacterEncodingFilter("UTF-8", true)).build();
 	}
 	
-//	@Test
-//	public void testList() throws Exception{
-//		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/reportcard/list/ggy"))
-//				.andReturn().getModelAndView().getModelMap());
-//	}
+	@Test
+	public void testList() throws Exception{
+		Principal principal = new Principal() {
+			// getName은 회원의 id 값
+			@Override
+			public String getName() {
+			return "gugu"; // DB MEMBER 테이블에 hello0599 있어야함
+			}
+			};
+		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/reportcard/read?rc_num=rc5"))
+				.andReturn().getModelAndView().getModelMap());
+	}
 //	@Test
 //	public void testRead() throws Exception{
 //		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/reportcard/read/rc4"))
@@ -121,10 +131,10 @@ public class ReportCardControllerTests {
 //				).andReturn().getModelAndView().getViewName();
 //		log.info(resultPage);
 //	}
-	@Test
-	public void testDelete() throws Exception{
-		String resultPage = mockMvc.perform(MockMvcRequestBuilders.delete("/reportcard/schoolscore/delete/ss75/st48")
-				).andReturn().getModelAndView().getViewName();
-		log.info(resultPage);
-	}
+//	@Test
+//	public void testDelete() throws Exception{
+//		String resultPage = mockMvc.perform(MockMvcRequestBuilders.delete("/reportcard/schoolscore/delete/ss75/st48")
+//				).andReturn().getModelAndView().getViewName();
+//		log.info(resultPage);
+//	}
 }

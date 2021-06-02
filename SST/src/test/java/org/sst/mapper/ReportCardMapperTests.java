@@ -186,13 +186,13 @@ public class ReportCardMapperTests {
 //		log.info(mapper.selectReportCardSubject("rc4"));
 //	}
 	
-//	@Test
-//	public void testAnalysis2(){
-//		HashMap map = new HashMap();
-//		map.put("rc_num", "rc4");
-//		map.put("list", mapper.schoolTestSubjects("rc4"));
-//		log.info(mapper.allSubjectScoreSchoolTest(map));
-//	}
+	@Test
+	public void testAnalysis2(){
+		HashMap map = new HashMap();
+		map.put("rc_num", "rc5");
+		map.put("list", mapper.schoolTestSubjects("rc5"));
+		log.info(mapper.allSubjectScoreSchoolTest(map));
+	}
 //	@Test
 //	public void testAnalysis3(){
 //		log.info(mapper.averageSchoolTest("rc4"));
@@ -214,12 +214,12 @@ public class ReportCardMapperTests {
 //		log.info(mapper.recommendLicenseTest(vo));
 //	}
 	
-	@Test
-	public void testWortSubject(){
-		HashMap map = mapper.worstSubject("rc2");
-		map.put("rc_type", "고등학교");
-		log.info(map);
-		log.info(mapper.recommendSchoolTest(map));
-		
-	}
+//	@Test
+//	public void testWortSubject(){
+//		HashMap map = mapper.worstSubject("rc2");
+//		map.put("rc_type", "고등학교");
+//		log.info(map);
+//		log.info(mapper.recommendSchoolTest(map));
+//		
+//	}
 }
